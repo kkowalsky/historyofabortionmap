@@ -1,0 +1,13 @@
+known bugs: 
+
+our map isn't done yet! lol
+
+TODO:
+-build data into CSV/TOPOJSON
+-Join Data
+-Build D3 functions for mapping the data
+-Build Graphs
+-Dynamic Attributes
+
+//Check out: 
+-slider with d3, menu in jQuery
