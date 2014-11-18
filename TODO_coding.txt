@@ -1,7 +1,3 @@
-known bugs: 
-
-our map isn't done yet! lol
-
 TODO:
 -build data into CSV/TOPOJSON
 -Join Data
