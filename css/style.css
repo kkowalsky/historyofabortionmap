@@ -1,10 +1,30 @@
-
+.navbar {
+    font-size: 20px;
+    
+}
 .jumbotron {
     padding-left: 20px;
 }
 
 .map {
     background-color: #808080;
+    
+}
+
+.graphs {
+    background-color: green;
+}
+
+.analysis{
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+}
+
+.about {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
     
 }
 
