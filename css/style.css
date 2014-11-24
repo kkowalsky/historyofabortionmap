@@ -1,7 +1,7 @@
 .navbar {
-    font-size: 20px;
     
 }
+
 .jumbotron {
     padding-left: 20px;
 }
@@ -18,14 +18,21 @@
 .analysis{
     padding-left: 20px;
     padding-right: 20px;
-    font-size: 20px;
 }
 
 .about {
     padding-left: 20px;
     padding-right: 20px;
+}
+
+p {
     font-size: 20px;
-    
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    font-size: 36px;
+    font-family: 'Roboto Slab', serif;
 }
 
 body { 
