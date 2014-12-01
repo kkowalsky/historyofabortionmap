@@ -27,13 +27,20 @@ function setMap(){
         .projection(projection);
     
     queue()
-        .defer(d3.json, "data/us.json")
+        .defer(d3.json, "data/usa.json")
         .await(callback);
     
     
     //retrieve and process json file and data
-    function callback(error, us){
+    function callback(error, usa){
+        console.log(usa);
        //TODO: draw map
+        
+         //add usa geometry
+        var states = map.append("path") //create SVG path element
+            .datum(topojson.feature(usa, usa.objects.usa))
+            .attr("class", "states") //class name for styling
+            .attr("d", path); //project data as geometry in svg
         
         
     }; //END callback

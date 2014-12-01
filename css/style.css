@@ -19,6 +19,12 @@
     background-color: #808080;
 }
 
+.states {
+    fill: #808080;
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
 .graphs {
     background-color: #00C6FF;
 }
