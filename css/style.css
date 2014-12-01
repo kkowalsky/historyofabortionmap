@@ -1,5 +1,10 @@
-.navbar {
-    
+.navbar-brand{
+    margin-left: -250px !important;
+}
+
+
+.navbar a {
+    color: red;
 }
 
 .jumbotron {
@@ -8,7 +13,6 @@
 
 .map {
     background-color: #808080;
-    
 }
 
 .graphs {

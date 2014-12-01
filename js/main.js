@@ -4,18 +4,14 @@ var mapWidth = 800, mapHeight = 600;
 window.onload = initialize();
 
 function initialize(){
-   $(document).ready(function() {
-      $("#my-menu").mmenu({
-          //don't need to add click events? wow much magic
-          //this might be the hardest for me to code. but maybe not? Cider's on me if I'm wrong
-          header: true
-          classes: "mm-light"
-      });
-   });
+// TODO: mmenu isn't 100% working yet...
+//      $("#my-menu").mmenu({
+//          header: true
+//      });
     
     setMap();
-}
-   //creates map
+}; //END initialize
+//creates map
 function setMap(){
     var map = d3.select("body")
         .append("svg")
@@ -37,6 +33,8 @@ function setMap(){
     
     //retrieve and process json file and data
     function callback(error, us){
-        
-    };
-}
+       
+    }; //END callback
+}; //END setMAP
+
+//TODO: 

@@ -17,7 +17,7 @@
 
   </head>
   <body>
-    <!-- navbar -->
+    <!-- navbar: fix active state-->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -31,7 +31,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#jumbotron">Intro</a></li>
+            <li><a href="#jumbotron">Intro</a></li>
             <li><a href="#map">Map</a></li>
             <li><a href="#graphs">Graphs</a></li>
             <li><a href="#analysis">Analysis</a></li>
@@ -42,12 +42,13 @@
     </div><!-- nav-bar end -->
       
     <div class="jumbotron">
-      <h1>Hello, world!</h1>
-      <p>Our map about the history of abortion and yadda yadda yadda. Made with only the best "neo-liberal anti-capitalist feminista" intentions</p>
+      <h1>Your Body, (Not) Your Choice</h1>
+      <p>Understanding the legislation changes in abortion law since Roe vs. Wade.</p>
     </div> <!-- end jumbotron -->
       
     <section id="map"></section>   
     <div class="map">
+<!--
         <nav id="my-menu">
           <ul>
             <li class="Label">Menu</li>
@@ -58,6 +59,7 @@
             <li><a href="/">D</a></li>  
          </ul>
         </nav>
+-->
     </div>  <!-- end map -->
 
     <section id="graphs"></section>   
@@ -76,13 +78,24 @@
     <section id="about"></section>  
     <div class="container">
         <div class ="page-header"><h1>About this Map</h1></div>
-        <p>This Abortion Map analyzes the changes in state legislation to abortion rights after the Supreme Court ruling of Roe V. Wade in 1973 that legalized abortion on the national level. Since that landmark ruling, there has been constant political fighting between pro-choice and pro-life interest groups who want to either expand or restrict the rights of women in the United States of America. For the most part, there has been sweeping restrictions in the rights of women and their right to terminate a pregnancy.</p>
-        <br>
-        <p>Published: December 2014, last updated: </p>
-        <p>Sources: </p>
-        <p> This map was created by <a href="twitter.com/katiekowalsky">Katie Kowalsky</a>, <a href="twitter.com/DylanMoriarty">Dylan Moriarty</a>, and <a href="twitter.com/tolomaps">Robin Tolochko</a>.</p><br>
-       <p>For more understanding on how we created these classifications for abortion restrictions, check out some of our blogging about the subject: <a href="">here</a>.<br> Disclaimer: The data on the map and in the subsequent analysis is fully subjective to how we classed our data and our intrepretations of state laws.</p>
-        <br>
+       <p>Your Body, (Not) Your Choice is a collaboration of <a href="twitter.com/katiekowalsky">Katie Kowalsky</a>, <a href="twitter.com/DylanMoriarty">Dylan Moriarty</a>, and <a href="twitter.com/tolomaps">Robin Tolochko</a> as a project for Robert Roth and Carl Sack’s Interactive Cartography & Geovisualization course at UW-Madison. Completed in December 2014. 
+<br><br>
+Many thanks to Robert Roth, Carl Sack, Rashauna Mead, Sam Matthews, John Czaplewski, etc for their invaluable help!
+<br><br>
+This project was built with D3, Queue, jQuery, MMenu and Bootstrap. With the help of GitHub, of course.
+
+<h1>Data</h1> <!-- add links --><p>
+Overview policy data was collected from the Guttmacher Institute here. The A-F grades for each state on the initial map view are from the NARAL Pro-choice America's State Government page and the methodology is available here. 
+<br><br>
+Most of the locations of abortion providers in the U.S. are from Planned Parenthood and National Abortion Federation (NAF). Only those Planned Parenthoods that offer abortion services were included in the map. These locations were cross-checked with NAF's data to ensure that there were no duplicates. A few abortion providers are from GynPages and abortionclinicpages.com. We know that this is not a comprehensive list of abortion providers in the U.S., as a report from the Guttmacher Institute found that there were an estimated 1,720 abortion providers in the U.S. in 2011 (as opposed to the 607 abortion providers included in our map). However, we could not compile a complete list, as the Guttmacher Institute does not release this information due to confidentiality agreements with many providers. We believe that much of the discrepancy between our number and the complete number is due to hospitals and private physicians' offices that do not belong to the National Abortion Federation. If you have any leads on where we can get a complete list of abortion providers, please contact us. 
+<br><br>
+The locations of crisis pregnancy centers (CPCs) come from Birthright International and Heartbeat International networks. Care-Net also has an extensive network of CPCs but does not have a comprehensive list of their affiliates.
+</p>
+<h1>Process</h1><p>
+All of the code for this project is available on GitHub, here. 
+<br>
+You can read about our processes on our various blog posts: <!-- add links -->here, here, and here.
+</p>
         
     </div> <!-- end about -->
       
@@ -90,7 +103,7 @@
 		<div class="container">
 			<div class="row centered">	
                     <center>
-					<h4>Abortion Map &copy; 2014</h4>
+					<h4>Your Body, (Not) Your Choice &copy; 2014</h4>
                     </center>
 			</div>
 		</div>
