@@ -17,7 +17,7 @@ function setMap(){
         .append("svg")
         .attr("width", mapWidth)
         .attr("height", mapHeight)
-        .attr("class", "map");
+        .attr("class", "usmap");
     
     //Create a Albers equal area conic projection
     var projection = d3.geo.albersUsa();

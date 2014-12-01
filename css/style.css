@@ -2,6 +2,9 @@
     margin-left: -250px !important;
 }
 
+.usmap{
+    position: fixed;
+}
 
 .navbar a {
     color: red;
@@ -9,6 +12,7 @@
 
 .jumbotron {
     padding-left: 20px;
+    background-color: #D5EF3E;
 }
 
 .map {
@@ -16,7 +20,7 @@
 }
 
 .graphs {
-    background-color: green;
+    background-color: #00C6FF;
 }
 
 .analysis{
@@ -41,4 +45,8 @@ h1 {
 
 body { 
     padding-top: 50px; 
+}
+
+.footer {
+    background-color: #808080 !important;
 }
