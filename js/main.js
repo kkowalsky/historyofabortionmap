@@ -33,8 +33,10 @@ function setMap(){
     
     //retrieve and process json file and data
     function callback(error, us){
-       
+       //TODO: draw map
+        
+        
     }; //END callback
 }; //END setMAP
 
-//TODO: 
+//TODO: animated sequence buttons

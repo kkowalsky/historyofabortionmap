@@ -1,5 +1,5 @@
 .navbar-brand{
-    margin-left: -250px !important;
+    margin-left: -10% !important;
 }
 
 .usmap{
@@ -45,8 +45,4 @@ h1 {
 
 body { 
     padding-top: 50px; 
-}
-
-.footer {
-    background-color: #808080 !important;
 }
