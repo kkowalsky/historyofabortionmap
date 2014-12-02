@@ -44,6 +44,7 @@ function setMap(){
         
         
     }; //END callback
+    // Testing one two testing
 }; //END setMAP
 
 //TODO: animated sequence buttons
