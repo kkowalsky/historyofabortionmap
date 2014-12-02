@@ -15,29 +15,44 @@
     background-color: #D5EF3E;
 }
 
-.map {
-    background-color: #808080;
-}
+/*  JS CSS */
+/*  ------ */
 
-.states {
-    fill: #808080;
-    stroke: #fff;
-    stroke-width: 2px;
-}
+    .map {
+        background-color: #808080;
+    }
 
-.graphs {
-    background-color: #00C6FF;
-}
+    .states {
+        fill: #808080;
+        stroke: #fff;
+        stroke-width: 2px;
+    }
 
-.analysis{
-    padding-left: 20px;
-    padding-right: 20px;
-}
+/* Graph CSS  */
+/* ---------  */
 
-.about {
-    padding-left: 20px;
-    padding-right: 20px;
-}
+    .graphs {
+        background-color: #00C6FF;
+    }
+
+/* Analysis CSS  */
+/* ------------  */
+
+    .analysis{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+/* About CSS  */
+/* ---------  */
+
+    .about {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+/* HTML General CSS  */
+/* ----------------  */
 
 p {
     font-size: 20px;
