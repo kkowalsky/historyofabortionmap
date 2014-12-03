@@ -11,6 +11,20 @@
     background-color: #D5EF3E;
     height: 200px;
 }
+
+.image2 {
+    float: right;
+    margin: 10px;
+}
+
+.paragraph2 {
+    text-align: right;
+}
+
+.image3 {
+    float: left;
+    margin: 10px;
+}
 /*  Menu CSS */
 /*  ------ */
 .map-menu {
