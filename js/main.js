@@ -48,4 +48,27 @@ function setMap(){
     // Testing one two testing
 }; //END setMAP
 
+//color generator for country choropleth
+function colorScale(csvData){
+    var color = d3.scale.quantile()
+        .range([
+            "#f7f7f7",
+            "#cccccc",
+            "#969696",
+            "#636363",
+            "#252525"
+            ]);
+//!! Below area temporarly commented out until we write the [expressed] value !!//
+
+//  var domainArray = [];
+//  for (var i in csvData){
+//    if(csvData[i][expressed] != 0){
+//    domainArray.push(Number(csvData[i][expressed]));
+//    };
+//  };
+//  color.domain(domainArray);
+//  return color; 
+};
+
 //TODO: animated sequence buttons
+
