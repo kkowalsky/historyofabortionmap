@@ -4,11 +4,6 @@ var mapWidth = 800, mapHeight = 600;
 window.onload = initialize();
 
 function initialize(){
-// TODO: mmenu isn't 100% working yet...
-//      $("#my-menu").mmenu({
-//          header: true
-//      });
-    
     setMap();
 }; //END initialize
 //creates map

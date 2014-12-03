@@ -2,10 +2,6 @@
     margin-left: -10% !important;
 }
 
-.map{
-    margin-left:35%;
-}
-
 .navbar a {
     color: red;
 }
@@ -13,43 +9,57 @@
 .jumbotron {
     padding-left: 20px;
     background-color: #D5EF3E;
+    height: 200px;
+}
+/*  Menu CSS */
+/*  ------ */
+.map-menu {
+    position: absolute;
+    margin-left: 0% !important;
+    background-color: #E80882;
+    padding-right: 3%;
 }
 
-/*  JS CSS */
+/*  Map CSS */
 /*  ------ */
 
-    .map {
-        background-color: #808080;
-    }
+.map {
+    background-color: #808080;
+    margin-left:26%;
+    padding-left: 3%;
+}
 
-    .states {
-        fill: #808080;
-        stroke: #fff;
-        stroke-width: 2px;
-    }
+.usmap {
+    padding-left: 4%;
+}
+
+.states {
+    fill: #808080;
+    stroke: #fff;
+    stroke-width: 2px;
+}
 
 /* Graph CSS  */
 /* ---------  */
 
-    .graphs {
-        background-color: #00C6FF;
-    }
+.graphs {
+    background-color: #00C6FF;
+}
 
 /* Analysis CSS  */
 /* ------------  */
 
-    .analysis{
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+.analysis{
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
 /* About CSS  */
 /* ---------  */
-
-    .about {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+.about {
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
 /* HTML General CSS  */
 /* ----------------  */
