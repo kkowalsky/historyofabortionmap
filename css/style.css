@@ -1,6 +1,3 @@
-.navbar-brand{
-    margin-left: -10% !important;
-}
 
 .navbar a {
     color: red;
@@ -78,6 +75,15 @@
 /* HTML General CSS  */
 /* ----------------  */
 
+::selection {
+    background: #E80882; 
+    color: #fff;
+}
+::-moz-selection {
+    background: #E80882; 
+    color: #fff;
+}
+
 p {
     font-size: 20px;
     font-family: 'Open Sans', sans-serif;
@@ -90,4 +96,24 @@ h1 {
 
 body { 
     padding-top: 50px; 
+}
+
+a:link {
+    color: #E80882;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #E80882;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00C6FF;
+    text-decoration: none;
+}
+
+a:active {
+    color: #E80882;
+    text-decoration: none;
 }
