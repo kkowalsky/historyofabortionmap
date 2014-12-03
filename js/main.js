@@ -48,6 +48,8 @@ function setMap(){
     // Testing one two testing
 }; //END setMAP
 
+//TODO: animated sequence buttons
+
 //color generator for country choropleth
 function colorScale(csvData){
     var color = d3.scale.quantile()
