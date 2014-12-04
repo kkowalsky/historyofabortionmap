@@ -199,6 +199,25 @@ function setMap(){
                 return cpcRadius(d.properties.Count);
             }));
         
+        //for abortion provider
+        var abortionCount = [];
+        for (var b = 0; b < abortionprovider.features.length; b++){
+            var abortion_count = abortionprovider.features[b].properties.Count;
+            abortionCount.push(Number(abortion_count));
+        }
+        
+        var abortionMin = Math.min.apply(Math, abortionCount);
+        var abortionMax = Math.max.apply(Math, abortionCount);
+        
+        map.selectAll(".abortionLocations")
+            .data(abortionprovider.features)
+            .enter()
+            .append("path")
+            .attr("class", "abortionLocations")
+            .attr('d', path.pointRadius(function(d){
+                return cpcRadius(d.properties.Count);
+            }));
+        
     }; //END callback
 }; //END setMAP
 
