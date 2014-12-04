@@ -49,7 +49,7 @@
     padding: 13%;
 }
 
-.counseling {
+.counselling {
     text-align: center;
     padding: 8%;
 }
@@ -104,7 +104,7 @@
 
 .map {
     background-color: #fff;
-    margin-left:26%;
+    margin-left:24%;
     padding-left: 3%;
 }
 
@@ -115,7 +115,7 @@
 .states {
     fill: #808080;
     stroke: #fff;
-    stroke-width: 2px;
+    stroke-width: 1px;
 }
 
 /* Graph CSS  */
@@ -144,11 +144,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #E80882; 
+    background: #c8e713; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #E80882; 
+    background: #c8e713; 
     color: #fff;
 }
 
@@ -159,7 +159,7 @@ p {
 
 h1 {
     font-size: 36px;
-    font-family: 'Roboto Slab', serif !important;
+    font-family: 'Roboto Slab', serif;
 }
 
 body { 

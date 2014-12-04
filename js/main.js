@@ -1,23 +1,10 @@
-/********** GLOBAL VARIABLES **********/
+//global variables
 var mapWidth = 850, mapHeight = 600;
 var keyArray = ["grades", "tacos"]
 var yearsArray = ["Pre-1973", "1973"];
 var expressed = keyArray[0];
 
 window.onload = initialize();
-
-//Color arrays for each variable
-var colorArrayOverview = [  "#fb6a4a",   //no paid leave         
-                            "#bcbddc",    //less than 14 weeks
-                            "#9e9ac8",    //14-25 weeks
-                            "#756bb1",    // 26-51 weeks
-                            "#54278f"   ];  //no data
-
-var colorArrayOverview = [  "#fb6a4a",   //no paid leave         
-                            "#bcbddc",    //less than 14 weeks
-                            "#9e9ac8",    //14-25 weeks
-                            "#756bb1",    // 26-51 weeks
-                            "#54278f"   ];  //no data
 
 //changes active state
 $(function(){
@@ -55,21 +42,18 @@ function setMap(){
         .projection(projection);
     
     queue()
-        .defer(d3.csv, "data/grades.csv")
         .defer(d3.csv, "data/consent.csv")
+        .defer(d3.csv, "data/Grades.csv")
         .defer(d3.json, "data/usa.topojson")
         .await(callback);
     
     //retrieve and process json file and data
-    function callback(error, overview, consent, usa){
+    function callback(error, consent, grade, usa){
 
-        /*--------QUESTION --------*/
-        //Can we organize the CSVs in the same order that we have them in the legend for clarity? -Robin
         //Create an Array with CSV's loaded
-        //I want to be consistent with language, so I changed "grade" to "overview" here, since that's the word we have in the legend. -Robin
-        var csvArray = [overview, consent];
+        var csvArray = [consent, grade];
         //Names for the overall Label we'd like to assign them
-        var attributeNames = ["gradeData", "ConsentData"];
+        var attributeNames = ["ConsentData", "gradeData"];
         //For each CSV in the array, run the LinkData function
         for (csv in csvArray){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
@@ -113,6 +97,14 @@ function setMap(){
         };
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
+
+       //TODO: draw map
+        // add usa geometry
+        var states = map.append("path") //create SVG path element
+            .datum(topojson.feature(usa, usa.objects.states))
+            .attr("class", "states") //class name for styling
+            .attr("d", path); //project data as geometry in svg
+        
         
     }; //END callback
     // Testing one two testing
