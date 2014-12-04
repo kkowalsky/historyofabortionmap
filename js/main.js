@@ -6,6 +6,7 @@ window.onload = initialize();
 
 //SET UP COLOR ARRAYS FOR MAP + CHART
 
+<<<<<<< HEAD
 // Color array for Overview
 // Waiting Period also uses this color array
     colorArrayOverview = [  "#252525",      //F
@@ -36,6 +37,76 @@ window.onload = initialize();
                             "#636363",      //Must be performed
                             "#969696",      //Must be offered
                             "#f7f7f7"   ];  //None
+=======
+// Color array for Overview & Waiting Period
+colorArrayOverview = [  "#252525",      //F     //72 hours
+                        "#636363",      //D     //48 hours
+                        "#969696",      //C     //24 hours
+                        "#cccccc",      //B     //18 hours
+                        "#f7f7f7"   ];  //A     //None
+
+// Color array for Prohibited At
+colorArrayProhibited = ["#252525",      //12 weeks
+                        "#636363",      //20 weeks
+                        "#969696",      //22 weeks
+                        "#bdbdbd",      //24 weeks
+                        "#d9d9d9",      //3rd trimester
+                        "#f7f7f7"   ];  //Viability
+
+// Color array for Mandated Counseling
+colorArrayCounseling = ["#252525",      //Yes
+                        "#f7f7f7"   ];  //No
+
+// Color array for Parental Consent
+colorArrayConsent = [   "#252525",      //Consent
+                        "#969696",      //Notice
+                        "#f7f7f7"   ];  //None
+
+// Color array for Ultrasound
+colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
+                        "#636363",      //Must be performed
+                        "#969696",      //Must be offered
+                        "#f7f7f7"   ];  //None
+>>>>>>> origin/master
+
+// SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
+
+//Variable array for Overview
+arrayOverview = [  "F",       
+                    "D",       
+                    "C",          
+                    "B",          
+                    "A"   ];     
+
+//Variable array for Prohibited At
+arrayProhibited = [ "12 weeks",     
+                    "20 weeks",      
+                    "22 weeks",      
+                    "24 weeks",      
+                    "3rd trimester",      
+                    "Viability"   ]; 
+
+//Variable array for Mandated Counseling
+arrayCounseling = [ "Yes",     
+                    "No"   ];  
+
+//Variable array for Waiting Period
+arrayWaitingPeriod = [  "72 hours",     
+                        "48 hours",      
+                        "24 hours",      
+                        "18 hours",     
+                        "None"   ];  
+
+//Variable array for Parental Consent
+arrayConsent = [    "Consent",    
+                    "Notice",      
+                    "None"   ];  
+
+//Variable array for Ultrasound
+arrayUltrasound = ["Must be performed, offer to view",      
+                    "Must be performed",      
+                    "Must be offered",      
+                    "None"   ];  
 
 //changes active state
 $(function(){
@@ -76,11 +147,18 @@ function setMap(){
         .defer(d3.csv, "data/consent.csv")
         .defer(d3.csv, "data/Grades.csv")
         .defer(d3.json, "data/usa.topojson")
+        .defer(d3.json, "data/CPCS.geojson")
+        .defer(d3.json, "data/AbortionProviders.geojson")
         .await(callback);
     
     //retrieve and process json file and data
-    function callback(error, consent, grade, usa){
-
+    function callback(error, consent, grade, usa, cpc, abortionprovider){
+        var states = map.append("path") //create SVG path element
+            .datum(topojson.feature(usa, usa.objects.states))
+            .attr("class", "states") //class name for styling
+            .attr("d", path); //project data as geometry in svg
+        
+        
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
         //Names for the overall Label we'd like to assign them
@@ -119,7 +197,7 @@ function setMap(){
                     break;
                     };
                 };
-             };
+             }; 
 
  /*           for (var i=0; i<csvData.length; i++){
                 var csvState = csvData[i]
@@ -128,26 +206,87 @@ function setMap(){
 
 //            for(var a=0; a<jsonStates.length; a++){
 //                if(jsonStates[a].properties. )))
-        };
+        }; //END linkData
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
-
-       //TODO: draw map
-        // add usa geometry
-        var states = map.append("path") //create SVG path element
-            .datum(topojson.feature(usa, usa.objects.states))
-            .attr("class", "states") //class name for styling
-            .attr("d", path); //project data as geometry in svg
         
+        //data stuff for overlay
+        var cpcCount = [];
+        for (var a = 0; a < cpc.features.length; a++){
+            var cpc_count = cpc.features[a].properties.Count;
+            cpcCount.push(Number(cpc_count));
+        }
         
+        var cpcMin = Math.min.apply(Math, cpcCount);
+        var cpcMax = Math.max.apply(Math, cpcCount);
+        
+        var cpcRadius = d3.scale.sqrt()
+            .domain([cpcMin, cpcMax])
+            .range([2, 15]);
+        
+        map.selectAll(".cpcLocations")
+            .data(cpc.features)
+            .enter()
+            .append("path")
+            .attr("class", "cpcLocations")
+            .attr('d', path.pointRadius(function(d){
+                return cpcRadius(d.properties.Count);
+            }));
+        
+        //for abortion provider
+        var abortionCount = [];
+        for (var b = 0; b < abortionprovider.features.length; b++){
+            var abortion_count = abortionprovider.features[b].properties.Count;
+            abortionCount.push(Number(abortion_count));
+        }
+        
+        var abortionMin = Math.min.apply(Math, abortionCount);
+        var abortionMax = Math.max.apply(Math, abortionCount);
+        
+        map.selectAll(".abortionLocations")
+            .data(abortionprovider.features)
+            .enter()
+            .append("path")
+            .attr("class", "abortionLocations")
+            .attr('d', path.pointRadius(function(d){
+                return cpcRadius(d.properties.Count);
+            }));
+      
     }; //END callback
-    // Testing one two testing
 }; //END setMAP
 
+/* Katie's section start */
 //TODO: Resizable SVG?
 
+//menu items function
+function drawMenu(){
+    //TODO: draw boxes and shade with color scheme (use array.length for help on how many boxes)
+    
+    //TODO: add legend titles
+    
+    //TODO: add legend labels
+    
+    //TODO: have change menu on click
 
-//TODO: animated sequence buttons
+} //END drawMenu
+
+//TODO: proportional symbol map overlay
+function overlay(){
+    $(".cpc-section").click(function(){
+        
+    })
+    
+    $(".abortion-section").click(function(){
+        
+    })
+}//END overlay
+
+/* Katie's section end */
+
+//change policy attribute based on click on left-hand menu (who did this??)
+function changeAttribute(attribute, data) {
+
+};
 
 //color generator for country choropleth
 function colorScale(csvData){
@@ -169,6 +308,6 @@ function colorScale(csvData){
 //  };
 //  color.domain(domainArray);
 //  return color; 
-};
+}; //END colorScale
 
 //TODO: animated sequence buttons
