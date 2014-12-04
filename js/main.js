@@ -191,6 +191,7 @@ function drawMenu(){
     var parentalArray = ["Consent", "Notice", "None"];
     var ultrasoundArray = ["Must be performed, offer to view", "Must be performed", "Must be offered", "None"];
     
+
 } //END drawMenu
 
 //TODO: animated sequence buttons
