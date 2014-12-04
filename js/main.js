@@ -3,6 +3,8 @@ var mapWidth = 850, mapHeight = 600;
 var keyArray = ["grades", "tacos"]
 var yearsArray = ["Pre-1973", "1973"];
 var expressed = keyArray[0];
+var removeCPC;
+var removeAbortion;
 
 window.onload = initialize();
 
@@ -175,7 +177,6 @@ function setMap(){
         }; //END linkData
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
-        
         //data stuff for overlay
         var cpcCount = [];
         for (var a = 0; a < cpc.features.length; a++){
@@ -190,15 +191,6 @@ function setMap(){
             .domain([cpcMin, cpcMax])
             .range([2, 15]);
         
-        map.selectAll(".cpcLocations")
-            .data(cpc.features)
-            .enter()
-            .append("path")
-            .attr("class", "cpcLocations")
-            .attr('d', path.pointRadius(function(d){
-                return cpcRadius(d.properties.Count);
-            }));
-        
         //for abortion provider
         var abortionCount = [];
         for (var b = 0; b < abortionprovider.features.length; b++){
@@ -208,16 +200,8 @@ function setMap(){
         
         var abortionMin = Math.min.apply(Math, abortionCount);
         var abortionMax = Math.max.apply(Math, abortionCount);
-        
-        map.selectAll(".abortionLocations")
-            .data(abortionprovider.features)
-            .enter()
-            .append("path")
-            .attr("class", "abortionLocations")
-            .attr('d', path.pointRadius(function(d){
-                return cpcRadius(d.properties.Count);
-            }));
-      
+    
+        overlay(path, cpcRadius, map, cpc, abortionprovider);
     }; //END callback
 }; //END setMAP
 
@@ -236,14 +220,45 @@ function drawMenu(){
 
 } //END drawMenu
 
+function cpcPoints(map, cpc, path, cpcRadius){
+    map.selectAll(".cpcLocations")
+        .data(cpc.features)
+        .enter()
+        .append("path")
+        .attr("class", "cpcLocations")
+        .attr('d', path.pointRadius(function(d){
+            return cpcRadius(d.properties.Count);
+        }));   
+}; //end cpcPoints
+
+function abortionPoints(map, abortionprovider, path, cpcRadius){
+    map.selectAll(".abortionLocations")
+            .data(abortionprovider.features)
+            .enter()
+            .append("path")
+            .attr("class", "abortionLocations")
+            .attr('d', path.pointRadius(function(d){
+                return cpcRadius(d.properties.Count);
+            }));
+}; //end abortionPoints
+
+
 //TODO: proportional symbol map overlay
-function overlay(){
+function overlay(path, cpcRadius, map, cpc, abortionprovider){
     $(".cpc-section").click(function(){
-        
+        if (d3.selectAll(".cpcLocations")[0].length > 0){
+            removeCPC = d3.selectAll(".cpcLocations").remove();
+        } else {
+            cpcPoints(map, cpc, path, cpcRadius);
+        }
     })
     
     $(".abortion-section").click(function(){
-        
+        if (d3.selectAll(".abortionLocations")[0].length > 0){
+            removeAbortion = d3.selectAll(".abortionLocations").remove();
+        } else {
+            abortionPoints(map, abortionprovider, path, cpcRadius);
+        }
     })
 }//END overlay
 
