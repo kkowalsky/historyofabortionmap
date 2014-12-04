@@ -1,5 +1,8 @@
 //global variables
 var mapWidth = 800, mapHeight = 600;
+var keyArray = ["grades", "tacos"]
+var yearsArray = ["Pre-1973", "1973"];
+var expressed = keyArray[0];
 
 window.onload = initialize();
 
@@ -41,14 +44,63 @@ function setMap(){
         .projection(projection);
     
     queue()
+        .defer(d3.csv, "data/consent.csv")
+        .defer(d3.csv, "data/Grades.csv")
         .defer(d3.json, "data/usa.topojson")
         .await(callback);
     
-    
     //retrieve and process json file and data
-    function callback(error, usa){
+    function callback(error, consent, grade, usa){
+
+        //Create an Array with CSV's loaded
+        var csvArray = [consent, grade];
+        //Names for the overall Label we'd like to assign them
+        var attributeNames = ["ConsentData", "gradeData"];
+        //For each CSV in the array, run the LinkData function
+        for (csv in csvArray){
+            LinkData(usa, csvArray[csv], attributeNames[csv]);
+        };
+
+        function LinkData(topojson, csvData, attribute){
+
+             var jsonStates = usa.objects.states.geometries;
+
+            //loop through the csv and tie it to the json's via the State Abreviation
+             for(var i=0; i<csvData.length; i++){
+                var csvState = csvData[i];
+                var csvLink = csvState.adm;
+
+                //loop through states and assign the data to the rigth state
+                for(var a=0; a<jsonStates.length; a++){
+
+                    //If postal code = link, we good
+                    if (jsonStates[a].properties.postal == csvLink){
+                        attrObj = {};
+
+                        //one more loop to assign key/value pairs to json object
+                        for(var key in yearsArray){
+                            var attr = keyArray[key];
+                            var val = parseFloat(csvState[attr]);
+                            attrObj[attr] = val;
+                        };
+
+                    jsonStates[a].properties[attribute] = attrObj;
+                    };
+                };
+             };
+
+ /*           for (var i=0; i<csvData.length; i++){
+                var csvState = csvData[i]
+                var csvLink = csvState.adm  };
+ */         
+
+//            for(var a=0; a<jsonStates.length; a++){
+//                if(jsonStates[a].properties. )))
+        };
+
+// -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
+
        //TODO: draw map
-        console.log(usa);
         // add usa geometry
         var states = map.append("path") //create SVG path element
             .datum(topojson.feature(usa, usa.objects.states))
