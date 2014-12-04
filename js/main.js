@@ -182,6 +182,17 @@ function setMap(){
 //TODO: Resizable SVG?
 
 
+//menu items function
+function drawMenu(){
+    var overviewArray = [A, B, C, D, F];
+    var prohibitedArray = ["12 weeks", "20 weeks", "22 weeks", "24 weeks", "3rd Trimester", "Viability"];
+    var counselingArray = ["Yes", "No"];
+    var waitingArray = ["72", "48", "24", "18", "None"];
+    var parentalArray = ["Consent", "Notice", "None"];
+    var ultrasoundArray = ["Must be performed, offer to view", "Must be performed", "Must be offered", "None"];
+    
+} //END drawMenu
+
 //TODO: animated sequence buttons
 
 //change policy attribute based on click on left-hand menu
@@ -209,6 +220,6 @@ function colorScale(csvData){
 //  };
 //  color.domain(domainArray);
 //  return color; 
-};
+}; //END colorScale
 
 //TODO: animated sequence buttons

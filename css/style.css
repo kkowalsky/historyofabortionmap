@@ -36,7 +36,10 @@
 
 .menu-inset {
     float: right;
-    background-color: #000;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
 }
 
 .overview {
@@ -44,9 +47,25 @@
     padding: 13%;
 }
 
+.overview:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
+}
+
 .prohibited {
     text-align: center;
     padding: 13%;
+}
+
+.prohibited:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
 }
 
 .counseling {
@@ -54,14 +73,38 @@
     padding: 8%;
 }
 
+.counseling:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
+}
+
 .parental {
     text-align: center;
     padding: 8%;
 }
 
+.parental:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
+}
+
 .ultrasound {
     text-align: center;
     padding: 8%;
+}
+
+.ultrasound:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
 }
 
 .overlay-menu {
@@ -75,9 +118,20 @@
     padding: 5%;
 }
 
+.cpc:hover {
+    color: #c8e713;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #c8e713;
+    border-width: 2px;
+}
+
 .cpc-inset {
     float: right;
-    background-color: #808080;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #c8e713;
+    border-width: 2px;
 }
 
 .abortion {
@@ -87,9 +141,20 @@
     padding: 5%;
 }
 
+.abortion:hover {
+    color: #e80882;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #e80882;
+    border-width: 2px;
+}
+
 .abortion-inset {
     float: right;
-    background-color: #d3d3d3;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #e80882;
+    border-width: 2px;
 }
 
 /*  Map Info CSS (includes section info, play, pause, dropdown) */
@@ -159,6 +224,10 @@ p {
 
 h1 {
     font-size: 36px;
+    font-family: 'Roboto Slab', serif;
+}
+
+h2 {
     font-family: 'Roboto Slab', serif;
 }
 
