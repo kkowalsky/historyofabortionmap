@@ -116,11 +116,18 @@ function setMap(){
         .defer(d3.csv, "data/consent.csv")
         .defer(d3.csv, "data/Grades.csv")
         .defer(d3.json, "data/usa.topojson")
+        .defer(d3.json, "data/CPCS.geojson")
+        .defer(d3.json, "data/AbortionProviders.geojson")
         .await(callback);
     
     //retrieve and process json file and data
-    function callback(error, consent, grade, usa){
-
+    function callback(error, consent, grade, usa, cpc, abortionprovider){
+        var states = map.append("path") //create SVG path element
+            .datum(topojson.feature(usa, usa.objects.states))
+            .attr("class", "states") //class name for styling
+            .attr("d", path); //project data as geometry in svg
+        
+        
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
         //Names for the overall Label we'd like to assign them
@@ -156,7 +163,7 @@ function setMap(){
                     jsonStates[a].properties[attribute] = attrObj;
                     };
                 };
-             };
+             }; 
 
  /*           for (var i=0; i<csvData.length; i++){
                 var csvState = csvData[i]
@@ -165,18 +172,34 @@ function setMap(){
 
 //            for(var a=0; a<jsonStates.length; a++){
 //                if(jsonStates[a].properties. )))
-        };
+        }; //END linkData
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
-
-        var states = map.append("path") //create SVG path element
-            .datum(topojson.feature(usa, usa.objects.states))
-            .attr("class", "states") //class name for styling
-            .attr("d", path); //project data as geometry in svg
         
+        //data stuff for overlay
+        var cpcCount = [];
+        for (var a = 0; a < cpc.features.length; a++){
+            var cpc_count = cpc.features[a].properties.Count;
+            cpcCount.push(Number(cpc_count));
+        }
+        
+        var cpcMin = Math.min.apply(Math, cpcCount);
+        var cpcMax = Math.max.apply(Math, cpcCount);
+        
+        var cpcRadius = d3.scale.sqrt()
+            .domain([cpcMin, cpcMax])
+            .range([2, 15]);
+        
+        map.selectAll(".cpcLocations")
+            .data(cpc.features)
+            .enter()
+            .append("path")
+            .attr("class", "cpcLocations")
+            .attr('d', path.pointRadius(function(d){
+                return cpcRadius(d.properties.Count);
+            }));
         
     }; //END callback
-    // Testing one two testing
 }; //END setMAP
 
 /* Katie's section start */
@@ -195,8 +218,12 @@ function drawMenu(){
 } //END drawMenu
 
 //TODO: proportional symbol map overlay
+function overlay(){
+    
+}//END overlay
 
 /* Katie's section end */
+
 //change policy attribute based on click on left-hand menu (who did this??)
 function changeAttribute(attribute, data) {
 
