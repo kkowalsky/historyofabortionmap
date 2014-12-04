@@ -61,7 +61,7 @@ function setMap(){
         .await(callback);
     
     //retrieve and process json file and data
-    function callback(error, grade, consent, usa){
+    function callback(error, overview, consent, usa){
 
         /*--------QUESTION --------*/
         //Can we organize the CSVs in the same order that we have them in the legend for clarity? -Robin
