@@ -4,9 +4,8 @@
 }
 
 .jumbotron {
-    padding-left: 20px;
+    padding: 20px;
     background-color: #D5EF3E;
-    height: 200px;
 }
 
 .image2 {
@@ -35,13 +34,13 @@
 /*  ------ */
 
 .map {
-    background-color: #808080;
+    background-color: #fff;
     margin-left:26%;
     padding-left: 3%;
 }
 
-.usmap {
-    padding-left: 4%;
+.us-map {
+    padding-left: 6%;
 }
 
 .states {
