@@ -1,15 +1,43 @@
-//global variables
-<<<<<<< HEAD
-var mapWidth = 800, mapHeight = 600;
-var keyArray = ["1973", "1974", "1975", "1976"]
-=======
+/******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 600;
 var keyArray = ["grades", "tacos"]
 var yearsArray = ["Pre-1973", "1973"];
 var expressed = keyArray[0];
->>>>>>> origin/master
 
 window.onload = initialize();
+
+//SET UP COLOR ARRAYS FOR MAP + CHART
+
+// Color array for Overview
+// Waiting Period also uses this color array
+colorArrayOverview = [  "#252525",      //F
+                        "#636363",      //D
+                        "#969696",      //C
+                        "#cccccc",      //B
+                        "#f7f7f7"   ];  //A
+
+// Color array for Prohibited At
+colorArrayProhibited = ["#252525",      //12 weeks
+                        "#636363",      //20 weeks
+                        "#969696",      //22 weeks
+                        "#bdbdbd",      //24 weeks
+                        "#d9d9d9",      //3rd trimester
+                        "#f7f7f7"   ];  //Viability
+
+// Color array for Mandated Counseling
+colorArrayCounseling = ["#252525",      //Yes
+                        "#f7f7f7"   ];  //No
+
+// Color array for Parental Consent
+colorArrayConsent = [   "#252525",      //Consent
+                        "#969696",      //Notice
+                        "#f7f7f7"   ];  //None
+
+// Color array for Ultrasound
+colorArrayConsent = [   "#252525",      //Must be performed, offer to view
+                        "#636363",      //Must be performed
+                        "#969696",      //Must be offered
+                        "#f7f7f7"   ];  //None
 
 //changes active state
 $(function(){
@@ -81,18 +109,24 @@ function setMap(){
                         attrObj = {};
 
                         //one more loop to assign key/value pairs to json object
-                        for(var key in keyArray){
+                        for(var key in yearsArray){
                             var attr = keyArray[key];
                             var val = parseFloat(csvState[attr]);
                             attrObj[attr] = val;
                         };
-                    jsonStates[a].properties[attribute] = attrObj;
-                    break;
-                    console.log(jsonStates[a].properties[a])
 
+                    jsonStates[a].properties[attribute] = attrObj;
                     };
                 };
              };
+
+ /*           for (var i=0; i<csvData.length; i++){
+                var csvState = csvData[i]
+                var csvLink = csvState.adm  };
+ */         
+
+//            for(var a=0; a<jsonStates.length; a++){
+//                if(jsonStates[a].properties. )))
         };
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
@@ -108,6 +142,9 @@ function setMap(){
     }; //END callback
     // Testing one two testing
 }; //END setMAP
+
+//TODO: Resizable SVG?
+
 
 //TODO: animated sequence buttons
 
@@ -134,4 +171,3 @@ function colorScale(csvData){
 };
 
 //TODO: animated sequence buttons
-
