@@ -6,8 +6,8 @@ var expressed = keyArray[0];
 
 window.onload = initialize();
 
+//changes active state
 $(function(){
-
     $('.nav li a').on('click', function(e){
 
         var $thisLi = $(this).parent('li');
@@ -18,10 +18,8 @@ $(function(){
             $ul.find('li.active').removeClass('active');
                 $thisLi.addClass('active');
         }
-
     })
-
-})
+});
 
 function initialize(){
     setMap();
