@@ -5,15 +5,12 @@ var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "
 window.onload = initialize();
 
 //SET UP COLOR ARRAYS FOR MAP + CHART
-
-<<<<<<< HEAD
-// Color array for Overview
-// Waiting Period also uses this color array
-    colorArrayOverview = [  "#252525",      //F
-                            "#636363",      //D
-                            "#969696",      //C
-                            "#cccccc",      //B
-                            "#f7f7f7"   ];  //A
+// Color array for Overview & Waiting Period
+    colorArrayOverview = [  "#252525",      //F     //72 hours
+                            "#636363",      //D     //48 hours
+                            "#969696",      //C     //24 hours
+                            "#cccccc",      //B     //18 hours
+                            "#f7f7f7"   ];  //A     //None
 
     // Color array for Prohibited At
     colorArrayProhibited = ["#252525",      //12 weeks
@@ -33,80 +30,49 @@ window.onload = initialize();
                             "#f7f7f7"   ];  //None
 
     // Color array for Ultrasound
-    colorArrayUltra = [   "#252525",      //Must be performed, offer to view
+    colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
                             "#636363",      //Must be performed
                             "#969696",      //Must be offered
                             "#f7f7f7"   ];  //None
-=======
-// Color array for Overview & Waiting Period
-colorArrayOverview = [  "#252525",      //F     //72 hours
-                        "#636363",      //D     //48 hours
-                        "#969696",      //C     //24 hours
-                        "#cccccc",      //B     //18 hours
-                        "#f7f7f7"   ];  //A     //None
-
-// Color array for Prohibited At
-colorArrayProhibited = ["#252525",      //12 weeks
-                        "#636363",      //20 weeks
-                        "#969696",      //22 weeks
-                        "#bdbdbd",      //24 weeks
-                        "#d9d9d9",      //3rd trimester
-                        "#f7f7f7"   ];  //Viability
-
-// Color array for Mandated Counseling
-colorArrayCounseling = ["#252525",      //Yes
-                        "#f7f7f7"   ];  //No
-
-// Color array for Parental Consent
-colorArrayConsent = [   "#252525",      //Consent
-                        "#969696",      //Notice
-                        "#f7f7f7"   ];  //None
-
-// Color array for Ultrasound
-colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
-                        "#636363",      //Must be performed
-                        "#969696",      //Must be offered
-                        "#f7f7f7"   ];  //None
->>>>>>> origin/master
 
 // SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
 
 //Variable array for Overview
-arrayOverview = [  "F",       
-                    "D",       
-                    "C",          
-                    "B",          
-                    "A"   ];     
+    arrayOverview = [  "F",       
+                        "D",       
+                        "C",          
+                        "B",          
+                        "A"   ];     
 
-//Variable array for Prohibited At
-arrayProhibited = [ "12 weeks",     
-                    "20 weeks",      
-                    "22 weeks",      
-                    "24 weeks",      
-                    "3rd trimester",      
-                    "Viability"   ]; 
+    //Variable array for Prohibited At
+    arrayProhibited = [ "12 weeks",     
+                        "20 weeks",      
+                        "22 weeks",      
+                        "24 weeks",      
+                        "3rd trimester",      
+                        "Viability"   ]; 
 
-//Variable array for Mandated Counseling
-arrayCounseling = [ "Yes",     
-                    "No"   ];  
+    //Variable array for Mandated Counseling
+    arrayCounseling = [ "Yes",     
+                        "No"   ];  
 
-//Variable array for Waiting Period
-arrayWaitingPeriod = [  "72 hours",     
-                        "48 hours",      
-                        "24 hours",      
-                        "18 hours",     
+    //Variable array for Waiting Period
+    arrayWaitingPeriod = [  "72 hours",     
+                            "48 hours",      
+                            "24 hours",      
+                            "18 hours",     
+                            "None"   ];  
+
+    //Variable array for Parental Consent
+    arrayConsent = [    "Consent",    
+                        "Notice",      
                         "None"   ];  
 
-//Variable array for Parental Consent
-arrayConsent = [    "Consent",    
-                    "Notice",      
-                    "None"   ];  
-
-//Variable array for Ultrasound
-arrayUltrasound = ["Must be performed, offer to view",      
-                    "Must be performed",      
-                    "Must be offered",      
-                    "None"   ];  
+    //Variable array for Ultrasound
+    arrayUltrasound = ["Must be performed, offer to view",      
+                        "Must be performed",      
+                        "Must be offered",      
+                        "None"   ];  
 
 //changes active state
 $(function(){
