@@ -104,7 +104,7 @@
 
 .map {
     background-color: #fff;
-    margin-left:24%;
+    margin-left:26%;
     padding-left: 3%;
 }
 
@@ -115,7 +115,7 @@
 .states {
     fill: #808080;
     stroke: #fff;
-    stroke-width: 1px;
+    stroke-width: 2px;
 }
 
 /* Graph CSS  */
@@ -144,11 +144,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #c8e713; 
+    background: #E80882; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #c8e713; 
+    background: #E80882; 
     color: #fff;
 }
 
