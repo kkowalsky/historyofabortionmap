@@ -179,24 +179,25 @@ function setMap(){
     // Testing one two testing
 }; //END setMAP
 
+/* Katie's section start */
 //TODO: Resizable SVG?
-
 
 //menu items function
 function drawMenu(){
-    var overviewArray = [A, B, C, D, F];
-    var prohibitedArray = ["12 weeks", "20 weeks", "22 weeks", "24 weeks", "3rd Trimester", "Viability"];
-    var counselingArray = ["Yes", "No"];
-    var waitingArray = ["72", "48", "24", "18", "None"];
-    var parentalArray = ["Consent", "Notice", "None"];
-    var ultrasoundArray = ["Must be performed, offer to view", "Must be performed", "Must be offered", "None"];
+    //TODO: draw boxes and shade with color scheme (use array.length for help on how many boxes)
     
+    //TODO: add legend titles
+    
+    //TODO: add legend labels
+    
+    //TODO: have change menu on click
 
 } //END drawMenu
 
-//TODO: animated sequence buttons
+//TODO: proportional symbol map overlay
 
-//change policy attribute based on click on left-hand menu
+/* Katie's section end */
+//change policy attribute based on click on left-hand menu (who did this??)
 function changeAttribute(attribute, data) {
 
 };
