@@ -110,7 +110,7 @@ function setMap(){
     // Testing one two testing
 }; //END setMAP
 
-//TODO: Resizable SVG
+//TODO: Resizable SVG?
 
 
 //TODO: animated sequence buttons
