@@ -217,7 +217,7 @@ function setMap(){
             .attr('d', path.pointRadius(function(d){
                 return cpcRadius(d.properties.Count);
             }));
-        
+      
     }; //END callback
 }; //END setMAP
 
@@ -238,7 +238,13 @@ function drawMenu(){
 
 //TODO: proportional symbol map overlay
 function overlay(){
+    $(".cpc-section").click(function(){
+        
+    })
     
+    $(".abortion-section").click(function(){
+        
+    })
 }//END overlay
 
 /* Katie's section end */
