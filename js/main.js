@@ -1,5 +1,5 @@
 //global variables
-var mapWidth = 800, mapHeight = 600;
+var mapWidth = 850, mapHeight = 600;
 var keyArray = ["grades", "tacos"]
 var yearsArray = ["Pre-1973", "1973"];
 var expressed = keyArray[0];
@@ -28,11 +28,11 @@ function initialize(){
 }; //END initialize
 //creates map
 function setMap(){
-    var map = d3.select(".usmap")
+    var map = d3.select(".map")
         .append("svg")
         .attr("width", mapWidth)
         .attr("height", mapHeight)
-        .attr("class", "usmap");
+        .attr("class", "us-map");
     
     //Create a Albers equal area conic projection
     var projection = d3.geo.albersUsa()
@@ -116,7 +116,7 @@ function setMap(){
 
 //color generator for country choropleth
 function colorScale(csvData){
-    var color = d3.scale.quantile()
+    var color = d3.scale.ordinal() //use ordinal scale since the variables are all specific value
         .range([
             "#f7f7f7",
             "#cccccc",

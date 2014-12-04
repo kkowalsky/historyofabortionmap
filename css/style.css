@@ -6,7 +6,6 @@
 .jumbotron {
     padding: 20px;
     background-color: #D5EF3E;
-    height: 210px; 
 }
 
 .image2 {
@@ -40,9 +39,8 @@
     padding-left: 3%;
 }
 
-.usmap {
+.us-map {
     padding-left: 6%;
-    stroke-width: 0.5px;
 }
 
 .states {
