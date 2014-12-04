@@ -1,10 +1,23 @@
-//global variables
+/******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 600;
 var keyArray = ["grades", "tacos"]
 var yearsArray = ["Pre-1973", "1973"];
 var expressed = keyArray[0];
 
 window.onload = initialize();
+
+// Setting up color arrays for map + chart
+colorArrayOverview = [  "#252525",      //F
+                        "#636363",      //D
+                        "#969696",      //C
+                        "#cccccc",      //B
+                        "#f7f7f7"   ];  //A
+
+colorArrayOverview = [  "#252525",      //F
+                        "#636363",      //D
+                        "#969696",      //C
+                        "#cccccc",      //B
+                        "#f7f7f7"   ];  //A
 
 //changes active state
 $(function(){
