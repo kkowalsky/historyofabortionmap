@@ -1,8 +1,6 @@
 //global variables
 var mapWidth = 800, mapHeight = 600;
-var keyArray = ["grades", "tacos"]
-var yearsArray = ["Pre-1973", "1973"];
-var expressed = keyArray[0];
+var keyArray = ["1973", "1974", "1975", "1976"]
 
 window.onload = initialize();
 
@@ -18,10 +16,8 @@ $(function(){
             $ul.find('li.active').removeClass('active');
                 $thisLi.addClass('active');
         }
-
     })
-
-})
+});
 
 function initialize(){
     setMap();
@@ -78,24 +74,18 @@ function setMap(){
                         attrObj = {};
 
                         //one more loop to assign key/value pairs to json object
-                        for(var key in yearsArray){
+                        for(var key in keyArray){
                             var attr = keyArray[key];
                             var val = parseFloat(csvState[attr]);
                             attrObj[attr] = val;
                         };
-
                     jsonStates[a].properties[attribute] = attrObj;
+                    break;
+                    console.log(jsonStates[a].properties[a])
+
                     };
                 };
              };
-
- /*           for (var i=0; i<csvData.length; i++){
-                var csvState = csvData[i]
-                var csvLink = csvState.adm  };
- */         
-
-//            for(var a=0; a<jsonStates.length; a++){
-//                if(jsonStates[a].properties. )))
         };
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
