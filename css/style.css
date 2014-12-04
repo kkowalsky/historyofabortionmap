@@ -159,7 +159,7 @@ p {
 
 h1 {
     font-size: 36px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Roboto Slab', serif !important;
 }
 
 body { 

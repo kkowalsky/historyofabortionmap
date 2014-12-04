@@ -113,14 +113,6 @@ function setMap(){
         };
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
-
-       //TODO: draw map
-        // add usa geometry
-        var states = map.append("path") //create SVG path element
-            .datum(topojson.feature(usa, usa.objects.states))
-            .attr("class", "states") //class name for styling
-            .attr("d", path); //project data as geometry in svg
-        
         
     }; //END callback
     // Testing one two testing
