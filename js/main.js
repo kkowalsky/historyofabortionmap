@@ -1,8 +1,6 @@
 /******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 600;
-var keyArray = ["grades", "tacos"]
-var yearsArray = ["Pre-1973", "1973"];
-var expressed = keyArray[0];
+var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 
 window.onload = initialize();
 
@@ -10,34 +8,34 @@ window.onload = initialize();
 
 // Color array for Overview
 // Waiting Period also uses this color array
-colorArrayOverview = [  "#252525",      //F
-                        "#636363",      //D
-                        "#969696",      //C
-                        "#cccccc",      //B
-                        "#f7f7f7"   ];  //A
+    colorArrayOverview = [  "#252525",      //F
+                            "#636363",      //D
+                            "#969696",      //C
+                            "#cccccc",      //B
+                            "#f7f7f7"   ];  //A
 
-// Color array for Prohibited At
-colorArrayProhibited = ["#252525",      //12 weeks
-                        "#636363",      //20 weeks
-                        "#969696",      //22 weeks
-                        "#bdbdbd",      //24 weeks
-                        "#d9d9d9",      //3rd trimester
-                        "#f7f7f7"   ];  //Viability
+    // Color array for Prohibited At
+    colorArrayProhibited = ["#252525",      //12 weeks
+                            "#636363",      //20 weeks
+                            "#969696",      //22 weeks
+                            "#bdbdbd",      //24 weeks
+                            "#d9d9d9",      //3rd trimester
+                            "#f7f7f7"   ];  //Viability
 
-// Color array for Mandated Counseling
-colorArrayCounseling = ["#252525",      //Yes
-                        "#f7f7f7"   ];  //No
+    // Color array for Mandated Counseling
+    colorArrayCounseling = ["#252525",      //Yes
+                            "#f7f7f7"   ];  //No
 
-// Color array for Parental Consent
-colorArrayConsent = [   "#252525",      //Consent
-                        "#969696",      //Notice
-                        "#f7f7f7"   ];  //None
+    // Color array for Parental Consent
+    colorArrayConsent = [   "#252525",      //Consent
+                            "#969696",      //Notice
+                            "#f7f7f7"   ];  //None
 
-// Color array for Ultrasound
-colorArrayConsent = [   "#252525",      //Must be performed, offer to view
-                        "#636363",      //Must be performed
-                        "#969696",      //Must be offered
-                        "#f7f7f7"   ];  //None
+    // Color array for Ultrasound
+    colorArrayUltra = [   "#252525",      //Must be performed, offer to view
+                            "#636363",      //Must be performed
+                            "#969696",      //Must be offered
+                            "#f7f7f7"   ];  //None
 
 //changes active state
 $(function(){
@@ -110,12 +108,15 @@ function setMap(){
 
                         //one more loop to assign key/value pairs to json object
                         for(var key in yearsArray){
-                            var attr = keyArray[key];
-                            var val = parseFloat(csvState[attr]);
+                            var attr = yearsArray[key];
+                            var val = (csvState[attr]);
                             attrObj[attr] = val;
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
+                    console.log(jsonStates[a].properties)
+
+                    break;
                     };
                 };
              };
