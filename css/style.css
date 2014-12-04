@@ -115,7 +115,7 @@
 .states {
     fill: #808080;
     stroke: #fff;
-    stroke-width: 2px;
+    stroke-width: 0.5px;
 }
 
 /* Graph CSS  */

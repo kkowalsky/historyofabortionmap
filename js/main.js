@@ -8,13 +8,12 @@ window.onload = initialize();
 
 //SET UP COLOR ARRAYS FOR MAP + CHART
 
-// Color array for Overview
-// Waiting Period also uses this color array
-colorArrayOverview = [  "#252525",      //F
-                        "#636363",      //D
-                        "#969696",      //C
-                        "#cccccc",      //B
-                        "#f7f7f7"   ];  //A
+// Color array for Overview & Waiting Period
+colorArrayOverview = [  "#252525",      //F     //72 hours
+                        "#636363",      //D     //48 hours
+                        "#969696",      //C     //24 hours
+                        "#cccccc",      //B     //18 hours
+                        "#f7f7f7"   ];  //A     //None
 
 // Color array for Prohibited At
 colorArrayProhibited = ["#252525",      //12 weeks
@@ -34,10 +33,49 @@ colorArrayConsent = [   "#252525",      //Consent
                         "#f7f7f7"   ];  //None
 
 // Color array for Ultrasound
-colorArrayConsent = [   "#252525",      //Must be performed, offer to view
+colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
                         "#636363",      //Must be performed
                         "#969696",      //Must be offered
                         "#f7f7f7"   ];  //None
+
+// SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
+
+//Variable array for Overview
+arrayOverview = [  "F",       
+                    "D",       
+                    "C",          
+                    "B",          
+                    "A"   ];     
+
+//Variable array for Prohibited At
+arrayProhibited = [ "12 weeks",     
+                    "20 weeks",      
+                    "22 weeks",      
+                    "24 weeks",      
+                    "3rd trimester",      
+                    "Viability"   ]; 
+
+//Variable array for Mandated Counseling
+arrayCounseling = [ "Yes",     
+                    "No"   ];  
+
+//Variable array for Waiting Period
+arrayWaitingPeriod = [  "72 hours",     
+                        "48 hours",      
+                        "24 hours",      
+                        "18 hours",     
+                        "None"   ];  
+
+//Variable array for Parental Consent
+arrayConsent = [    "Consent",    
+                    "Notice",      
+                    "None"   ];  
+
+//Variable array for Ultrasound
+arrayUltrasound = ["Must be performed, offer to view",      
+                    "Must be performed",      
+                    "Must be offered",      
+                    "None"   ];  
 
 //changes active state
 $(function(){
@@ -131,8 +169,6 @@ function setMap(){
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
 
-       //TODO: draw map
-        // add usa geometry
         var states = map.append("path") //create SVG path element
             .datum(topojson.feature(usa, usa.objects.states))
             .attr("class", "states") //class name for styling
@@ -147,6 +183,11 @@ function setMap(){
 
 
 //TODO: animated sequence buttons
+
+//change policy attribute based on click on left-hand menu
+function changeAttribute(attribute, data) {
+
+};
 
 //color generator for country choropleth
 function colorScale(csvData){
