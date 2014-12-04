@@ -166,16 +166,21 @@ function setMap(){
                     };
                 };
              }; 
-
- /*           for (var i=0; i<csvData.length; i++){
-                var csvState = csvData[i]
-                var csvLink = csvState.adm  };
- */         
-
-//            for(var a=0; a<jsonStates.length; a++){
-//                if(jsonStates[a].properties. )))
         }; //END linkData
 
+        var choropleth = map.selectAll(".states")
+            .data(topojson.feature(usa, usa.objects.states).features)
+            .enter()
+            .append("g")
+            .attr("class", "choropleth")
+            .append("path")
+            .attr("class", function(d){ return d.properties.postal})
+            .attr("d", path);
+/*            .append("desc")
+                .text(function(d){
+                    return choropleth(d, colorize);
+                })
+*/
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
         //data stuff for overlay
         var cpcCount = [];
