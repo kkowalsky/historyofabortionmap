@@ -1,11 +1,7 @@
 
-.navbar a {
-    color: red;
-}
-
 .jumbotron {
     padding: 20px;
-    background-color: #D5EF3E;
+    background-color:  #C8E713;
 }
 
 .image2 {
@@ -26,9 +22,82 @@
 .map-menu {
     position: absolute;
     margin-left: 0% !important;
-    background-color: #E80882;
-    padding-right: 3%;
+    color: #fff;
 }
+
+.main-menu { 
+
+}
+
+.menu-options {
+    float: left;
+    background-color: #00c6ff;
+}
+
+.menu-inset {
+    float: right;
+    background-color: #000;
+}
+
+.overview {
+    text-align: center;
+    padding: 13%;
+}
+
+.prohibited {
+    text-align: center;
+    padding: 13%;
+}
+
+.counseling {
+    text-align: center;
+    padding: 8%;
+}
+
+.parental {
+    text-align: center;
+    padding: 8%;
+}
+
+.ultrasound {
+    text-align: center;
+    padding: 8%;
+}
+
+.overlay-menu {
+    margin-top: 350px;
+}
+
+.cpc{
+    float: left;
+    background-color: #c8e713;
+    text-align: center;
+    padding: 5%;
+}
+
+.cpc-inset {
+    float: right;
+    background-color: #808080;
+}
+
+.abortion {
+    float: left;
+    background-color: #e80882;
+    text-align: center;
+    padding: 5%;
+}
+
+.abortion-inset {
+    float: right;
+    background-color: #d3d3d3;
+}
+
+/*  Map Info CSS (includes section info, play, pause, dropdown) */
+/*  ------ */
+.menu-info {
+
+}
+
 
 /*  Map CSS */
 /*  ------ */
@@ -75,11 +144,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #E80882; 
+    background: #c8e713; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #E80882; 
+    background: #c8e713; 
     color: #fff;
 }
 
