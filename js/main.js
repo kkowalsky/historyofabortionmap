@@ -6,18 +6,38 @@ var expressed = keyArray[0];
 
 window.onload = initialize();
 
-// Setting up color arrays for map + chart
+//SET UP COLOR ARRAYS FOR MAP + CHART
+
+// Color array for Overview
+// Waiting Period also uses this color array
 colorArrayOverview = [  "#252525",      //F
                         "#636363",      //D
                         "#969696",      //C
                         "#cccccc",      //B
                         "#f7f7f7"   ];  //A
 
-colorArrayOverview = [  "#252525",      //F
-                        "#636363",      //D
-                        "#969696",      //C
-                        "#cccccc",      //B
-                        "#f7f7f7"   ];  //A
+// Color array for Prohibited At
+colorArrayProhibited = ["#252525",      //12 weeks
+                        "#636363",      //20 weeks
+                        "#969696",      //22 weeks
+                        "#bdbdbd",      //24 weeks
+                        "#d9d9d9",      //3rd trimester
+                        "#f7f7f7"   ];  //Viability
+
+// Color array for Mandated Counseling
+colorArrayCounseling = ["#252525",      //Yes
+                        "#f7f7f7"   ];  //No
+
+// Color array for Parental Consent
+colorArrayConsent = [   "#252525",      //Consent
+                        "#969696",      //Notice
+                        "#f7f7f7"   ];  //None
+
+// Color array for Ultrasound
+colorArrayConsent = [   "#252525",      //Must be performed, offer to view
+                        "#636363",      //Must be performed
+                        "#969696",      //Must be offered
+                        "#f7f7f7"   ];  //None
 
 //changes active state
 $(function(){
