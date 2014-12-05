@@ -128,12 +128,6 @@ function setMap(){
 
         colorize = colorScale(grade);
 
-        var states = map.append("path") //create SVG path element
-            .datum(topojson.feature(usa, usa.objects.states))
-            .attr("class", "states") //class name for styling
-            .attr("d", path); //project data as geometry in svg
-        
-        
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
         //Names for the overall Label we'd like to assign them
@@ -174,16 +168,23 @@ function setMap(){
                 };
              }; 
         }; //END linkData
- //   console.log((topojson.feature(usa, usa.objects.states).features))
+
+        var states = map.append("path") //create SVG path element
+            .datum(topojson.feature(usa, usa.objects.states))
+            .attr("class", "states") //class name for styling
+            .attr("d", path); //project data as geometry in svg
+
+  console.log((topojson.feature(usa, usa.objects.states).features))
 
         var choroplethoverlay = map.selectAll(".states")
             .data(topojson.feature(usa, usa.objects.states).features)
             .enter()
             .append("g")
+            .style("fill", "rgba(100,0,0,0.5")
             .attr("class", "choropleth")
             .append("path")
             .attr("class", function(d){ 
-                 console.log(d)
+            //     console.log(d)
                 return d.properties.postal})
             .attr("d", path)
             // .append("desc")
