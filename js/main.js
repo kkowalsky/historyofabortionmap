@@ -8,8 +8,38 @@ var removeAbortion;
 
 window.onload = initialize();
 
-// SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
+//SET UP COLOR ARRAYS FOR MAP + CHART
+// Color array for Overview & Waiting Period
+    colorArrayOverview = [  "#252525",      //F     //72 hours
+                            "#636363",      //D     //48 hours
+                            "#969696",      //C     //24 hours
+                            "#cccccc",      //B     //18 hours
+                            "#f7f7f7"   ];  //A     //None
 
+    // Color array for Prohibited At
+    colorArrayProhibited = ["#252525",      //12 weeks
+                            "#636363",      //20 weeks
+                            "#969696",      //22 weeks
+                            "#bdbdbd",      //24 weeks
+                            "#d9d9d9",      //3rd trimester
+                            "#f7f7f7"   ];  //Viability
+
+    // Color array for Mandated Counseling
+    colorArrayCounseling = ["#252525",      //Yes
+                            "#f7f7f7"   ];  //No
+
+    // Color array for Parental Consent
+    colorArrayConsent = [   "#252525",      //Consent
+                            "#969696",      //Notice
+                            "#f7f7f7"   ];  //None
+
+    // Color array for Ultrasound
+    colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
+                            "#636363",      //Must be performed
+                            "#969696",      //Must be offered
+                            "#f7f7f7"   ];  //None
+
+// SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
 //Variable array for Overview
     arrayOverview = [  "F",       
                         "D",       
@@ -46,6 +76,9 @@ window.onload = initialize();
                         "Must be performed",      
                         "Must be offered",      
                         "None"   ];  
+
+/*---*******---END OF GLOBAL VARIABLES---*******---*/
+//--------------------------------------------------/
 
 //changes active state
 $(function(){
@@ -141,7 +174,7 @@ function setMap(){
                 };
              }; 
         }; //END linkData
-//        console.log((topojson.feature(usa, usa.objects.states).features))
+    console.log((topojson.feature(usa, usa.objects.states).features))
 
         var choroplethoverlay = map.selectAll(".states")
             .data(topojson.feature(usa, usa.objects.states).features)
@@ -150,12 +183,13 @@ function setMap(){
             .attr("class", "choropleth")
             .append("path")
             .attr("class", function(d){ 
+                console.log(d.properties.postal)
                 return d.properties.postal})
             .attr("d", path)
-            .append("desc")
-                .text(function(d){
-                    return choropleth(d, colorize);
-                })
+            // .append("desc")
+            //     .text(function(d){
+            //         return choropleth(d, colorize);
+            //     })
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
         //data stuff for overlay
@@ -257,41 +291,13 @@ function changeAttribute(attribute, data) {
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
 function colorScale(csvData){
-    colorArrayOverview = [  "#252525",      //F     //72 hours
-                            "#636363",      //D     //48 hours
-                            "#969696",      //C     //24 hours
-                            "#cccccc",      //B     //18 hours
-                            "#f7f7f7"   ];  //A     //None
-
-    //Color array for Prohibited At
-    colorArrayProhibited = ["#252525",      //12 weeks
-                            "#636363",      //20 weeks
-                            "#969696",      //22 weeks
-                            "#bdbdbd",      //24 weeks
-                            "#d9d9d9",      //3rd trimester
-                            "#f7f7f7"   ];  //Viability
-
-    // Color array for Mandated Counseling
-    colorArrayCounseling = ["#252525",      //Yes
-                            "#f7f7f7"   ];  //No
-
-    // Color array for Parental Consent
-    colorArrayConsent = [   "#252525",      //Consent
-                            "#969696",      //Notice
-                            "#f7f7f7"   ];  //None
-
-    // Color array for Ultrasound
-    colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
-                            "#636363",      //Must be performed
-                            "#969696",      //Must be offered
-                            "#f7f7f7"   ];  //None 
 };
 
 function choropleth(d, colorize){
     var value = d.properties ? d.properties[expressed] : d[expressed];
 
     if (value) {
-        return colorize(value);
+//        return colorize(value);
     }else{
         return "#ccc"
     }
