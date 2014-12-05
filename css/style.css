@@ -136,16 +136,16 @@
 
 .abortion {
     float: left;
-    background-color: #e80882;
+    background-color:  #9608cb;
     text-align: center;
     padding: 5%;
 }
 
 .abortion:hover {
-    color: #e80882;
+    color:  #9608cb;
     background-color: #fff;
     border-style: solid;
-    border-color: #e80882;
+    border-color:  #9608cb;
     border-width: 2px;
 }
 
@@ -153,7 +153,7 @@
     float: right;
     background-color: #fff;
     border-style: solid;
-    border-color: #e80882;
+    border-color: #9608cb;
     border-width: 2px;
 }
 
@@ -185,11 +185,11 @@
 
 .cpcLocations {
 	fill: #c8e713;
-	fill-opacity:0.5;
+	fill-opacity:0.4;
 }
 
 .abortionLocations {
-    fill: #E80882;
+    fill: #9608cb;
 	fill-opacity:0.5;
 }
 

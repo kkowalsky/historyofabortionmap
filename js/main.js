@@ -194,7 +194,7 @@ function setMap(){
         
         var cpcRadius = d3.scale.sqrt()
             .domain([cpcMin, cpcMax])
-            .range([2, 15]);
+            .range([5, 15]);
         
         //for abortion provider
         var abortionCount = [];
