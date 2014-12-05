@@ -167,14 +167,14 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-//                    console.log(jsonStates[a].properties)
+  //                console.log(jsonStates[a].properties)
 
                     break;
                     };
                 };
              }; 
         }; //END linkData
-    console.log((topojson.feature(usa, usa.objects.states).features))
+ //   console.log((topojson.feature(usa, usa.objects.states).features))
 
         var choroplethoverlay = map.selectAll(".states")
             .data(topojson.feature(usa, usa.objects.states).features)
@@ -183,7 +183,7 @@ function setMap(){
             .attr("class", "choropleth")
             .append("path")
             .attr("class", function(d){ 
-                console.log(d.properties.postal)
+                 console.log(d)
                 return d.properties.postal})
             .attr("d", path)
             // .append("desc")
