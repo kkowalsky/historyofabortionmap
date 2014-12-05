@@ -76,15 +76,13 @@ window.onload = initialize();
                         "Must be offered",      
                         "None"   ];  
 
-//changes active state
+//changes active state of navbar
 $(function(){
     $('.nav li a').on('click', function(e){
-
         var $thisLi = $(this).parent('li');
         var $ul = $thisLi.parent('ul');
 
-        if (!$thisLi.hasClass('active'))
-        {
+        if (!$thisLi.hasClass('active')){
             $ul.find('li.active').removeClass('active');
                 $thisLi.addClass('active');
         }
@@ -160,7 +158,7 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-                    console.log(jsonStates[a].properties)
+                    //console.log(jsonStates[a].properties)
 
                     break;
                     };
@@ -194,7 +192,7 @@ function setMap(){
         
         var cpcRadius = d3.scale.sqrt()
             .domain([cpcMin, cpcMax])
-            .range([5, 15]);
+            .range([2, 15]);
         
         //for abortion provider
         var abortionCount = [];
@@ -251,20 +249,47 @@ function abortionPoints(map, abortionprovider, path, cpcRadius){
 //TODO: proportional symbol map overlay
 function overlay(path, cpcRadius, map, cpc, abortionprovider){
     $(".cpc-section").click(function(){
+        var cpcDiv = document.getElementById('cpc-centers');
+        var cpcInsetDiv = document.getElementById('cpc-inset');
         if (d3.selectAll(".cpcLocations")[0].length > 0){
             removeCPC = d3.selectAll(".cpcLocations").remove();
+            cpcDiv.style.backgroundColor = "#c8e713";
+            cpcDiv.style.color = "#fff";
+            cpcDiv.style.border = "none";
+            cpcInsetDiv.style.visibility = "hidden";
         } else {
             cpcPoints(map, cpc, path, cpcRadius);
+            cpcDiv.style.backgroundColor = "#fff";
+            cpcDiv.style.borderStyle = "solid";
+            cpcDiv.style.borderColor = "#c8e713";
+            cpcDiv.style.borderWidth = "2px";
+            cpcDiv.style.color = "#c8e713";
+            cpcInsetDiv.style.visibility = "visible";
         }
     })
     
-    $(".abortion-section").click(function(){
+    $(".abortion-section").click(function(){  
+        var abortionDiv = document.getElementById('abortion-centers');
+        var insetDiv = document.getElementById('abortion-inset');
         if (d3.selectAll(".abortionLocations")[0].length > 0){
             removeAbortion = d3.selectAll(".abortionLocations").remove();
+            abortionDiv.style.backgroundColor = "#9608cb";
+            abortionDiv.style.color = "#fff";
+            abortionDiv.style.border = "none";
+            insetDiv.style.visibility = "hidden";
         } else {
             abortionPoints(map, abortionprovider, path, cpcRadius);
+            abortionDiv.style.backgroundColor = "#fff";
+            abortionDiv.style.borderStyle = "solid";
+            abortionDiv.style.borderColor = "#9608cb";
+            abortionDiv.style.borderWidth = "2px";
+            abortionDiv.style.color = "#9608cb";
+            insetDiv.style.visibility = "visible";
         }
     })
+    
+    
+    
 }//END overlay
 
 /* Katie's section end */
