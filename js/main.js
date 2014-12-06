@@ -5,7 +5,7 @@ var Category = ["gradeData", "ConsentData"]
 var expressed = Category[0]
 var removeCPC;
 var removeAbortion;
-var joinedJson;
+var joinedJson; //Variable to store the USA json combined with all attribute data
 
 window.onload = initialize();
 
@@ -131,7 +131,6 @@ function setMap(){
         
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
-        console.log(joinedJson);
 
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
@@ -182,15 +181,16 @@ function setMap(){
     console.log(topojson.feature(usa, usa.objects.states).features);
 
         var choroplethoverlay = map.selectAll(".states")
-            .data(topojson.feature(usa, usa.objects.states).features)
+            .data(joinedJson)
             .enter()
             .append("g")
             .style("fill", "rgba(100,0,0,0.5")
             .attr("class", "choropleth")
             .append("path")
             .attr("class", function(d){ 
-            //     console.log(d)
-                return d.properties.postal})
+                console.log(d)
+                return d.properties.postal
+                })
             .attr("d", path)
             // .append("desc")
             //     .text(function(d){
@@ -320,10 +320,13 @@ function choropleth(d, colorize){
 function setChart() {
     var chart = d3.select(".graph")
         .append("svg")
-        .attr("width", 600+"px")
-        .attr("height", 200+"px")
+        .attr("width", 90+"%")
+        .attr("height", 90+"%")
         .attr("class", "chart");
-    console.log(joinedJson);
+
+    var xAxis = d3.select(chart)
+        .append("svg")
+        .attr("")
 };
 
 
