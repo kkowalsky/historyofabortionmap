@@ -5,6 +5,7 @@ var Category = ["gradeData", "ConsentData"]
 var expressed = Category[0]
 var removeCPC;
 var removeAbortion;
+var joinedJson;
 
 window.onload = initialize();
 
@@ -127,6 +128,10 @@ function setMap(){
     function callback(error, consent, grade, usa, cpc, abortionprovider){
 
         colorize = colorScale(grade);
+        
+        //Variable to store the USA json with all attribute data
+        joinedJson = topojson.feature(usa, usa.objects.states).features;
+        console.log(joinedJson);
 
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
@@ -174,7 +179,7 @@ function setMap(){
             .attr("class", "states") //class name for styling
             .attr("d", path); //project data as geometry in svg
 
-  console.log((topojson.feature(usa, usa.objects.states).features))
+    console.log(topojson.feature(usa, usa.objects.states).features);
 
         var choroplethoverlay = map.selectAll(".states")
             .data(topojson.feature(usa, usa.objects.states).features)
@@ -218,6 +223,8 @@ function setMap(){
         var abortionMax = Math.max.apply(Math, abortionCount);
     
         overlay(path, cpcRadius, map, cpc, abortionprovider);
+
+        setChart(); //draw the chart
     }; //END callback
 }; //END setMAP
 
@@ -303,6 +310,24 @@ function choropleth(d, colorize){
         return "#ccc"
     }
 };
+
+
+//---------------------------------------------//
+/*              START CHART FUNCTIONS          */
+//---------------------------------------------//
+// Robin's section
+
+function setChart() {
+    var chart = d3.select(".graph")
+        .append("svg")
+        .attr("width", 600+"px")
+        .attr("height", 200+"px")
+        .attr("class", "chart");
+    console.log(joinedJson);
+};
+
+
+/*              END CHART FUNCTIONS            */
 
 
 //TODO: animated sequence buttons
