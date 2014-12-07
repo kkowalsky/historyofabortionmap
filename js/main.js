@@ -173,23 +173,20 @@ function setMap(){
              }; 
         }; //END linkData
 
-    console.log(topojson.feature(usa, usa.objects.states).features);
+    // console.log statement to show the contents of the joined json object
+    // console.log(topojson.feature(usa, usa.objects.states).features);
 
+        //Prep the states to be able to be styled according to the data
         var states = map.selectAll(".states")
             .data(joinedJson)
             .enter()
             .append("path")
             .attr("class", function(d){ 
-                console.log(d)
                 return "states " + d.properties.postal;
             })
             .attr("d", function(d) {
                 return path(d);
             });
-            // .append("desc")
-            //     .text(function(d){
-            //         return choropleth(d, colorize);
-            //     })
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
         //data stuff for overlay
@@ -318,13 +315,31 @@ function setChart() {
         .attr("height", 90+"%")
         .attr("class", "chart");
 
-    var xAxis = d3.select(chart)
-        .append("svg")
-        .attr("")
+    var rect = chart.selectAll(".rect")
+        .data(joinedJson)
+        .enter()
+        .append("rect")
+        .attr("class", function(d) {
+            return "rect " + d.properties.postal;
+        })
+        .attr("width", 10+"px")
+        .attr("height", 10+"px");
+
+    // var rectWidth = 
+
+    // var rect = chart.selectAll(".rect")
+    //     .data(joinedJson)
+    //     .enter()
+    //     .append("rect")
+    //     .attr("class", function(d) {
+    //         return "rect " + d.properties.postal;
+    //     })
+    //     .attr("width", )
+
 };
 
 
-/*              END CHART FUNCTIONS            */
+/* ------------END CHART FUNCTIONS------------ */
 
 
 //TODO: animated sequence buttons
