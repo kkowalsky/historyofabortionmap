@@ -173,25 +173,19 @@ function setMap(){
              }; 
         }; //END linkData
 
-        var states = map.append("path") //create SVG path element
-            .datum(topojson.feature(usa, usa.objects.states))
-            .attr("class", "states") //class name for styling
-            .attr("d", path); //project data as geometry in svg
-
     console.log(topojson.feature(usa, usa.objects.states).features);
 
-        var choroplethoverlay = map.selectAll(".states")
+        var states = map.selectAll(".states")
             .data(joinedJson)
             .enter()
-            .append("g")
-            .style("fill", "rgba(100,0,0,0.5")
-            .attr("class", "choropleth")
             .append("path")
             .attr("class", function(d){ 
                 console.log(d)
-                return d.properties.postal
-                })
-            .attr("d", path)
+                return "states " + d.properties.postal;
+            })
+            .attr("d", function(d) {
+                return path(d);
+            });
             // .append("desc")
             //     .text(function(d){
             //         return choropleth(d, colorize);

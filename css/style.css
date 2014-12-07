@@ -178,10 +178,12 @@
 }
 
 .states {
-    fill: #808080;
+/*    fill: #808080;*/
     stroke: #fff;
+    fill: green;
     stroke-width: 0.5px;
 }
+
 
 .cpcLocations {
 	fill: #c8e713;
