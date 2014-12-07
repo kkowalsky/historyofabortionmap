@@ -1,5 +1,6 @@
 /******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 600;
+var menuWidth = 200, menuHeight = 350;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var removeCPC;
 var removeAbortion;
@@ -117,6 +118,8 @@ function setMap(){
         .defer(d3.json, "data/AbortionProviders.geojson")
         .await(callback);
     
+    drawMenu();
+    
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
         var states = map.append("path") //create SVG path element
@@ -180,6 +183,7 @@ function setMap(){
                 })
 */
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
+        
         //data stuff for overlay
         var cpcCount = [];
         for (var a = 0; a < cpc.features.length; a++){
@@ -213,15 +217,93 @@ function setMap(){
 
 //menu items function
 function drawMenu(){
-    //TODO: draw boxes and shade with color scheme (use array.length for help on how many boxes)
+    $(".overview").click(function(){  
+        createMenu(arrayOverview, colorArrayOverview)});
+    
+     $(".prohibited").click(function(){  
+        createMenu(arrayProhibited, colorArrayProhibited)});
+    
+    $(".counseling").click(function(){  
+        createMenu(arrayCounseling, colorArrayCounseling)});
+    
+    $(".parental").click(function(){  
+        createMenu(arrayConsent, colorArrayConsent)});
+    
+    $(".ultrasound").click(function(){  
+        createMenu(arrayUltrasound, colorArrayUltrasound)});
     
     //TODO: add legend titles
     
     //TODO: add legend labels
-    
-    //TODO: have change menu on click
 
-} //END drawMenu
+}; //END drawMenu
+
+function createMenu(arrayX, arrayY){
+    var yArray = [50, 100, 150, 200, 250, 300];
+    var menuBox = d3.select(".menu-inset")
+            .append("svg")
+            .attr("width", menuWidth)
+            .attr("height", menuHeight)
+            .attr("class", "menuBox");
+    
+    //draws and shades boxes for menu
+    for (b = 0; b < arrayX.length; b++){  
+       var menuItems = menuBox.selectAll(".items")
+            .data(arrayX)
+            .enter()
+            .append("rect")
+            .attr("class", function(d){
+                return d;
+            })
+            .attr("width", 30)
+            .attr("height", 30)
+            .attr("x", 30);
+        
+        menuItems.data(yArray)
+            .attr("y", function(d, i){
+                return d;
+            });
+        
+        //colorize function here
+    };
+    console.log(menuItems);
+    
+    
+}; //end createMenu
+
+/*
+colorize = colorScale(csvData);
+    
+    var legendTitle = legendBox.append("text")
+        .attr("x", 20)
+        .attr("y", 25)
+        .attr("class","subtitle")
+        .text(label(expressed));
+    
+    legendItems.attr("fill", function(d, i){
+        return colorize(legendArray[i]);
+    })
+    
+    //do this
+    var legendLabels = legendBox.selectAll(".legendLabels")
+        .data(xArray)
+        .enter()
+        .append("text")
+        .attr("class", "legendLabels")
+        .attr("y", 80)
+        .attr("x", function(d, i){
+            for (var k = 0; k <= 4; k++){
+                xCoords = coordinateArray[i+1];   
+                return xCoords;
+            }
+        })
+        .text(function(d, i){
+            for (var j = 0; j <= 4; j++){
+                legendNums = quantile[i];   
+                return legendNums;
+            }
+        });
+*/
 
 function cpcPoints(map, cpc, path, cpcRadius){
     map.selectAll(".cpcLocations")
