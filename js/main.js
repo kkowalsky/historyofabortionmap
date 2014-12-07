@@ -1,6 +1,7 @@
 /******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 600;
 var menuWidth = 200, menuHeight = 350;
+var menuBox;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var removeCPC;
 var removeAbortion;
@@ -215,22 +216,63 @@ function setMap(){
 /* Katie's section start */
 //TODO: Resizable SVG?
 
+/*
+
+ $(".abortion-section").click(function(){  
+        var abortionDiv = document.getElementById('abortion-centers');
+        var insetDiv = document.getElementById('abortion-inset');
+        if (d3.selectAll(".abortionLocations")[0].length > 0){
+            removeAbortion = d3.selectAll(".abortionLocations").remove();
+            abortionDiv.style.backgroundColor = "#9608cb";
+            abortionDiv.style.color = "#fff";
+            abortionDiv.style.border = "none";
+            insetDiv.style.visibility = "hidden";
+        } else {
+            abortionPoints(map, abortionprovider, path, cpcRadius);
+            abortionDiv.style.backgroundColor = "#fff";
+            abortionDiv.style.borderStyle = "solid";
+            abortionDiv.style.borderColor = "#9608cb";
+            abortionDiv.style.borderWidth = "2px";
+            abortionDiv.style.color = "#9608cb";
+            insetDiv.style.visibility = "visible";
+        }
+    })
+*/
+
 //menu items function
 function drawMenu(){
-    $(".overview").click(function(){  
-        createMenu(arrayOverview, colorArrayOverview)});
+    var menuDiv = document.getElementsByName('menuBox');
+    var prohibitDiv = document.getElementsByName('prohibited');
+    var remove;
+    //HOW TO REMOVE/REPLACE MENU ITEMS???
+    $(".overview").click(function(){ 
+//        if (){
+//            remove = d3.selectAll(".items").remove(); 
+//        } else {
+            createMenu(arrayOverview, colorArrayOverview, "Overview: ");
+//        }
+    });
     
      $(".prohibited").click(function(){  
-        createMenu(arrayProhibited, colorArrayProhibited)});
+        createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ");
+            prohibitDiv.style.backgroundColor = "#fff";
+            prohibitDiv.style.borderStyle = "solid";
+            prohibitDiv.style.borderColor = "#00c6ff";
+            prohibitDiv.style.borderWidth = "2px";
+            prohibitDiv.style.color = "#00c6ff";
+     });
     
     $(".counseling").click(function(){  
-        createMenu(arrayCounseling, colorArrayCounseling)});
+        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ")});
+    
+    $(".waiting").click(function(){  
+        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: (in Hours)")});
     
     $(".parental").click(function(){  
-        createMenu(arrayConsent, colorArrayConsent)});
+        createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ")});
     
     $(".ultrasound").click(function(){  
-        createMenu(arrayUltrasound, colorArrayUltrasound)});
+        createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ")});
     
     //TODO: add legend titles
     
@@ -238,13 +280,22 @@ function drawMenu(){
 
 }; //END drawMenu
 
-function createMenu(arrayX, arrayY){
-    var yArray = [50, 100, 150, 200, 250, 300];
-    var menuBox = d3.select(".menu-inset")
+function createMenu(arrayX, arrayY, title){
+    var yArray = [70, 115, 160, 205, 250, 295];
+    
+    //creates menuBoxes
+    menuBox = d3.select(".menu-inset")
             .append("svg")
             .attr("width", menuWidth)
             .attr("height", menuHeight)
             .attr("class", "menuBox");
+    
+    //creates Menu Title
+    var menuTitle = menuBox.append("text")
+        .attr("x", 20)
+        .attr("y", 30)
+        .attr("class","title")
+        .text(title);
     
     //draws and shades boxes for menu
     for (b = 0; b < arrayX.length; b++){  
@@ -252,11 +303,9 @@ function createMenu(arrayX, arrayY){
             .data(arrayX)
             .enter()
             .append("rect")
-            .attr("class", function(d){
-                return d;
-            })
-            .attr("width", 30)
-            .attr("height", 30)
+            .attr("class", "items")
+            .attr("width", 40)
+            .attr("height", 40)
             .attr("x", 30);
         
         menuItems.data(yArray)
@@ -265,45 +314,36 @@ function createMenu(arrayX, arrayY){
             });
         
         //colorize function here
+//        menuItems.attr("fill", function(d, i){
+//        return colorize(legendArray[i]);
+//        })
+        
+//     //do this
+//    var legendLabels = legendBox.selectAll(".legendLabels")
+//        .data(xArray)
+//        .enter()
+//        .append("text")
+//        .attr("class", "legendLabels")
+//        .attr("y", 80)
+//        .attr("x", function(d, i){
+//            for (var k = 0; k <= 4; k++){
+//                xCoords = coordinateArray[i+1];   
+//                return xCoords;
+//            }
+//        })
+//        .text(function(d, i){
+//            for (var j = 0; j <= 4; j++){
+//                legendNums = quantile[i];   
+//                return legendNums;
+//            }
+//        }); 
+//        
+        
     };
     console.log(menuItems);
     
     
 }; //end createMenu
-
-/*
-colorize = colorScale(csvData);
-    
-    var legendTitle = legendBox.append("text")
-        .attr("x", 20)
-        .attr("y", 25)
-        .attr("class","subtitle")
-        .text(label(expressed));
-    
-    legendItems.attr("fill", function(d, i){
-        return colorize(legendArray[i]);
-    })
-    
-    //do this
-    var legendLabels = legendBox.selectAll(".legendLabels")
-        .data(xArray)
-        .enter()
-        .append("text")
-        .attr("class", "legendLabels")
-        .attr("y", 80)
-        .attr("x", function(d, i){
-            for (var k = 0; k <= 4; k++){
-                xCoords = coordinateArray[i+1];   
-                return xCoords;
-            }
-        })
-        .text(function(d, i){
-            for (var j = 0; j <= 4; j++){
-                legendNums = quantile[i];   
-                return legendNums;
-            }
-        });
-*/
 
 function cpcPoints(map, cpc, path, cpcRadius){
     map.selectAll(".cpcLocations")

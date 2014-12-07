@@ -84,6 +84,19 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
+.waiting {
+    text-align: center;
+    padding: 8%;
+}
+
+.waiting:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 2px;
+}
+
 .parental {
     text-align: center;
     padding: 8%;
@@ -111,7 +124,7 @@ ul.nav a:hover {
 }
 
 .overlay-menu {
-    margin-top: 350px;
+    margin-top: 420px;
 }
 
 .cpc {
