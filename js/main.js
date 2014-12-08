@@ -135,8 +135,9 @@ function setMap(){
     
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
-        colorize = colorScale(grade);
 
+        colorize = colorScale(consent, grade);
+       
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
 
@@ -299,6 +300,29 @@ function changeAttribute(attribute, data) {
 //         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
+function colorScale(consent,grade){
+    if (expressed === "gradeData"){
+        scale =d3.scale.ordinal();
+        currentColors = colorArrayGrade;
+    }else if (expressed === "consentData"){
+        scale =d3.scale.ordinal();
+        currentColors = colorArrayConsent;
+    };
+
+    scale = scale.range(currentColors);
+};
+
+function choropleth(d, colorize){
+    var value = d.properties ? d.properties[expressed] : d[expressed];
+
+    if (value) {
+        return colorize(value, value2);
+    }else if (value === "No data"){
+        return "#ccc";
+    }else{
+        return "#ccc";
+    }
+};
 
 
 //---------------------------------------------//
