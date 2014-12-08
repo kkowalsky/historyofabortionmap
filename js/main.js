@@ -303,10 +303,9 @@ function colorScale(input){
         currentColors = colorArrayConsent;
     };
     scale = scale.range(currentColors)
-
 };
 
-function choropleth(d, colorize){
+function choropleth(d, input){
     var value = d.properties ? d.properties[expressed] : d[expressed];
     if (value === "no data") {
         return "#ccc";
