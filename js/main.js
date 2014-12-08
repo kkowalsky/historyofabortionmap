@@ -137,7 +137,6 @@ function setMap(){
     function callback(error, consent, grade, usa, cpc, abortionprovider){
 
         colorize = colorScale(consent, grade);
-       
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
 
@@ -190,13 +189,7 @@ function setMap(){
             .enter()
             .append("path")
             .attr("class", function(d){ 
-                return "states " + d.properties.postal;
-            })
-            .attr("d", function(d) {
-                return path(d)
-            })
-            .style("fill", function(d){
-                return choropleth(d, colorize);
+                return path(d);
             });
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
@@ -297,32 +290,6 @@ function changeAttribute(attribute, data) {
 //---------------------------------------------//
 /* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
 //---------------------------------------------//
-//         colorize = colorScale(consent, grade);
-//SET UP COLOR ARRAYS FOR MAP + CHART
-// Color array for Overview & Waiting Period   
-function colorScale(consent,grade){
-    if (expressed === "gradeData"){
-        scale =d3.scale.ordinal();
-        currentColors = colorArrayGrade;
-    }else if (expressed === "consentData"){
-        scale =d3.scale.ordinal();
-        currentColors = colorArrayConsent;
-    };
-
-    scale = scale.range(currentColors);
-};
-
-function choropleth(d, colorize){
-    var value = d.properties ? d.properties[expressed] : d[expressed];
-
-    if (value) {
-        return colorize(value, value2);
-    }else if (value === "No data"){
-        return "#ccc";
-    }else{
-        return "#ccc";
-    }
-};
 
 
 //---------------------------------------------//
