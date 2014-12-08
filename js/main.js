@@ -1,82 +1,80 @@
 /******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 600;
-var menuWidth = 200, menuHeight = 350;
+var menuWidth = 200, menuHeight = 420;
+var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuBox;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var removeCPC;
 var removeAbortion;
 
-window.onload = initialize();
-
-//SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period
-    colorArrayOverview = [  "#252525",      //F     //72 hours
-                            "#636363",      //D     //48 hours
-                            "#969696",      //C     //24 hours
-                            "#cccccc",      //B     //18 hours
-                            "#f7f7f7"   ];  //A     //None
+var colorArrayOverview = [  "#252525",      //F     //72 hours
+                        "#636363",      //D     //48 hours
+                        "#969696",      //C     //24 hours
+                        "#cccccc",      //B     //18 hours
+                        "#f7f7f7"   ];  //A     //None
 
-    // Color array for Prohibited At
-    colorArrayProhibited = ["#252525",      //12 weeks
-                            "#636363",      //20 weeks
-                            "#969696",      //22 weeks
-                            "#bdbdbd",      //24 weeks
-                            "#d9d9d9",      //3rd trimester
-                            "#f7f7f7"   ];  //Viability
+// Color array for Prohibited At
+var colorArrayProhibited = ["#252525",      //12 weeks
+                        "#636363",      //20 weeks
+                        "#969696",      //22 weeks
+                        "#bdbdbd",      //24 weeks
+                        "#d9d9d9",      //3rd trimester
+                        "#f7f7f7"   ];  //Viability
 
-    // Color array for Mandated Counseling
-    colorArrayCounseling = ["#252525",      //Yes
-                            "#f7f7f7"   ];  //No
+// Color array for Mandated Counseling
+var colorArrayCounseling = ["#252525",      //Yes
+                        "#f7f7f7"   ];  //No
 
-    // Color array for Parental Consent
-    colorArrayConsent = [   "#252525",      //Consent
-                            "#969696",      //Notice
-                            "#f7f7f7"   ];  //None
+// Color array for Parental Consent
+var colorArrayConsent = [   "#252525",      //Consent
+                        "#969696",      //Notice
+                        "#f7f7f7"   ];  //None
 
-    // Color array for Ultrasound
-    colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
-                            "#636363",      //Must be performed
-                            "#969696",      //Must be offered
-                            "#f7f7f7"   ];  //None
-
-// SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
+// Color array for Ultrasound
+var colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
+                        "#636363",      //Must be performed
+                        "#969696",      //Must be offered
+                        "#f7f7f7"   ];  //None
 
 //Variable array for Overview
-    arrayOverview = [  "F",       
-                        "D",       
-                        "C",          
-                        "B",          
-                        "A"   ];     
+var arrayOverview = [  "F",       
+                    "D",       
+                    "C",          
+                    "B",          
+                    "A"   ];     
 
-    //Variable array for Prohibited At
-    arrayProhibited = [ "12 weeks",     
-                        "20 weeks",      
-                        "22 weeks",      
-                        "24 weeks",      
-                        "3rd trimester",      
-                        "Viability"   ]; 
+//Variable array for Prohibited At
+var arrayProhibited = [ "12 weeks",     
+                    "20 weeks",      
+                    "22 weeks",      
+                    "24 weeks",      
+                    "3rd trimester",      
+                    "Viability"   ]; 
 
-    //Variable array for Mandated Counseling
-    arrayCounseling = [ "Yes",     
-                        "No"   ];  
+//Variable array for Mandated Counseling
+var arrayCounseling = [ "Yes",     
+                    "No"   ];  
 
-    //Variable array for Waiting Period
-    arrayWaitingPeriod = [  "72 hours",     
-                            "48 hours",      
-                            "24 hours",      
-                            "18 hours",     
-                            "None"   ];  
-
-    //Variable array for Parental Consent
-    arrayConsent = [    "Consent",    
-                        "Notice",      
+//Variable array for Waiting Period
+var arrayWaitingPeriod = [  "72 hours",     
+                        "48 hours",      
+                        "24 hours",      
+                        "18 hours",     
                         "None"   ];  
 
-    //Variable array for Ultrasound
-    arrayUltrasound = ["Must be performed, offer to view",      
-                        "Must be performed",      
-                        "Must be offered",      
-                        "None"   ];  
+//Variable array for Parental Consent
+var arrayConsent = [    "Consent",    
+                    "Notice",      
+                    "None"   ];  
+
+//Variable array for Ultrasound
+var arrayUltrasound = ["Must be performed, offer to view",      
+                    "Must be performed",      
+                    "Must be offered",      
+                    "None"   ];  
+
+window.onload = initialize();
 
 //changes active state of navbar
 $(function(){
@@ -93,6 +91,7 @@ $(function(){
 
 function initialize(){
     setMap();
+    createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ");
 }; //END initialize
 
 //creates map
@@ -122,7 +121,7 @@ function setMap(){
     
     //creates menu [overview starts on load]
     drawMenu();
-    
+        
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
         var states = map.append("path") //create SVG path element
@@ -192,7 +191,7 @@ function setMap(){
         //creates min and max of cpcs
         var cpcMin = Math.min.apply(Math, cpcCount);
         var cpcMax = Math.max.apply(Math, cpcCount);
-        
+
         //creates radius for CPC
         var cpcRadius = d3.scale.sqrt()
             .domain([cpcMin, cpcMax])
@@ -212,108 +211,55 @@ function setMap(){
         //creates radius 
         var abortionRadius = d3.scale.sqrt()
             .domain([abortionMin, abortionMax])
-            .range([2, 20]);
+            .range([2, 23]);
     
         //calls overlay function
         overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
     }; //END callback
-}; //END setMAP
-
-/* Katie's section start */
-/*
- $(".abortion-section").click(function(){  
-        var abortionDiv = document.getElementById('abortion-centers');
-        var insetDiv = document.getElementById('abortion-inset');
-        if (d3.selectAll(".abortionLocations")[0].length > 0){
-            removeAbortion = d3.selectAll(".abortionLocations").remove();
-            insetDiv.style.visibility = "hidden";
-        } else {
-            abortionPoints(map, abortionprovider, path, cpcRadius);
-            insetDiv.style.visibility = "visible";
-        }
-    })
-*/
+}; //END setmap
 
 //menu items function
 function drawMenu(){
-        var arrayName = "array"+$(this).attr("class");
-        var colorArrayName = "colorArray"+$(this).attr("class");
-        var text = $(this).attr("class")+": ";
-    
     $(".Overview").click(function(){ 
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff', 'color': '#fff', 'border-style': 'none'});
-        createMenu(arrayOverview, colorArrayOverview, "Overview: ");
-        $(".Overview").css({'background-color': '#fff',
-                'border-style': 'solid',
-                'border-color': '#00c6ff',
-                'border-width': '2px',
-                'color': '#00c6ff'
-            });
+        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ");
+        $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
     });
     
      $(".Prohibited").click(function(){ 
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff', 'color': '#fff', 'border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ");
-            $(".Prohibited").css({'background-color': '#fff',
-                'border-style': 'solid',
-                'border-color': '#00c6ff',
-                'border-width': '2px',
-                'color': '#00c6ff'
-            });
+            $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
      });
     
     $(".Counseling").click(function(){  
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff', 'color': '#fff', 'border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ")
-        $(".Counseling").css({'background-color': '#fff',
-                'border-style': 'solid',
-                'border-color': '#00c6ff',
-                'border-width': '2px',
-                'color': '#00c6ff'
-            });
-    
-    });
+        $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        });
     
     $(".Waiting").click(function(){  
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff', 'color': '#fff', 'border-style': 'none'});
-        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: (in Hours)")
-        $(".Waiting").css({'background-color': '#fff',
-                'border-style': 'solid',
-                'border-color': '#00c6ff',
-                'border-width': '2px',
-                'color': '#00c6ff'
-            });
-        
-    });
+        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ")
+        $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        });
     
     $(".Parental").click(function(){  
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff', 'color': '#fff', 'border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ")
-        $(".Parental").css({'background-color': '#fff',
-                'border-style': 'solid',
-                'border-color': '#00c6ff',
-                'border-width': '2px',
-                'color': '#00c6ff'
-            });
-    
-    });
+        $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+});
     
     $(".Ultrasound").click(function(){
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff', 'color': '#fff', 'border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ")
-        $(".Ultrasound").css({'background-color': '#fff',
-                'border-style': 'solid',
-                'border-color': '#00c6ff',
-                'border-width': '2px',
-                'color': '#00c6ff'
-            });
-    
-    });
+        $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+});
 }; //END drawMenu
 
 //creates the menu items 
 function createMenu(arrayX, arrayY, title){
-    var yArray = [70, 115, 160, 205, 250, 295];
+    var yArray = [50, 105, 160, 215, 270, 325];
     var oldItems = d3.selectAll(".menuBox").remove();
     
     //creates menuBoxes
@@ -325,11 +271,11 @@ function createMenu(arrayX, arrayY, title){
     
     //creates Menu Title
     var menuTitle = menuBox.append("text")
-        .attr("x", 20)
+        .attr("x", 15)
         .attr("y", 30)
         .attr("class","title")
-        .text(title);
-
+        .text(title)
+        .style("font-size", '16px');
     
     //draws and shades boxes for menu
     for (b = 0; b < arrayX.length; b++){  
@@ -338,9 +284,9 @@ function createMenu(arrayX, arrayY, title){
             .enter()
             .append("rect")
             .attr("class", "items")
-            .attr("width", 40)
-            .attr("height", 40)
-            .attr("x", 30);
+            .attr("width", 50)
+            .attr("height", 50)
+            .attr("x", 20);
         
         menuItems.data(yArray)
             .attr("y", function(d, i){
@@ -348,34 +294,101 @@ function createMenu(arrayX, arrayY, title){
             });
     };
     
+    var menuLabels = menuBox.selectAll(".menuLabels")
+            .data(arrayX)
+            .enter()
+            .append("text")
+            .attr("class", "menuLabels")
+            .attr("x", 80)
+            .text(function(d, i){
+                for (var c = 0; c < arrayX.length; c++){
+                    return arrayX[i]
+                }
+            })
+            .style({'font-size': '16px', 'font-family': 'Open Sans, sans-serif'});
+    
+        menuLabels.data(yArray)
+            .attr("y", function(d, i){
+                return d + 30;
+            });
+    
       /*  colorize function here
         menuItems.attr("fill", function(d, i){
         return colorize(legendArray[i]);
         })
-        
-    TODO: add legend titles 
-    TODO: add legend labels
-    
-    var legendLabels = legendBox.selectAll(".legendLabels")
-        .data(xArray)
-        .enter()
-        .append("text")
-        .attr("class", "legendLabels")
-        .attr("y", 80)
-        .attr("x", function(d, i){
-            for (var k = 0; k <= 4; k++){
-                xCoords = coordinateArray[i+1];   
-                return xCoords;
-            }
-        })
-        .text(function(d, i){
-            for (var j = 0; j <= 4; j++){
-                legendNums = quantile[i];   
-                return legendNums;
-            }
-        }); 
-        */
+    */
 }; //end createMenu
+
+//creates proportional symbol overlay
+function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
+    $(".cpc-section").click(function(){
+        var cpcDiv = document.getElementById('cpc-centers');
+        var cpcInsetDiv = document.getElementById('cpc-inset');
+        if (d3.selectAll(".cpcLocations")[0].length > 0){
+            removeCPC = d3.selectAll(".cpcLocations").remove();
+            cpcDiv.style.backgroundColor = "#c8e713";
+            cpcDiv.style.color = "#fff";
+            cpcDiv.style.border = "none";
+            cpcInsetDiv.style.visibility = "hidden";
+        } else {
+            cpcPoints(map, cpc, path, cpcRadius);
+            createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius);
+            cpcDiv.style.backgroundColor = "#fff";
+            cpcDiv.style.borderStyle = "solid";
+            cpcDiv.style.borderColor = "#c8e713";
+            cpcDiv.style.borderWidth = "2px";
+            cpcDiv.style.color = "#c8e713";
+            cpcInsetDiv.style.visibility = "visible";
+        }
+    });
+    
+    $(".abortion-section").click(function(){  
+        var abortionDiv = document.getElementById('abortion-centers');
+        var insetDiv = document.getElementById('abortion-inset');
+        if (d3.selectAll(".abortionLocations")[0].length > 0){
+            removeAbortion = d3.selectAll(".abortionLocations").remove();
+            abortionDiv.style.backgroundColor = "#9608cb";
+            abortionDiv.style.color = "#fff";
+            abortionDiv.style.border = "none";
+            insetDiv.style.visibility = "hidden";
+        } else {
+            abortionPoints(map, abortionprovider, path, abortionRadius);
+            createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius);
+            abortionDiv.style.backgroundColor = "#fff";
+            abortionDiv.style.borderStyle = "solid";
+            abortionDiv.style.borderColor = "#9608cb";
+            abortionDiv.style.borderWidth = "2px";
+            abortionDiv.style.color = "#9608cb";
+            insetDiv.style.visibility = "visible";
+        }
+    }); 
+}; //END overlay function
+
+//creates proportional symbol legend
+function createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius) {
+  //creates menuBoxes
+    cpcMenuBox = d3.select(".cpc-inset")
+            .append("path")
+            .attr("width", otherMenuWidth)
+            .attr("height", otherMenuHeight)
+            .attr("class", "menuBox");
+    
+    //draws and shades circles for menu
+    cpcMenuBox.selectAll(".cpcMin")
+        .append("circle")
+        .attr("class", "cpcMin")
+        .attr("r", function(d){
+            //need to make circles
+        })
+        .style({'fill': '#c8e713','fill-opacity': '0.5', 'stroke': '#9fb80f', 'stroke-width': '0.75px'});  
+    
+    abortionMenuBox = d3.select("#abortion-inset")
+            .append("svg")
+            .attr("width", otherMenuWidth)
+            .attr("height", otherMenuHeight)
+            .attr("class", "menuBox");
+    //labels circles
+}; //END create inset
 
 //creates cpc point data
 function cpcPoints(map, cpc, path, cpcRadius){
@@ -400,55 +413,6 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
                 return abortionRadius(d.properties.Count);
             }));
 }; //end abortionPoints
-
-//creates proportional symbol overlay
-function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
-    $(".cpc-section").click(function(){
-        var cpcDiv = document.getElementById('cpc-centers');
-        var cpcInsetDiv = document.getElementById('cpc-inset');
-        if (d3.selectAll(".cpcLocations")[0].length > 0){
-            removeCPC = d3.selectAll(".cpcLocations").remove();
-            cpcDiv.style.backgroundColor = "#c8e713";
-            cpcDiv.style.color = "#fff";
-            cpcDiv.style.border = "none";
-            cpcInsetDiv.style.visibility = "hidden";
-        } else {
-            cpcPoints(map, cpc, path, cpcRadius);
-            cpcDiv.style.backgroundColor = "#fff";
-            cpcDiv.style.borderStyle = "solid";
-            cpcDiv.style.borderColor = "#c8e713";
-            cpcDiv.style.borderWidth = "2px";
-            cpcDiv.style.color = "#c8e713";
-            cpcInsetDiv.style.visibility = "visible";
-        }
-    });
-    
-    $(".abortion-section").click(function(){  
-        var abortionDiv = document.getElementById('abortion-centers');
-        var insetDiv = document.getElementById('abortion-inset');
-        if (d3.selectAll(".abortionLocations")[0].length > 0){
-            removeAbortion = d3.selectAll(".abortionLocations").remove();
-            abortionDiv.style.backgroundColor = "#9608cb";
-            abortionDiv.style.color = "#fff";
-            abortionDiv.style.border = "none";
-            insetDiv.style.visibility = "hidden";
-        } else {
-            abortionPoints(map, abortionprovider, path, abortionRadius);
-            abortionDiv.style.backgroundColor = "#fff";
-            abortionDiv.style.borderStyle = "solid";
-            abortionDiv.style.borderColor = "#9608cb";
-            abortionDiv.style.borderWidth = "2px";
-            abortionDiv.style.color = "#9608cb";
-            insetDiv.style.visibility = "visible";
-        }
-    }); 
-}; //END overlay function
-/* Katie's section end */
-
-//change policy attribute based on click on left-hand menu (who did this??)
-function changeAttribute(attribute, data) {
-
-};
 
 //color generator for country choropleth
 function colorScale(csvData){

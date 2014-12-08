@@ -171,6 +171,10 @@ ul.nav a:hover {
     visibility: hidden;
 }
 
+.title {
+    font-family: 'Roboto Slab', sans-serif;
+}
+
 /*  Map Info CSS (includes section info, play, pause, dropdown) */
 /*  ------ */
 .menu-info {
