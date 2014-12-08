@@ -318,11 +318,21 @@ function choropleth(d, colorize){
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
+    var margin = {top: 10, right: 40, bottom: 30, left:40};
+    
+    var x = d3.scale.linear()
+        .domain(timelineArray)
+        .rangeRound([0, chartWidth - margin.left - margin.right]);
+    
+    var axis = d3.svg.axis()
+
     var chart = d3.select(".graph")
         .append("svg")
         .attr("width", chartWidth+"%")
         .attr("height", chartHeight+"px")
-        .attr("class", "chart");
+        .attr("class", "chart")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
 
     var rect = chart.selectAll(".rect")
         .data(joinedJson) //use data from the JSON after it has been joined with the various CSVs
@@ -336,14 +346,10 @@ function setChart() {
 
     console.log(rect);
 
-    var axis = chart.append("svg")
-        .attr("class", "axis")
-        .attr("width", 90+"%")
-        .attr("height", 10+"px");
-
-    var x = d3.time.scale()
-        .domain(timelineArray)
-        .rangeRound(timelineArray);
+    // var axis = chart.append("svg")
+    //     .attr("class", "axis")
+    //     .attr("width", 90+"%")
+    //     .attr("height", 10+"px");
 
     var timeline = axis.axis()
         .scale(x)
