@@ -196,16 +196,17 @@
 /* Graph CSS  */
 /* ---------  */
 
+/* .graph is the container for the chart */
 .graph {
-}
-
-/* .chart is the SVG of the chart itself */
-.chart {
     background-color: #00C6FF;
+    width:100%;
+    height:300px;
 }
 
-.axis {
+/* .chart is the chart itself */
+.chart {
     background-color: #fff;
+    margin: 1%;
 }
 
 /* Analysis CSS  */
