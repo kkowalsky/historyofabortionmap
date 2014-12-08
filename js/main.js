@@ -297,7 +297,21 @@ function changeAttribute(attribute, data) {
 //         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
+<<<<<<< HEAD
 function colorScale(csvData){
+=======
+function colorScale(input){
+    if (expressed === "gradeData"){
+        console.log(input)
+        scale =d3.scale.ordinal(arrayGrades);
+        currentColors = colorArrayGrade;
+    }else if (expressed === "consentData"){
+        scale =d3.scale.ordinal();
+        currentColors = colorArrayConsent;
+    };
+    scale = scale.range(currentColors)
+
+>>>>>>> parent of 59d48ec... synch
 };
 
 function choropleth(d, colorize){
