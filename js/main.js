@@ -1,21 +1,17 @@
 /******* GLOBAL VARIABLES *******/
-var mapWidth = 850, mapHeight = 600;
+var mapWidth = 850, mapHeight = 500;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "ConsentData"]
-var expressed = Category[0]
-var yearExpressed = yearsArray[0]
+var expressed = Category[1]
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
-var colorize;
-var scale;
-var currentColors = [];
 
 window.onload = initialize();
 
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period
-    colorArrayGrade = [  "#252525",      //F     //72 hours
+    colorArrayOverview = [  "#252525",      //F     //72 hours
                             "#636363",      //D     //48 hours
                             "#969696",      //C     //24 hours
                             "#cccccc",      //B     //18 hours
@@ -46,7 +42,7 @@ window.onload = initialize();
 
 // SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
 //Variable array for Overview
-    arrayGrades = [     "F",       
+    arrayOverview = [  "F",       
                         "D",       
                         "C",          
                         "B",          
@@ -81,6 +77,15 @@ window.onload = initialize();
                         "Must be performed",      
                         "Must be offered",      
                         "None"   ];  
+
+//SET UP VARIABLES FOR TIMELINE
+
+//timelineArray holds years to be displayed in the timeline
+var timelineArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+var chartHeight = 200;
+var chartWidth = 100;
+var squareWidth = 20;
+var squareHeight = 20;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
 //--------------------------------------------------/
@@ -130,6 +135,8 @@ function setMap(){
     
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
+
+        colorize = colorScale(grade);
         
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
@@ -167,8 +174,7 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-  //                console.log(jsonStates[a].properties)
-
+                 // console.log(jsonStates[a].properties)
                     break;
                     };
                 };
@@ -187,10 +193,7 @@ function setMap(){
                 return "states " + d.properties.postal;
             })
             .attr("d", function(d) {
-                return path(d)
-            })
-            .style("fill", function(d){
-                return choropleth(d, colorScale);
+                return path(d);
             });
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
@@ -291,28 +294,19 @@ function changeAttribute(attribute, data) {
 //---------------------------------------------//
 /* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
 //---------------------------------------------//
+//         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
-function colorScale(input){
-    if (expressed === "gradeData"){
-        console.log(input)
-        scale =d3.scale.ordinal(arrayGrades);
-        currentColors = colorArrayGrade;
-    }else if (expressed === "consentData"){
-        scale =d3.scale.ordinal();
-        currentColors = colorArrayConsent;
-    };
-    scale = scale.range(currentColors)
+function colorScale(csvData){
 };
 
-function choropleth(d, input){
+function choropleth(d, colorize){
     var value = d.properties ? d.properties[expressed] : d[expressed];
-    if (value === "no data") {
-        return "#ccc";
-    }else if (value != "no data"){
-        return colorScale(value[yearExpressed]);
+
+    if (value) {
+//        return colorize(value);
     }else{
-        return "#ccc";
+        return "#ccc"
     }
 };
 
@@ -322,85 +316,54 @@ function choropleth(d, input){
 //---------------------------------------------//
 // Robin's section
 
+// setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
-    var margin = {top: 10, right: 40, bottom: 30, left:40};
-    
-    var x = d3.scale.linear()
-        .domain(timelineArray)
-        .rangeRound([0, chartWidth - margin.left - margin.right]);
-    
-    var axis = d3.svg.axis()
-
     var chart = d3.select(".graph")
         .append("svg")
         .attr("width", chartWidth+"%")
         .attr("height", chartHeight+"px")
-        .attr("class", "chart")
-        .append("g")
-        .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
+        .attr("class", "chart");
 
     var rect = chart.selectAll(".rect")
-        .data(joinedJson)
+        .data(joinedJson) //use data from the JSON after it has been joined with the various CSVs
         .enter()
-        .append("rect")
+        .append("rect") //create a rectangle for each state
         .attr("class", function(d) {
             return "rect " + d.properties.postal;
         })
-        .attr("width", 10+"px")
+        .attr("width", squareWidth+"px")
+        .attr("height", squareHeight+"px");
+
+    console.log(rect);
+
+    var axis = chart.append("svg")
+        .attr("class", "axis")
+        .attr("width", 90+"%")
         .attr("height", 10+"px");
 
-        /*
-        .tranform("translate", function(d){
-            for (data in consentyears){
-    
-                //if year val is diff than previous, return scale(year) as translate x value
-            }
-        })
+    var x = d3.time.scale()
+        .domain(timelineArray)
+        .rangeRound(timelineArray);
 
-        */
-
-    // console.log(rect);
-    console.log(joinedJson);
-
-    // var axis = chart.append("svg")
-    //     .attr("class", "axis")
-    //     .attr("width", 90+"%")
-    //     .attr("height", 10+"px");
-
-
-
-    // var timeline = axis.axis()
-    //     .scale(x)
-    //     .orient('bottom')
-    //     .tickValues(timelineArray)
-    //     .attr("class", "timeline");
+    var timeline = axis.axis()
+        .scale(x)
+        .orient('bottom')
+        .tickValues(timelineArray)
+        .attr("class", "timeline");
         // .tickFormat(d3.time.format('%y'))
         // .tickSize(0)
     // updateChart(joinedJson);
 };
 
-// updateChart function is called every time the variable is changed
+// updateChart function is called when the variable is changed
 function updateChart(currentVariable) {
     var xValue = 0; //holds the x position of each square in the timeline
     var yValue = 0; //holds the y position of each square in the timeline
-    var currentYear; //year the for-loop is currently looking at
+    var curentYear; //year the for-loop is currently looking at
     var previousYear; //previous year, used for comparison to see if there was a change from the previous year to the current year, and thus whether a square should be drawn in currentYear
 
-
     // for (i in currentVariable)
-
-};
-
-    // var rectWidth = 
-
-    // var rect = chart.selectAll(".rect")
-    //     .data(joinedJson)
-    //     .enter()
-    //     .append("rect")
-    //     .attr("class", function(d) {
-    //         return "rect " + d.properties.postal;
-    //     })
-    //     .attr("width", )
+}
 
 /* ------------END CHART FUNCTIONS------------ */
 
