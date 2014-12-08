@@ -22,14 +22,10 @@ ul.nav a:hover {
 }
 /*  Menu CSS */
 /*  ------ */
-.map-menu {
+.main-menu { 
     position: absolute;
     margin-left: 0% !important;
     color: #fff;
-}
-
-.main-menu { 
-
 }
 
 .menu-options {
@@ -45,12 +41,12 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
-.overview {
+.Overview {
     text-align: center;
     padding: 13%;
 }
 
-.overview:hover {
+.Overview:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
@@ -58,12 +54,12 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
-.prohibited {
+.Prohibited {
     text-align: center;
     padding: 13%;
 }
 
-.prohibited:hover {
+.Prohibited:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
@@ -71,12 +67,12 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
-.counseling {
+.Counseling {
     text-align: center;
     padding: 8%;
 }
 
-.counseling:hover {
+.Counseling:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
@@ -84,12 +80,12 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
-.waiting {
+.Waiting {
     text-align: center;
     padding: 8%;
 }
 
-.waiting:hover {
+.Waiting:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
@@ -97,12 +93,12 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
-.parental {
+.Parental {
     text-align: center;
     padding: 8%;
 }
 
-.parental:hover {
+.Parental:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
@@ -110,12 +106,12 @@ ul.nav a:hover {
     border-width: 2px;
 }
 
-.ultrasound {
+.Ultrasound {
     text-align: center;
     padding: 8%;
 }
 
-.ultrasound:hover {
+.Ultrasound:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
