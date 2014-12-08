@@ -6,12 +6,15 @@ var expressed = Category[0]
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
+var colorize;
+var scale;
+var currentColors = [];
 
 window.onload = initialize();
 
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period
-    colorArrayOverview = [  "#252525",      //F     //72 hours
+    colorArrayGrade = [  "#252525",      //F     //72 hours
                             "#636363",      //D     //48 hours
                             "#969696",      //C     //24 hours
                             "#cccccc",      //B     //18 hours
@@ -127,7 +130,7 @@ function setMap(){
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
 
-        colorize = colorScale(grade);
+        colorize = colorScale(consent, grade);
         
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
@@ -185,7 +188,10 @@ function setMap(){
                 return "states " + d.properties.postal;
             })
             .attr("d", function(d) {
-                return path(d);
+                return path(d)
+            })
+            .style("fill", function(d){
+                return choropleth(d, colorize);
             });
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
@@ -289,16 +295,27 @@ function changeAttribute(attribute, data) {
 //         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
-function colorScale(csvData){
+function colorScale(consent,grade){
+    if (expressed === "gradeData"){
+        scale =d3.scale.ordinal();
+        currentColors = colorArrayGrade;
+    }else if (expressed === "consentData"){
+        scale =d3.scale.ordinal();
+        currentColors = colorArrayConsent;
+    };
+
+    scale = scale.range(currentColors);
 };
 
 function choropleth(d, colorize){
     var value = d.properties ? d.properties[expressed] : d[expressed];
 
     if (value) {
-//        return colorize(value);
+        return colorize(value, value2);
+    }else if (value === "No data"){
+        return "#ccc";
     }else{
-        return "#ccc"
+        return "#ccc";
     }
 };
 
