@@ -2,11 +2,7 @@
 var mapWidth = 850, mapHeight = 500;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "ConsentData"]
-<<<<<<< HEAD
-var expressed = Category[1]
-=======
 var expressed = Category[0]
->>>>>>> parent of 5655f61... More Testing
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -139,13 +135,8 @@ function setMap(){
     
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
-
-<<<<<<< HEAD
         colorize = colorScale(grade);
-=======
-        colorize = colorScale(consent, grade);
->>>>>>> parent of 5655f61... More Testing
-        
+
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
 
@@ -201,14 +192,10 @@ function setMap(){
                 return "states " + d.properties.postal;
             })
             .attr("d", function(d) {
-<<<<<<< HEAD
-                return path(d);
-=======
                 return path(d)
             })
             .style("fill", function(d){
                 return choropleth(d, colorize);
->>>>>>> parent of 5655f61... More Testing
             });
 
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
@@ -312,44 +299,6 @@ function changeAttribute(attribute, data) {
 //         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
-<<<<<<< HEAD
-<<<<<<< HEAD
-function colorScale(csvData){
-=======
-function colorScale(input){
-=======
-function colorScale(consent,grade){
->>>>>>> parent of 5655f61... More Testing
-    if (expressed === "gradeData"){
-        scale =d3.scale.ordinal();
-        currentColors = colorArrayGrade;
-    }else if (expressed === "consentData"){
-        scale =d3.scale.ordinal();
-        currentColors = colorArrayConsent;
-    };
-
-<<<<<<< HEAD
->>>>>>> parent of 59d48ec... synch
-=======
-    scale = scale.range(currentColors);
->>>>>>> parent of 5655f61... More Testing
-};
-
-function choropleth(d, colorize){
-    var value = d.properties ? d.properties[expressed] : d[expressed];
-
-    if (value) {
-<<<<<<< HEAD
-//        return colorize(value);
-=======
-        return colorize(value, value2);
-    }else if (value === "No data"){
-        return "#ccc";
->>>>>>> parent of 5655f61... More Testing
-    }else{
-        return "#ccc"
-    }
-};
 
 
 //---------------------------------------------//
