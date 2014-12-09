@@ -1,3 +1,6 @@
+ul.nav a:hover {
+    color: #9608cb !important;
+}
 
 .jumbotron {
     padding: 20px;
@@ -19,14 +22,10 @@
 }
 /*  Menu CSS */
 /*  ------ */
-.map-menu {
+.main-menu { 
     position: absolute;
     margin-left: 0% !important;
     color: #fff;
-}
-
-.main-menu { 
-
 }
 
 .menu-options {
@@ -39,79 +38,92 @@
     background-color: #fff;
     border-style: solid;
     border-color: #00c6ff;
-    border-width: 2px;
+    border-width: 3px;
 }
 
-.overview {
+.Overview {
     text-align: center;
     padding: 13%;
 }
 
-.overview:hover {
+.Overview:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
     border-color: #00c6ff;
-    border-width: 2px;
+    border-width: 3px;
 }
 
-.prohibited {
+.Prohibited {
     text-align: center;
     padding: 13%;
 }
 
-.prohibited:hover {
+.Prohibited:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
     border-color: #00c6ff;
-    border-width: 2px;
+    border-width: 3px;
 }
 
-.counseling {
+.Counseling {
     text-align: center;
     padding: 8%;
 }
 
-.counseling:hover {
+.Counseling:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
     border-color: #00c6ff;
-    border-width: 2px;
+    border-width: 3px;
 }
 
-.parental {
+.Waiting {
     text-align: center;
     padding: 8%;
 }
 
-.parental:hover {
+.Waiting:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
     border-color: #00c6ff;
-    border-width: 2px;
+    border-width: 3px;
 }
 
-.ultrasound {
+.Parental {
     text-align: center;
     padding: 8%;
 }
 
-.ultrasound:hover {
+.Parental:hover {
     color: #00c6ff;
     background-color: #fff;
     border-style: solid;
     border-color: #00c6ff;
-    border-width: 2px;
+    border-width: 3px;
+}
+
+.Ultrasound {
+    text-align: center;
+    padding: 8%;
+}
+
+.Ultrasound:hover {
+    color: #00c6ff;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #00c6ff;
+    border-width: 3px;
 }
 
 .overlay-menu {
-    margin-top: 350px;
+    margin-top: 420px;
 }
 
-.cpc{
+.cpc {
     float: left;
     background-color: #c8e713;
     text-align: center;
@@ -123,38 +135,44 @@
     background-color: #fff;
     border-style: solid;
     border-color: #c8e713;
-    border-width: 2px;
+    border-width: 3px;
 }
 
-.cpc-inset {
+#cpc-inset {
     float: right;
     background-color: #fff;
     border-style: solid;
     border-color: #c8e713;
-    border-width: 2px;
+    border-width: 3px;
+    visibility: hidden;
 }
 
 .abortion {
     float: left;
-    background-color: #e80882;
+    background-color:  #9608cb;
     text-align: center;
     padding: 5%;
 }
 
 .abortion:hover {
-    color: #e80882;
+    color:  #9608cb;
     background-color: #fff;
     border-style: solid;
-    border-color: #e80882;
-    border-width: 2px;
+    border-color:  #9608cb;
+    border-width: 3px;
 }
 
-.abortion-inset {
+#abortion-inset {
     float: right;
     background-color: #fff;
     border-style: solid;
-    border-color: #e80882;
-    border-width: 2px;
+    border-color: #9608cb;
+    border-width: 3px;
+    visibility: hidden;
+}
+
+.title {
+    font-family: 'Roboto Slab', sans-serif;
 }
 
 /*  Map Info CSS (includes section info, play, pause, dropdown) */
@@ -163,18 +181,31 @@
 
 }
 
+.menuInfoBox {
+    margin-top: 3%;
+    margin-left: 29%;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
+}
+
+
+.sequence-buttons {
+    padding-right: 15%;
+    display: inline-flex;
+    float: right;
+}
+
+.dropdown {
+    margin-top: 6%;
+}
 
 /*  Map CSS */
 /*  ------ */
 
 .map {
     background-color: #fff;
-    margin-left:26%;
+    margin-left: 26%;
     padding-left: 3%;
-}
-
-.us-map {
-    padding-left: 6%;
 }
 
 .states {
@@ -184,6 +215,7 @@
 }
 
 .cpcLocations {
+<<<<<<< HEAD
     fill: #c8e713;
     fill-opacity:0.5;
 }
@@ -191,6 +223,19 @@
 .abortionLocations {
     fill: #E80882;
     fill-opacity:0.5;
+=======
+	fill: #c8e713;
+	fill-opacity:0.5;
+    stroke: #9fb80f;
+    stroke-width: 0.75px;
+}
+
+.abortionLocations {
+    fill: #9608cb;
+	fill-opacity:0.5;
+    stroke: #72069a;
+    stroke-width: 0.75px;
+>>>>>>> FETCH_HEAD
 }
 
 /* Graph CSS  */
@@ -223,6 +268,10 @@
     padding-right: 20px;
 }
 
+.dwarf-butts {
+    padding-bottom: 1%;
+}
+
 /* HTML General CSS  */
 /* ----------------  */
 
@@ -249,8 +298,17 @@ h2 {
     font-family: 'Roboto Slab', serif;
 }
 
+h3 {
+    font-family: 'Roboto Slab', serif;
+}
+
 body { 
     padding-top: 50px; 
+}
+
+.dwarf-butts p {
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 a:link {
