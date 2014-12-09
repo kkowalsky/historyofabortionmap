@@ -171,7 +171,7 @@ function setMap(){
 
              var jsonStates = usa.objects.states.geometries;
 
-            //loop through the csv and tie it to the json's via the State Abreviation
+            //loop through the csv and tie it to the json's via the State Abbreviation
              for(var i=0; i<csvData.length; i++){
                 var csvState = csvData[i];
                 var csvLink = csvState.adm;
@@ -259,7 +259,11 @@ function setMap(){
 //menu items function
 function drawMenu(){
     $(".Overview").click(function(){ 
+        expressed = Category[0];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            });
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
     });
@@ -283,7 +287,11 @@ function drawMenu(){
         });
     
     $(".Parental").click(function(){  
+        expressed = Category[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            });
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 });
@@ -348,6 +356,11 @@ function createMenu(arrayX, arrayY, title, infotext){
             .attr("y", function(d, i){
                 return d;
             });
+        
+        menuItems.data(arrayY)
+            .attr("fill", function(d, i){ 
+                return arrayY[i];
+            });
     };
     
     var menuLabels = menuBox.selectAll(".menuLabels")
@@ -368,11 +381,6 @@ function createMenu(arrayX, arrayY, title, infotext){
                 return d + 30;
             });
     
-      /*  colorize function here
-        menuItems.attr("fill", function(d, i){
-        return colorize(legendArray[i]);
-        })
-    */
      //creates menuBoxes
     menuInfoBox = d3.select(".menu-info")
         .append("div")
