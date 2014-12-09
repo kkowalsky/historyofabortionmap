@@ -269,20 +269,32 @@ function drawMenu(){
     });
     
      $(".Prohibited").click(function(){ 
+        expressed = Category[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
      });
     
     $(".Counseling").click(function(){  
+        expressed = Category[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2])
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            });
+        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2]);
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         });
     
-    $(".Waiting").click(function(){  
+    $(".Waiting").click(function(){ 
+        expressed = Category[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3])
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            });
+        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3]);
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         });
     
@@ -297,8 +309,12 @@ function drawMenu(){
 });
     
     $(".Ultrasound").click(function(){
+        expressed = Category[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ", textArray[5])
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            });
+        createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ", textArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 });
 }; //END drawMenu
