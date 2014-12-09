@@ -314,10 +314,15 @@ function drawMenu(){
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             });
-        createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ", textArray[5]);
+        createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 });
 }; //END drawMenu
+
+//TODO: animate map with play/pause buttons
+
+//TODO: have map year change with dropdown
+
 
 function drawMenuInfo(){
     var dropdown = d3.select(".sequence-buttons")
@@ -351,7 +356,7 @@ function createMenu(arrayX, arrayY, title, infotext){
     
     //creates Menu Title
     var menuTitle = menuBox.append("text")
-        .attr("x", 15)
+        .attr("x", 12)
         .attr("y", 30)
         .attr("class","title")
         .text(title)
@@ -475,6 +480,7 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
             }));
 }; //end abortionPoints
 
+//TODO: finish overlay menus
 //creates proportional symbol legend
 function createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius) {
   //creates menuBoxes
