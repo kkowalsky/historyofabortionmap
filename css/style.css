@@ -184,20 +184,28 @@
 }
 
 .cpcLocations {
-	fill: #c8e713;
-	fill-opacity:0.5;
+    fill: #c8e713;
+    fill-opacity:0.5;
 }
 
 .abortionLocations {
     fill: #E80882;
-	fill-opacity:0.5;
+    fill-opacity:0.5;
 }
 
 /* Graph CSS  */
 /* ---------  */
 
-.graphs {
+.graph {
+}
+
+/* .chart is the SVG of the chart itself */
+.chart {
     background-color: #00C6FF;
+}
+
+.axis {
+    background-color: #fff;
 }
 
 /* Analysis CSS  */

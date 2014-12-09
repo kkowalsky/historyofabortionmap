@@ -1,14 +1,21 @@
 /******* GLOBAL VARIABLES *******/
-var mapWidth = 850, mapHeight = 600;
+var mapWidth = 850, mapHeight = 500;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+var Category = ["gradeData", "consentData"]
+var expressed = Category[0]
+var yearExpressed = yearsArray[0]
+var colorize;
+var scale;
+var currentColors = [];
 var removeCPC;
 var removeAbortion;
+var joinedJson; //Variable to store the USA json combined with all attribute data
 
 window.onload = initialize();
 
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period
-    colorArrayOverview = [  "#252525",      //F     //72 hours
+    colorArrayGrade = [  "#252525",      //F     //72 hours
                             "#636363",      //D     //48 hours
                             "#969696",      //C     //24 hours
                             "#cccccc",      //B     //18 hours
@@ -38,9 +45,8 @@ window.onload = initialize();
                             "#f7f7f7"   ];  //None
 
 // SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
-
 //Variable array for Overview
-    arrayOverview = [  "F",       
+    arrayGrade = [  "F",       
                         "D",       
                         "C",          
                         "B",          
@@ -75,6 +81,21 @@ window.onload = initialize();
                         "Must be performed",      
                         "Must be offered",      
                         "None"   ];  
+
+//SET UP VARIABLES FOR COLORSCALE & CHOROPLETH FUNCTIONS
+var currentColors = [];
+var currentArray = [];
+
+//SET UP VARIABLES FOR TIMELINE
+//timelineArray holds years to be displayed in the timeline
+var timelineArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+var chartHeight = 200;
+var chartWidth = 100;
+var squareWidth = 20;
+var squareHeight = 20;
+
+/*---*******---END OF GLOBAL VARIABLES---*******---*/
+//--------------------------------------------------/
 
 //changes active state
 $(function(){
@@ -121,16 +142,16 @@ function setMap(){
     
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
-        var states = map.append("path") //create SVG path element
-            .datum(topojson.feature(usa, usa.objects.states))
-            .attr("class", "states") //class name for styling
-            .attr("d", path); //project data as geometry in svg
-        
-        
+
+        //Variable to store the USA json with all attribute data
+        joinedJson = topojson.feature(usa, usa.objects.states).features;
+        colorize = colorScale(joinedJson);
+        console.log(colorize);
+
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
         //Names for the overall Label we'd like to assign them
-        var attributeNames = ["ConsentData", "gradeData"];
+        var attributeNames = ["consentData", "gradeData"];
         //For each CSV in the array, run the LinkData function
         for (csv in csvArray){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
@@ -160,27 +181,32 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-                    console.log(jsonStates[a].properties)
-
+                 // console.log(jsonStates[a].properties)
                     break;
                     };
                 };
              }; 
         }; //END linkData
 
-        var choropleth = map.selectAll(".states")
-            .data(topojson.feature(usa, usa.objects.states).features)
+    // console.log statement to show the contents of the joined json object
+    // console.log(topojson.feature(usa, usa.objects.states).features);
+
+        //Prep the states to be able to be styled according to the data
+        var states = map.selectAll(".states")
+            .data(joinedJson)
             .enter()
-            .append("g")
-            .attr("class", "choropleth")
             .append("path")
-            .attr("class", function(d){ return d.properties.postal})
-            .attr("d", path);
-/*            .append("desc")
-                .text(function(d){
-                    return choropleth(d, colorize);
-                })
-*/
+            .attr("class", function(d){ 
+                return "states " + d.properties.postal;
+            })
+            .style("fill", function(d){
+                // return choropleth(d, colorize);
+                return choropleth(d, colorize);
+            })
+            .attr("d", function(d) {
+                return path(d);
+            });
+
 // -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
         //data stuff for overlay
         var cpcCount = [];
@@ -207,6 +233,9 @@ function setMap(){
         var abortionMax = Math.max.apply(Math, abortionCount);
     
         overlay(path, cpcRadius, map, cpc, abortionprovider);
+
+        colorScale(joinedJson);
+        setChart(); //draw the chart
     }; //END callback
 }; //END setMAP
 
@@ -274,26 +303,128 @@ function changeAttribute(attribute, data) {
 
 };
 
-//color generator for country choropleth
-function colorScale(csvData){
-    var color = d3.scale.ordinal() //use ordinal scale since the variables are all specific value
-        .range([
-            "#f7f7f7",
-            "#cccccc",
-            "#969696",
-            "#636363",
-            "#252525"
-            ]);
-//!! Below area temporarly commented out until we write the [expressed] value !!//
+//---------------------------------------------//
+/* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
+//---------------------------------------------//
+//         colorize = colorScale(consent, grade);
+//SET UP COLOR ARRAYS FOR MAP + CHART
+// Color array for Overview & Waiting Period   
+function colorScale(value){
 
-//  var domainArray = [];
-//  for (var i in csvData){
-//    if(csvData[i][expressed] != 0){
-//    domainArray.push(Number(csvData[i][expressed]));
-//    };
-//  };
-//  color.domain(domainArray);
-//  return color; 
-}; //END colorScale
+    // this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
+    if (expressed === "gradeData") {    
+        currentColors = colorArrayGrade;
+        currentArray = arrayGrade;
+    } else if (expressed == "consentData") {
+        currentColors = colorArrayConsent;
+        currentArray = arrayConsent;
+    };
+
+    scale = d3.scale.ordinal()
+                .range(currentColors)
+                .domain(currentArray); //sets the range of colors and domain of values based on the currently selected variable
+    // console.log(currentColors);
+    // console.log(currentArray);
+    return scale(value[yearExpressed]);
+};
+
+// function choropleth(d, colorize){
+//     var value = d.properties ? d.properties[expressed] : d[expressed];
+
+//     console.log(value);
+//     console.log(value[yearExpressed]);
+//     console.log(expressed);
+//     console.log(colorize(value));
+
+//     return colorize(value);
+// //     } else if (value != "no data"){
+// // //          return "#a23ef1"
+// //           return colorScale(value);
+// //     }else{
+// //         return "#ccc"
+// //     };
+// };
+
+function choropleth(d, colorize){
+    var value = d.properties ? d.properties[expressed] : d[expressed];
+//    console.log(value)
+//     if (value[yearExpressed] === "n/a") {
+//         return "#ccc"
+//     } else if (value != "no data") {
+// //          return "#a23ef1"
+    // } else {
+    //     return "#ccc"
+    // };
+    return colorScale(value);
+};
+
+
+//---------------------------------------------//
+/*              START CHART FUNCTIONS          */
+//---------------------------------------------//
+// Robin's section
+
+// setChart function sets up the timeline chart and calls the updateChart function
+function setChart() {
+    var margin = {top: 10, right: 40, bottom: 30, left:40};
+
+    var x = d3.scale.linear()
+        .domain(timelineArray)
+        .rangeRound([0, chartWidth - margin.left - margin.right]);
+    
+    var axis = d3.svg.axis()
+
+    var chart = d3.select(".graph")
+        .append("svg")
+        .attr("width", chartWidth+"%")
+        .attr("height", chartHeight+"px")
+        .attr("class", "chart")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
+
+    var rect = chart.selectAll(".rect")
+        .data(joinedJson) //use data from the JSON after it has been joined with the various CSVs
+        .enter()
+        .append("rect") //create a rectangle for each state
+        .attr("class", function(d) {
+            return "rect " + d.properties.postal;
+        })
+        .attr("width", squareWidth+"px")
+        .attr("height", squareHeight+"px");
+    /*
+        .transform("translate", function(d){
+            for (data in consentyears){ */
+    
+                //if year val is diff than previous, return scale(year) as translate x value
+
+    console.log(joinedJson);
+
+    var axis = chart.append("svg")
+        .attr("class", "axis")
+        .attr("width", 90+"%")
+        .attr("height", 10+"px");
+
+    // var timeline = axis.axis()
+    //     .scale(x)
+    //     .orient('bottom')
+    //     .tickValues(timelineArray)
+    //     .attr("class", "timeline");
+        // .tickFormat(d3.time.format('%y'))
+        // .tickSize(0)
+    // updateChart(joinedJson);
+};
+
+// updateChart function is called when the variable is changed
+function updateChart(currentVariable) {
+    var xValue = 0; //holds the x position of each square in the timeline
+    var yValue = 0; //holds the y position of each square in the timeline
+    var curentYear; //year the for-loop is currently looking at
+    var previousYear; //previous year, used for comparison to see if there was a change from the previous year to the current year, and thus whether a square should be drawn in currentYear
+
+    // for (i in currentVariable)
+}
+
+/* ------------END CHART FUNCTIONS------------ */
+
 
 //TODO: animated sequence buttons
