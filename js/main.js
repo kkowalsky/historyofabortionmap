@@ -2,7 +2,7 @@
 var mapWidth = 850, mapHeight = 500;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "ConsentData"]
-var expressed = Category[1]
+var expressed = Category[0]
 var yearExpressed = yearsArray[0]
 var colorize;
 var scale;
@@ -140,8 +140,6 @@ function setMap(){
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
 
-        colorize = colorScale(consent, grade);
-        
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
 
@@ -318,11 +316,12 @@ function colorScale(csvData){
 
 function choropleth(d, colorize){
     var value = d.properties ? d.properties[expressed] : d[expressed];
-    console.log(value)
-    if (value === "no data") {
-        return "#ccc"    
+    console.log(value[yearExpressed])
+    if (value[yearExpressed] === "no data") {
+        return "#ccc"
     }else if (value != "no data"){
-        return colorScale(value);
+//          return "#a23ef1"
+          return colorScale(value);
     }else{
         return "#ccc"
     };
