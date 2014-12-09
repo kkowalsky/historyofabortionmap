@@ -215,15 +215,6 @@ ul.nav a:hover {
 }
 
 .cpcLocations {
-<<<<<<< HEAD
-    fill: #c8e713;
-    fill-opacity:0.5;
-}
-
-.abortionLocations {
-    fill: #E80882;
-    fill-opacity:0.5;
-=======
 	fill: #c8e713;
 	fill-opacity:0.5;
     stroke: #9fb80f;
@@ -235,7 +226,6 @@ ul.nav a:hover {
 	fill-opacity:0.5;
     stroke: #72069a;
     stroke-width: 0.75px;
->>>>>>> FETCH_HEAD
 }
 
 /* Graph CSS  */

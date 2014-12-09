@@ -152,7 +152,6 @@ function setMap(){
         
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
-
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
 //        console.log(topojson.feature(usa, usa.objects.states).features);
@@ -297,7 +296,6 @@ function drawMenu(){
 }; //END drawMenu
 
 function drawMenuInfo(){
-    
     var dropdown = d3.select(".sequence-buttons")
         .append("div")
         .attr("class", "dropdown")
@@ -429,6 +427,30 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
     }); 
 }; //END overlay function
 
+//creates cpc point data
+function cpcPoints(map, cpc, path, cpcRadius){
+    map.selectAll(".cpcLocations")
+        .data(cpc.features)
+        .enter()
+        .append("path")
+        .attr("class", "cpcLocations")
+        .attr('d', path.pointRadius(function(d){
+            return cpcRadius(d.properties.Count);
+        }));   
+}; //end cpcPoints
+
+//creates abortion providers point data
+function abortionPoints(map, abortionprovider, path, abortionRadius){
+    map.selectAll(".abortionLocations")
+            .data(abortionprovider.features)
+            .enter()
+            .append("path")
+            .attr("class", "abortionLocations")
+            .attr('d', path.pointRadius(function(d){
+                return abortionRadius(d.properties.Count);
+            }));
+}; //end abortionPoints
+
 //creates proportional symbol legend
 function createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius) {
   //creates menuBoxes
@@ -454,56 +476,7 @@ function createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius) {
             .attr("class", "menuBox");
     //labels circles
 }; //END create inset
-
-//creates cpc point data
-function cpcPoints(map, cpc, path, cpcRadius){
-    map.selectAll(".cpcLocations")
-        .data(cpc.features)
-        .enter()
-        .append("path")
-        .attr("class", "cpcLocations")
-        .attr('d', path.pointRadius(function(d){
-            return cpcRadius(d.properties.Count);
-        }));   
-}; //end cpcPoints
-
-//creates abortion providers point data
-function abortionPoints(map, abortionprovider, path, abortionRadius){
-    map.selectAll(".abortionLocations")
-            .data(abortionprovider.features)
-            .enter()
-            .append("path")
-            .attr("class", "abortionLocations")
-            .attr('d', path.pointRadius(function(d){
-                return abortionRadius(d.properties.Count);
-            }));
-}; //end abortionPoints
-
-//TODO: proportional symbol map overlay
-function overlay(path, cpcRadius, map, cpc, abortionprovider){
-    $(".cpc-section").click(function(){
-        if (d3.selectAll(".cpcLocations")[0].length > 0){
-            removeCPC = d3.selectAll(".cpcLocations").remove();
-        } else {
-            cpcPoints(map, cpc, path, cpcRadius);
-        }
-    })
-    
-    $(".abortion-section").click(function(){
-        if (d3.selectAll(".abortionLocations")[0].length > 0){
-            removeAbortion = d3.selectAll(".abortionLocations").remove();
-        } else {
-            abortionPoints(map, abortionprovider, path, cpcRadius);
-        }
-    })
-}//END overlay
-
 /* Katie's section end */
-
-//change policy attribute based on click on left-hand menu (who did this??)
-function changeAttribute(attribute, data) {
-
-};
 
 //---------------------------------------------//
 /* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
@@ -512,8 +485,7 @@ function changeAttribute(attribute, data) {
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
 function colorScale(value){
-
-    // this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
+// this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
     if (expressed === "gradeData") {   
         currentColors = colorArrayOverview;
         currentArray = arrayOverview;
@@ -528,7 +500,7 @@ function colorScale(value){
                 .domain(currentArray); //sets the range of colors and domain of values based on the currently selected variable
     // console.log(currentColors);
     // console.log(currentArray);
-    console.log(scale(value[yearExpressed]));
+    //console.log(scale(value[yearExpressed]));
     return scale(value[yearExpressed]);
 };
 
@@ -610,8 +582,4 @@ function updateChart(currentVariable) {
 
     // for (i in currentVariable)
 }
-
 /* ------------END CHART FUNCTIONS------------ */
-
-
-//TODO: animated sequence buttons
