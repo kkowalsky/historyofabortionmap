@@ -1,7 +1,7 @@
 /******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 500;
 var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
-var Category = ["gradeData", "ConsentData"]
+var Category = ["gradeData", "consentData"]
 var expressed = Category[0]
 var yearExpressed = yearsArray[0]
 var colorize;
@@ -82,8 +82,11 @@ window.onload = initialize();
                         "Must be offered",      
                         "None"   ];  
 
-//SET UP VARIABLES FOR TIMELINE
+//SET UP VARIABLES FOR COLORSCALE & CHOROPLETH FUNCTIONS
+var currentColors = [];
+var currentArray = [];
 
+//SET UP VARIABLES FOR TIMELINE
 //timelineArray holds years to be displayed in the timeline
 var timelineArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var chartHeight = 200;
@@ -142,11 +145,13 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
+        colorize = colorScale(joinedJson);
+        console.log(colorize);
 
         //Create an Array with CSV's loaded
         var csvArray = [consent, grade];
         //Names for the overall Label we'd like to assign them
-        var attributeNames = ["ConsentData", "gradeData"];
+        var attributeNames = ["consentData", "gradeData"];
         //For each CSV in the array, run the LinkData function
         for (csv in csvArray){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
@@ -195,6 +200,7 @@ function setMap(){
                 return "states " + d.properties.postal;
             })
             .style("fill", function(d){
+                // return choropleth(d, colorize);
                 return choropleth(d, colorize);
             })
             .attr("d", function(d) {
@@ -228,6 +234,7 @@ function setMap(){
     
         overlay(path, cpcRadius, map, cpc, abortionprovider);
 
+        colorScale(joinedJson);
         setChart(); //draw the chart
     }; //END callback
 }; //END setMAP
@@ -302,29 +309,53 @@ function changeAttribute(attribute, data) {
 //         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
-function colorScale(csvData){
-    if (expressed === "gradeData"){
-        scale = d3.scale.ordinal();
+function colorScale(value){
+
+    // this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
+    if (expressed === "gradeData") {    
         currentColors = colorArrayGrade;
-    }else{
-        scale = d3.scale.ordinal();
+        currentArray = arrayGrade;
+    } else if (expressed == "consentData") {
         currentColors = colorArrayConsent;
+        currentArray = arrayConsent;
     };
 
-    scale = scale.range(currentColors);
+    scale = d3.scale.ordinal()
+                .range(currentColors)
+                .domain(currentArray); //sets the range of colors and domain of values based on the currently selected variable
+    // console.log(currentColors);
+    // console.log(currentArray);
+    return scale(value[yearExpressed]);
 };
+
+// function choropleth(d, colorize){
+//     var value = d.properties ? d.properties[expressed] : d[expressed];
+
+//     console.log(value);
+//     console.log(value[yearExpressed]);
+//     console.log(expressed);
+//     console.log(colorize(value));
+
+//     return colorize(value);
+// //     } else if (value != "no data"){
+// // //          return "#a23ef1"
+// //           return colorScale(value);
+// //     }else{
+// //         return "#ccc"
+// //     };
+// };
 
 function choropleth(d, colorize){
     var value = d.properties ? d.properties[expressed] : d[expressed];
-    console.log(value[yearExpressed])
-    if (value[yearExpressed] === "no data") {
-        return "#ccc"
-    }else if (value != "no data"){
-//          return "#a23ef1"
-          return colorScale(value);
-    }else{
-        return "#ccc"
-    };
+//    console.log(value)
+//     if (value[yearExpressed] === "n/a") {
+//         return "#ccc"
+//     } else if (value != "no data") {
+// //          return "#a23ef1"
+    // } else {
+    //     return "#ccc"
+    // };
+    return colorScale(value);
 };
 
 
