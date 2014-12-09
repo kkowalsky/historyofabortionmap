@@ -361,17 +361,18 @@ function setChart() {
         })
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px");
+    /*
+        .transform("translate", function(d){
+            for (data in consentyears){ */
+    
+                //if year val is diff than previous, return scale(year) as translate x value
 
-    console.log(rect);
+    console.log(joinedJson);
 
     var axis = chart.append("svg")
         .attr("class", "axis")
         .attr("width", 90+"%")
         .attr("height", 10+"px");
-
-    // var x = d3.time.scale()
-    //     .domain(timelineArray)
-    //     .rangeRound(timelineArray);
 
     // var timeline = axis.axis()
     //     .scale(x)
