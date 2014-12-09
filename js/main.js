@@ -1,9 +1,10 @@
 /******* GLOBAL VARIABLES *******/
-var mapWidth = 850, mapHeight = 600;
+var mapWidth = 850, mapHeight = 500;
 var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
-var menuBox;
-var yearsArray = ["grade", "Pre-1973", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+var menuInfoWidth = 400, menuInfoHeight = 100;
+var textArray = ["Explanation of Overview", "Explanation of Prohibited At", "Explanation of Mandated Counseling", "Explanation of Waiting Period", "Explanation of Parental Consent", "Explanation of Mandatory Ultrasound", "Explanation of CPCS", "Explanation of Abortion Providers"];
+var yearsArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var removeCPC;
 var removeAbortion;
 
@@ -121,6 +122,7 @@ function setMap(){
     
     //creates menu [overview starts on load]
     drawMenu();
+    drawMenuInfo();
         
     //retrieve and process json file and data
     function callback(error, consent, grade, usa, cpc, abortionprovider){
@@ -257,6 +259,42 @@ function drawMenu(){
 });
 }; //END drawMenu
 
+function drawMenuInfo(){
+    //creates menuBoxes
+    menuInfoBox = d3.select(".menu-info")
+            .append("svg")
+            .attr("width", menuInfoWidth)
+            .attr("height", menuInfoHeight)
+            .attr("class", "menuInfoBox");
+    
+    //make menuInfoText Here
+    var menuInfoText = menuInfoBox.selectAll(".menuInfoText")
+        .data(textArray)
+        .enter()
+        .append("div")
+        .attr("class", "menuInfoText")
+        .text(function(d, i){
+            for (var d = 0; d < textArray.length; d++){
+                return textArray[i]
+            }
+        })
+        .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif', 'float': 'left', 'color': '#000'});
+    
+    var dropdown = d3.select(".menu-info")
+        .append("div")
+        .attr("class", "dropdown")
+        .append("select");
+    
+    dropdown.selectAll("options")
+        .data(yearsArray)
+        .enter()
+        .append("option")
+        .attr("value", function(d){ return d})
+        .text(function(d){
+            return d });
+    
+}; //End DrawMenuInfo
+
 //creates the menu items 
 function createMenu(arrayX, arrayY, title){
     var yArray = [50, 105, 160, 215, 270, 325];
@@ -295,17 +333,17 @@ function createMenu(arrayX, arrayY, title){
     };
     
     var menuLabels = menuBox.selectAll(".menuLabels")
-            .data(arrayX)
-            .enter()
-            .append("text")
-            .attr("class", "menuLabels")
-            .attr("x", 80)
-            .text(function(d, i){
-                for (var c = 0; c < arrayX.length; c++){
-                    return arrayX[i]
-                }
-            })
-            .style({'font-size': '16px', 'font-family': 'Open Sans, sans-serif'});
+        .data(arrayX)
+        .enter()
+        .append("text")
+        .attr("class", "menuLabels")
+        .attr("x", 80)
+        .text(function(d, i){
+            for (var c = 0; c < arrayX.length; c++){
+                return arrayX[i]
+            }
+        })
+        .style({'font-size': '16px', 'font-family': 'Open Sans, sans-serif'});
     
         menuLabels.data(yArray)
             .attr("y", function(d, i){
