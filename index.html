@@ -77,7 +77,14 @@
     </div>
     <!-- includes description and play/pause buttons and dropdown -->
     <div class="menu-info">
-        
+        <div class ="sequence-buttons">
+           <button type="button" class="btn btn-link btn-lg" aria-label="Play Button">
+                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-link btn-lg" aria-label="Pause Button">
+                <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+            </button>
+        </div>
     </div>
     <div class="map"> <!-- map svg is drawn in main.js -->
     </div>  <!-- end map -->
@@ -99,6 +106,7 @@
     </div> <!-- end analysis -->
     
     <section id="about"></section>  
+    <div class ="dwarf-butts">
     <div class="container">
         <div class ="page-header"><br><h1>About this Map</h1></div>
        <p>Your Body, (Not) Your Choice is a collaboration of <a href="twitter.com/katiekowalsky">Katie Kowalsky</a>, <a href="twitter.com/DylanMoriarty">Dylan Moriarty</a>, and <a href="twitter.com/tolomaps">Robin Tolochko</a> as a project for Robert Roth and Carl Sack’s Interactive Cartography & Geovisualization course at UW-Madison. Completed in December 2014. 
@@ -107,18 +115,18 @@ Many thanks to Robert Roth, Carl Sack, Rashauna Mead, Sam Matthews, John Czaplew
 <br><br>
 This project was built with <a href="http://d3js.org/ ">D3</a>, <a href="https://github.com/mbostock/queue">Queue</a>, <a href="http://jquery.com/ ">jQuery</a>, and <a href="http://getbootstrap.com/ ">Bootstrap</a>.
 
-<h1>Data</h1> <!-- add links --><p>
+<h3>Data</h3> <!-- add links --><p>
 Overview policy data was collected from the Guttmacher Institute <a href="http://www.guttmacher.org/statecenter/spibs/spib_OAL.pdf ">here</a>. The A-F grades for each state on the initial map view are from the <a href="http://www.prochoiceamerica.org/government-and-you/state-governments/ ">NARAL Pro-choice America's State Government</a> page and the methodology is available <a href="http://www.prochoiceamerica.org/government-and-you/who-decides/methodology.html ">here</a>. 
 <br><br>
 Most of the locations of abortion providers in the U.S. are from <a href="http://www.plannedparenthood.org/health-center ">Planned Parenthood</a> and the <a href="http://prochoice.org/think-youre-pregnant/find-a-provider/ ">National Abortion Federation</a> (NAF). Only those Planned Parenthoods that offer abortion services were included in the map. These locations were cross-checked with NAF's data to ensure that there were no duplicates. A few abortion providers are from <a href="http://www.gynpages.com/ ">GynPages</a> and <a href="http://www.abortionclinicpages.com/ ">abortionclinicpages.com</a>. We know that this is not a comprehensive list of abortion providers in the U.S., as a report from the Guttmacher Institute found that there were an estimated 1,720 abortion providers in the U.S. in 2011 (as opposed to the 607 abortion providers included in our map). However, we could not compile a complete list, as the Guttmacher Institute does not release this information due to confidentiality agreements with many providers. We believe that much of the discrepancy between our number and the complete number is due to hospitals and private physicians' offices that do not belong to the National Abortion Federation. If you have any leads on where we can get a complete list of abortion providers, please <a href="mailto:yourbodynotyourchoice@gmail.com ">contact us</a>. 
 <br><br>
 The locations of crisis pregnancy centers (CPCs) come from <a href="http://birthright.org/">Birthright International</a> and <a href="http://www.heartbeatinternational.org/">Heartbeat International</a> networks. <a href="https://www.care-net.org/">Care-Net</a> also has an extensive network of CPCs but does not have a comprehensive list of their affiliates.
 </p>
-<h1>Process</h1><p>
+<h3>Process</h3><p>
 All of the code for this project is available on GitHub, <a href="https://github.com/kkowalsky/yourbodynotyourchoice">here</a>. 
 <br>
 You can read about our processes on our various blog posts: <!-- add links --> <a href="www.eightbears.tumblr.com/">Dylan</a>, <a href="www.kowalskycartography.wordpress.com/tag/575-final-project/">Katie</a>, and <a href="www.tolomaps.tumblr.com/tagged/abortion">Robin</a> .
-</p></div> <!-- end about -->
+</p></div></div><!-- end about -->
       
     <div id="footerwrap" style="background-color: #9608cb">
 		<div class="container">

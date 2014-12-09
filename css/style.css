@@ -178,13 +178,25 @@ ul.nav a:hover {
 /*  Map Info CSS (includes section info, play, pause, dropdown) */
 /*  ------ */
 .menu-info {
-    background-color: #9608cb;
+
+}
+
+.menuInfoBox {
+    margin-top: 3%;
+    margin-left: 29%;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
+}
+
+
+.sequence-buttons {
+    padding-right: 15%;
+    display: inline-flex;
+    float: right;
 }
 
 .dropdown {
-    margin-top: 1%;
-    padding-right: 10%;
-    float: right;
+    margin-top: 6%;
 }
 
 /*  Map CSS */
@@ -238,6 +250,10 @@ ul.nav a:hover {
     padding-right: 20px;
 }
 
+.dwarf-butts {
+    padding-bottom: 1%;
+}
+
 /* HTML General CSS  */
 /* ----------------  */
 
@@ -264,8 +280,17 @@ h2 {
     font-family: 'Roboto Slab', serif;
 }
 
+h3 {
+    font-family: 'Roboto Slab', serif;
+}
+
 body { 
     padding-top: 50px; 
+}
+
+.dwarf-butts p {
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 a:link {

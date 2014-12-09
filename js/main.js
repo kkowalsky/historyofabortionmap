@@ -3,7 +3,7 @@ var mapWidth = 850, mapHeight = 500;
 var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
-var textArray = ["Explanation of Overview", "Explanation of Prohibited At", "Explanation of Mandated Counseling", "Explanation of Waiting Period", "Explanation of Parental Consent", "Explanation of Mandatory Ultrasound", "Explanation of CPCS", "Explanation of Abortion Providers"];
+var textArray = ["Explanation of Overview Henshaw travelled to France near the beginning of World War I, and returned to give speeches in favour of conscription and to raise money for ambulance services there. She particularly spoke to female audiences, some of whom had been granted the right to vote by the Wartime Elections Act of 1917, and hence to vote on the conscription question", "Explanation of Prohibited At Born in Yate, Gloucestershire, Rowling was working as a researcher and bilingual secretary for Amnesty International when she conceived the idea for the Harry Potter series on a delayed train from Manchester to London in 1990.", "Explanation of Mandated Counseling The university has three campuses: Streatham; St Luke's (both of which are in Exeter); and Tremough in Cornwall. The university is centred in the city of Exeter, Devon, where it is the principal higher education institution.", "Explanation of Waiting Period In 2007, Spears's much-publicized personal issues sent her career into hiatus. Her fifth studio album, Blackout, was released later that year, and spawned hits such as Gimme More and Piece of Me. ", "Explanation of Parental Consent Mad Men is set in the 1960s, initially at the fictional Sterling Cooper advertising agency on Madison Avenue in New York City, and later at the newly created firm, Sterling Cooper Draper Pryce (later Sterling Cooper & Partners), located nearby in the Time-Life Building, at 1271 Sixth Avenue.", "Explanation of Mandatory Ultrasound They have a lot of production meetings during pre-production. The day the script comes in we all meet for a first page turn, and Matt starts telling us how he envisions it. Then there's a tone meeting a few days later where Matt tells us how he envisions it. And then there's a final full crew production meeting where Matt again tells us how he envisions it....", "Explanation of CPCS Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", "Explanation of Abortion Providers Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."];
 var yearsArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var removeCPC;
 var removeAbortion;
@@ -92,7 +92,9 @@ $(function(){
 
 function initialize(){
     setMap();
-    createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ");
+    createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
+    //$(".glyphicon-pause").hide();
+    $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 }; //END initialize
 
 //creates map
@@ -224,65 +226,47 @@ function setMap(){
 function drawMenu(){
     $(".Overview").click(function(){ 
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ");
+        createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
     });
     
      $(".Prohibited").click(function(){ 
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ");
+        createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
      });
     
     $(".Counseling").click(function(){  
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ")
+        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2])
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         });
     
     $(".Waiting").click(function(){  
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ")
+        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3])
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         });
     
     $(".Parental").click(function(){  
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ")
+        createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 });
     
     $(".Ultrasound").click(function(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
-        createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ")
+        createMenu(arrayUltrasound, colorArrayUltrasound, "Ultrasound: ", textArray[5])
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 });
 }; //END drawMenu
 
 function drawMenuInfo(){
-    //creates menuBoxes
-    menuInfoBox = d3.select(".menu-info")
-            .append("svg")
-            .attr("width", menuInfoWidth)
-            .attr("height", menuInfoHeight)
-            .attr("class", "menuInfoBox");
     
-    //make menuInfoText Here
-    var menuInfoText = menuInfoBox.selectAll(".menuInfoText")
-        .data(textArray)
-        .enter()
-        .append("div")
-        .attr("class", "menuInfoText")
-        .text(function(d, i){
-            for (var d = 0; d < textArray.length; d++){
-                return textArray[i]
-            }
-        })
-        .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif', 'float': 'left', 'color': '#000'});
-    
-    var dropdown = d3.select(".menu-info")
+    var dropdown = d3.select(".sequence-buttons")
         .append("div")
         .attr("class", "dropdown")
+        //.html("<h4>Select Year: </h4>")
         .append("select");
     
     dropdown.selectAll("options")
@@ -296,9 +280,10 @@ function drawMenuInfo(){
 }; //End DrawMenuInfo
 
 //creates the menu items 
-function createMenu(arrayX, arrayY, title){
+function createMenu(arrayX, arrayY, title, infotext){
     var yArray = [50, 105, 160, 215, 270, 325];
     var oldItems = d3.selectAll(".menuBox").remove();
+    var oldItems2 = d3.selectAll(".menuInfoBox").remove();
     
     //creates menuBoxes
     menuBox = d3.select(".menu-inset")
@@ -355,6 +340,13 @@ function createMenu(arrayX, arrayY, title){
         return colorize(legendArray[i]);
         })
     */
+     //creates menuBoxes
+    menuInfoBox = d3.select(".menu-info")
+        .append("div")
+        .attr("width", menuInfoWidth)
+        .attr("height", menuInfoHeight)
+        .attr("class", "menuInfoBox")
+        .text(infotext);
 }; //end createMenu
 
 //creates proportional symbol overlay
