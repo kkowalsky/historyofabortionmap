@@ -1,4 +1,4 @@
-/******* GLOBAL VARIABLES *******/
+/****** GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 500;
 var keyArray = ["grade", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
@@ -52,9 +52,9 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
 
     //Variable array for Ultrasound
     var arrayUltrasound = ["Must be performed, offer to view",      
-                        "Must be performed",      
-                        "Must be offered",      
-                        "None"   ];  
+                        "x",      
+                        "o",      
+                        "none"   ];  
 
 // SET UP COLOR ARRAYS FOR EACH VARIABLE
     // Color array for Overview & Waiting Period
@@ -529,9 +529,20 @@ function colorScale(value){
         currentColors = colorArrayOverview;
         currentArray = arrayOverview;
     } else if (expressed === "consentData") {
-        //console.log(value[yearExpressed]);
         currentColors = colorArrayConsent;
         currentArray = arrayConsent;
+    } else if (expressed === "prohibitedAfter") {
+        currentColors = colorArrayProhibited;
+        currentArray = arrayProhibited;
+    } else if (expressed === "counseling") {
+        currentColors = colorArrayCounseling;
+        currentArray = arrayCounseling;
+    } else if (expressed === "waitingPeriod") {
+         currentColors = colorArrayCounseling;
+         currentArray = arrayWaitingPeriod;
+    } else if (expressed === "ultrasound") {
+        currentColors = colorArrayUltrasound;
+        currentArray = arrayUltrasound;
     };
 
     scale = d3.scale.ordinal()
@@ -624,4 +635,4 @@ function updateChart(currentVariable) {
 
     // for (i in currentVariable)
 }
-/* ------------END CHART FUNCTIONS------------ */
+/* ------------END CHART FUNCTIONS------------*/
