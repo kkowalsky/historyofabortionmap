@@ -198,7 +198,6 @@ function setMap(){
 
                     jsonStates[a].properties[attribute] = attrObj;
                  // console.log(jsonStates[a].properties)
-                    console.log(attrObj[attr]);
                     break;
                     };
                 };
@@ -563,9 +562,9 @@ function setChart() {
         .domain([yearsArray[0], yearsArray[yearsArray.length-1]])
         //.domain(yearsArray[0])
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square
-    console.log(x.range());
     console.log(x.domain());
-
+    console.log(x.range());
+    
     var axis = d3.svg.axis()
 
     var chart = d3.select(".graph")
@@ -589,7 +588,7 @@ function setChart() {
         .attr("height", squareHeight+"px")
         .attr("transform", function(d) {
             
-            return "translate(" + x(1986) + ")";
+            return "translate(" + x(1986) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
     /*
         .transform("translate", function(d){
