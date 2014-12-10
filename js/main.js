@@ -554,15 +554,20 @@ function colorScale(value){
     return scale(value[yearExpressed]);
 };
 
+// function choropleth(d, colorize){
+//     var value = d.properties ? d.properties[expressed] : d[expressed];
+//     return colorScale(value);
+// };
+
 function choropleth(d, colorize){
-    var value = d.properties ? d.properties[expressed] : d[expressed];
+    var value = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
     return colorScale(value);
 };
 
-// function choroplethChart(d, colorize) {
-//     var valueChart = d.properties ? d.properties[expressed] : d[expressed];
-//     return colorScale(valueChart);
-// }
+function choroplethChart(d, colorize) {
+    var valueChart = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
+    return colorScale(valueChart);
+}
 
 
 //---------------------------------------------//
@@ -573,7 +578,7 @@ function choropleth(d, colorize){
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
 
-    var margin = {top: 10, right: 40, bottom: 30, left:40};
+    var margin = {top: 100, right: 40, bottom: 30, left:80};
 
     var x = d3.scale.linear()
         .domain([yearsArray[0], yearsArray[yearsArray.length-1]]) //domain is an array of 2 values: the first and last years in the yearsArray (1973 and 2014)
@@ -606,7 +611,7 @@ function setChart() {
             if (featureObject.properties[expressed][thisYear] != featureObject.properties[expressed][lastYear] && featureObject.properties[expressed][thisYear] != undefined && featureObject.properties[expressed][lastYear] != undefined) { // have to account for the value not being undefined since the grade data is part of the linked data, and that's not relevant for the timeline
             //     console.log(lastYear, thisYear);
             // console.log(featureObject.properties[expressed][lastYear], featureObject.properties[expressed][thisYear]);
-            timelineFeatureArray.push({yearChanged: thisYear, newLaw: featureObject.properties[expressed][thisYear], feature: featureObject}); //each time a law is passed in a given year, a new feature object is p
+            timelineFeatureArray.push({yearChanged: thisYear, newLaw: featureObject.properties[expressed][thisYear], feature: featureObject}); //each time a law is passed in a given year, a new feature object is pushed to the timelineFeatureArray
             }
         }
     }
@@ -628,10 +633,15 @@ function setChart() {
             // console.log(d.feature.properties[expressed]);
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
+        .attr("y", function(d,i) {
+            "transform"
+        })
         .style("fill", function(d) {
             console.log(d);
             console.log(d.newLaw);
-            return choropleth(d, colorize); // can't get it to fill based on attribute
+            console.log(d.feature.properties[expressed]);
+            return "#000";
+            // return choroplethChart(d, colorize); // can't get it to fill based on attribute
         })
 
     var axis = chart.append("svg")
