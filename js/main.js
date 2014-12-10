@@ -16,6 +16,8 @@ var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
 
+//minorchange
+
 // SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
     //Variable array for Overview
     var arrayOverview = [  "F",       
