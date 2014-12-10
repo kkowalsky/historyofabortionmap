@@ -2,8 +2,8 @@
 var mapWidth = 850, mapHeight = 500;
 var keyArray = ["grade", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
-var expressed = Category[1];
-var yearExpressed = keyArray[1];
+var expressed;
+var yearExpressed;
 var colorize;
 var scale;
 var currentColors = [];
@@ -61,8 +61,8 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
     var colorArrayOverview = [  "#252525",      //F     //72 hours
                             "#636363",      //D     //48 hours
                             "#969696",      //C     //24 hours
-                            "#cccccc",      //B     //18 hours
-                            "#f7f7f7"   ];  //A     //None
+                            "#bbb",      //B     //18 hours
+                            "#e6e6e6"   ];  //A     //None
 
     // Color array for Prohibited At
     var colorArrayProhibited = ["#252525",      //12 weeks
@@ -70,22 +70,22 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
                             "#969696",      //22 weeks
                             "#bdbdbd",      //24 weeks
                             "#d9d9d9",      //3rd trimester
-                            "#f7f7f7"   ];  //Viability
+                            "#e6e6e6"   ];  //Viability
 
     // Color array for Mandated Counseling
     var colorArrayCounseling = ["#252525",      //Yes
-                            "#f7f7f7"   ];  //No
+                            "#e6e6e6"   ];  //No
 
     // Color array for Parental Consent
     var colorArrayConsent = [   "#252525",      //Consent
                             "#969696",      //Notice
-                            "#f7f7f7"   ];  //None
+                            "#e6e6e6"   ];  //None
 
     // Color array for Ultrasound
     var colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
                             "#636363",      //Must be performed
                             "#969696",      //Must be offered
-                            "#f7f7f7"   ];  //None
+                            "#e6e6e6"   ];  //None
 
 //SET UP VARIABLES FOR COLORSCALE & CHOROPLETH FUNCTIONS
 var currentColors = [];
@@ -118,6 +118,8 @@ $(function(){
 });
 
 function initialize(){
+    expressed = Category[0];
+    yearExpressed = keyArray[0];
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
     //$(".glyphicon-pause").hide();
@@ -288,6 +290,7 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
+        yearExpressed = keyArray[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -297,7 +300,8 @@ function drawMenu(){
      });
     
     $(".Counseling").click(function(){  
-        expressed = Category[1];
+        expressed = Category[2];
+        yearExpressed = keyArray[2];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -307,7 +311,8 @@ function drawMenu(){
         });
     
     $(".Waiting").click(function(){ 
-        expressed = Category[1];
+        expressed = Category[3];
+        yearExpressed = keyArray[3];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -317,7 +322,8 @@ function drawMenu(){
         });
     
     $(".Parental").click(function(){  
-        expressed = Category[1];
+        expressed = Category[4];
+        yearExpressed = keyArray[4];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -327,7 +333,8 @@ function drawMenu(){
 });
     
     $(".Ultrasound").click(function(){
-        expressed = Category[1];
+        expressed = Category[5];
+        yearExpressed = keyArray[5];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
