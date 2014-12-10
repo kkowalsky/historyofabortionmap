@@ -163,7 +163,7 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
-        console.log(joinedJson);
+ //       console.log(joinedJson);
 //        console.log(topojson.feature(usa, usa.objects.states).features);
         // colorize = colorScale(joinedJson);
 //        console.log(colorize);
@@ -296,6 +296,8 @@ function drawMenu(){
             });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+         //robin's code
+        setChart();
      });
     
     $(".Counseling").click(function(){  
@@ -307,6 +309,8 @@ function drawMenu(){
             });
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2]);
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        //robin's code
+        setChart();
         });
     
     $(".Waiting").click(function(){ 
@@ -318,6 +322,8 @@ function drawMenu(){
             });
         createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3]);
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        //robin's code
+        setChart();
         });
     
     $(".Parental").click(function(){  
@@ -329,6 +335,8 @@ function drawMenu(){
             });
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        //robin's code
+        setChart();
 });
     
     $(".Ultrasound").click(function(){
@@ -340,6 +348,8 @@ function drawMenu(){
             });
         createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        //robin's code
+        setChart();
 });
 }; //END drawMenu
 
@@ -420,10 +430,6 @@ function createMenu(arrayX, arrayY, title, infotext){
             }
         })
         .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif'});
-
-//    if (title = "Mandatory Ultrasound: "){
-//        menuLabels.style('font-size', '8px');
-//    };
     
         menuLabels.data(yArray)
             .attr("y", function(d, i){
@@ -446,13 +452,14 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
         var cpcInsetDiv = document.getElementById('cpc-inset');
         if (d3.selectAll(".cpcLocations")[0].length > 0){
             removeCPC = d3.selectAll(".cpcLocations").remove();
+            removeCPCInset = d3.selectAll(".cpcCircles").remove();
             cpcDiv.style.backgroundColor = "#c8e713";
             cpcDiv.style.color = "#fff";
             cpcDiv.style.border = "none";
             cpcInsetDiv.style.visibility = "hidden";
         } else {
             cpcPoints(map, cpc, path, cpcRadius);
-            createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius);
+            createInset();
             cpcDiv.style.backgroundColor = "#fff";
             cpcDiv.style.borderStyle = "solid";
             cpcDiv.style.borderColor = "#c8e713";
@@ -467,13 +474,14 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
         var insetDiv = document.getElementById('abortion-inset');
         if (d3.selectAll(".abortionLocations")[0].length > 0){
             removeAbortion = d3.selectAll(".abortionLocations").remove();
+            removeAbortionInset = d3.selectAll(".abortionCircles").remove();
             abortionDiv.style.backgroundColor = "#9608cb";
             abortionDiv.style.color = "#fff";
             abortionDiv.style.border = "none";
             insetDiv.style.visibility = "hidden";
         } else {
             abortionPoints(map, abortionprovider, path, abortionRadius);
-            createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius);
+            createInset();
             abortionDiv.style.backgroundColor = "#fff";
             abortionDiv.style.borderStyle = "solid";
             abortionDiv.style.borderColor = "#9608cb";
@@ -499,39 +507,66 @@ function cpcPoints(map, cpc, path, cpcRadius){
 //creates abortion providers point data
 function abortionPoints(map, abortionprovider, path, abortionRadius){
     map.selectAll(".abortionLocations")
-            .data(abortionprovider.features)
-            .enter()
-            .append("path")
-            .attr("class", "abortionLocations")
-            .attr('d', path.pointRadius(function(d){
-                return abortionRadius(d.properties.Count);
-            }));
+        .data(abortionprovider.features)
+        .enter()
+        .append("path")
+        .attr("class", "abortionLocations")
+        .attr('d', path.pointRadius(function(d){
+            return abortionRadius(d.properties.Count);
+        }));
 }; //end abortionPoints
 
 //TODO: finish overlay menus
 //creates proportional symbol legend
-function createInset(path, cpc, abortionprovider, cpcRadius, abortionRadius) {
-  //creates menuBoxes
+function createInset() {
+    var oldItems3 = d3.selectAll(".cpcCircles").remove();
+    var oldItems4 = d3.selectAll(".abortionCircles").remove();
+    var cpcRadiusArray = [2, 11.85, 20];
+    var abortionRadiusArray = [2, 16.23, 20];
+    
+    //creates menuBoxes
     cpcMenuBox = d3.select(".cpc-inset")
-            .append("path")
-            .attr("width", otherMenuWidth)
-            .attr("height", otherMenuHeight)
-            .attr("class", "menuBox");
-    
-    //draws and shades circles for menu
-    cpcMenuBox.selectAll(".cpcMin")
-        .append("circle")
-        .attr("class", "cpcMin")
-        .attr("r", function(d){
-            //need to make circles
-        })
-        .style({'fill': '#c8e713','fill-opacity': '0.5', 'stroke': '#9fb80f', 'stroke-width': '0.75px'});  
-    
-    abortionMenuBox = d3.select("#abortion-inset")
             .append("svg")
             .attr("width", otherMenuWidth)
             .attr("height", otherMenuHeight)
-            .attr("class", "menuBox");
+            .attr("class", "cpcmenuBox");
+    
+    //draws and shades circles for menu
+   var cpcCircles = cpcMenuBox.selectAll(".cpcCircles")
+        .data(cpcRadiusArray)
+        .enter()
+        .append("circle")
+        .attr("cy", 30)
+        .attr("cx", function(d, i){
+            return (2*d)+(i*40)+10;
+        })
+        .attr("r", function(d, i){
+            return d;
+        })
+        .attr("class", "cpcCircles")
+        .style({'fill': '#c8e713','fill-opacity': '0.5', 'stroke': '#9fb80f', 'stroke-width': '0.75px'});  
+    
+    
+    abortionMenuBox = d3.select(".abortion-inset")
+        .append("svg")
+        .attr("width", otherMenuWidth)
+        .attr("height", otherMenuHeight)
+        .attr("class", "abortionMenuBox");
+    
+     //draws and shades circles for menu
+    var abortionCircles = abortionMenuBox.selectAll(".abortionCircles")
+        .data(abortionRadiusArray)
+        .enter()
+        .append("circle")
+        .attr("cy", 30)
+        .attr("cx", function(d, i){
+            return (2*d)+(i*40)+10;
+        })
+        .attr("r", function(d, i){
+            return d;
+        })
+        .attr("class", "abortionCircles")
+        .style({'fill': '#9608cb','fill-opacity': '0.5', 'stroke': '#72069a', 'stroke-width': '0.75px'});      
     //labels circles
 }; //END create inset
 /* Katie's section end */
@@ -596,7 +631,7 @@ function choroplethChart(d, colorize) {
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
-
+    var oldChart = d3.selectAll(".chart").remove();
     var margin = {top: 100, right: 40, bottom: 30, left:80};
 
     var x = d3.scale.linear()
