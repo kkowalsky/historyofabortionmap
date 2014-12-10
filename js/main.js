@@ -60,7 +60,7 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
     var colorArrayOverview = [  "#252525",      //F     //72 hours
                             "#636363",      //D     //48 hours
                             "#969696",      //C     //24 hours
-                            "#bbb",      //B     //18 hours
+                            "#cccccc",      //B     //18 hours
                             "#e6e6e6"   ];  //A     //None
 
     // Color array for Prohibited At
@@ -118,7 +118,7 @@ $(function(){
 
 function initialize(){
     expressed = Category[0];
-    yearExpressed = keyArray[0];
+    yearExpressed = keyArray[keyArray.length-1];
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
     //$(".glyphicon-pause").hide();
@@ -278,7 +278,7 @@ function setMap(){
 function drawMenu(){
     $(".Overview").click(function(){ 
         expressed = Category[0];
-        yearExpressed = keyArray[0];
+        yearExpressed = keyArray[keyArray.length-1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
