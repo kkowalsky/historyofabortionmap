@@ -1,6 +1,6 @@
 /****** GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 500;
-var keyArray = ["grade", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+var keyArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
 var expressed;
 var yearExpressed;
@@ -11,7 +11,6 @@ var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
 var textArray = ["Explanation of Overview Henshaw travelled to France near the beginning of World War I, and returned to give speeches in favour of conscription and to raise money for ambulance services there. She particularly spoke to female audiences, some of whom had been granted the right to vote by the Wartime Elections Act of 1917, and hence to vote on the conscription question", "Explanation of Prohibited At Born in Yate, Gloucestershire, Rowling was working as a researcher and bilingual secretary for Amnesty International when she conceived the idea for the Harry Potter series on a delayed train from Manchester to London in 1990.", "Explanation of Mandated Counseling The university has three campuses: Streatham; St Luke's (both of which are in Exeter); and Tremough in Cornwall. The university is centred in the city of Exeter, Devon, where it is the principal higher education institution.", "Explanation of Waiting Period In 2007, Spears's much-publicized personal issues sent her career into hiatus. Her fifth studio album, Blackout, was released later that year, and spawned hits such as Gimme More and Piece of Me. ", "Explanation of Parental Consent Mad Men is set in the 1960s, initially at the fictional Sterling Cooper advertising agency on Madison Avenue in New York City, and later at the newly created firm, Sterling Cooper Draper Pryce (later Sterling Cooper & Partners), located nearby in the Time-Life Building, at 1271 Sixth Avenue.", "Explanation of Mandatory Ultrasound They have a lot of production meetings during pre-production. The day the script comes in we all meet for a first page turn, and Matt starts telling us how he envisions it. Then there's a tone meeting a few days later where Matt tells us how he envisions it. And then there's a final full crew production meeting where Matt again tells us how he envisions it....", "Explanation of CPCS Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", "Explanation of Abortion Providers Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."];
-var yearsArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -164,7 +163,7 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
-        // console.log(joinedJson);
+        console.log(joinedJson);
 //        console.log(topojson.feature(usa, usa.objects.states).features);
         // colorize = colorScale(joinedJson);
 //        console.log(colorize);
@@ -357,7 +356,7 @@ function drawMenuInfo(){
         .append("select");
     
     dropdown.selectAll("options")
-        .data(yearsArray)
+        .data(keyArray)
         .enter()
         .append("option")
         .attr("value", function(d){ return d})
@@ -601,7 +600,7 @@ function setChart() {
     var margin = {top: 100, right: 40, bottom: 30, left:80};
 
     var x = d3.scale.linear()
-        .domain([yearsArray[0], yearsArray[yearsArray.length-1]]) //domain is an array of 2 values: the first and last years in the yearsArray (1973 and 2014)
+        .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
     
     var axis = d3.svg.axis()
@@ -622,7 +621,7 @@ function setChart() {
         // console.log(joinedJson[feature]);
         var featureObject = joinedJson[feature];
         // console.log(featureObject.properties[expressed]);
-        for (var thisYear=yearsArray[1]; thisYear<yearsArray[yearsArray.length-1]; thisYear++){
+        for (var thisYear=keyArray[1]; thisYear<keyArray[keyArray.length-1]; thisYear++){
             // console.log(featureObject.properties[expressed][i]);
             var lastYear = thisYear - 1;
 
@@ -701,6 +700,7 @@ function highlight(joinedJson) {
     var feature = joinedJson.properties ? joinedJson.properties : joinedJson.feature.properties[expressed];
 
     d3.selectAll("."+feature.postal)
+        // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#00C6FF");
 };
 
