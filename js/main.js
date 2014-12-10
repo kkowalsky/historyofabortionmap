@@ -139,8 +139,12 @@ function setMap(){
         .projection(projection);
     
     queue()
-        .defer(d3.csv, "data/consent.csv")
         .defer(d3.csv, "data/grades.csv")
+        .defer(d3.csv, "data/prohibitedAfter.csv")
+        .defer(d3.csv, "data/counseling.csv")
+        .defer(d3.csv, "data/waitingPeriod.csv")
+        .defer(d3.csv, "data/consent.csv")
+        .defer(d3.csv, "data/ultrasound.csv")
         .defer(d3.json, "data/usa.topojson")
         .defer(d3.json, "data/CPCS.geojson")
         .defer(d3.json, "data/AbortionProviders.geojson")
@@ -151,7 +155,7 @@ function setMap(){
     drawMenuInfo();
         
     //retrieve and process json file and data
-    function callback(error, consent, grade, usa, cpc, abortionprovider){
+    function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
@@ -160,9 +164,9 @@ function setMap(){
 //        console.log(colorize);
 
         //Create an Array with CSV's loaded
-        var csvArray = [consent, grade];
+        var csvArray = [grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound];
         //Names for the overall Label we'd like to assign them
-        var attributeNames = ["consentData", "gradeData"];
+        var attributeNames = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData"];
         //For each CSV in the array, run the LinkData function
         for (csv in csvArray){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
@@ -528,20 +532,12 @@ function colorScale(value){
                 .domain(currentArray); //sets the range of colors and domain of values based on the currently selected variable
     // console.log(currentColors);
     // console.log(currentArray);
-    console.log(scale(value[yearExpressed]));
+    // console.log(scale(value[yearExpressed]));
     return scale(value[yearExpressed]);
 };
 
 function choropleth(d, colorize){
     var value = d.properties ? d.properties[expressed] : d[expressed];
-//    console.log(value)
-//     if (value[yearExpressed] === "n/a") {
-//         return "#ccc"
-//     } else if (value != "no data") {
-// //          return "#a23ef1"
-    // } else {
-    //     return "#ccc"
-    // };
     return colorScale(value);
 };
 
@@ -553,12 +549,17 @@ function choropleth(d, colorize){
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
+    console.log(joinedJson);
+
     var margin = {top: 10, right: 40, bottom: 30, left:40};
 
     var x = d3.scale.linear()
-        .domain(yearsArray)
-        .rangeRound([0, chartWidth - margin.left - margin.right]);
-    
+        .domain([yearsArray[0], yearsArray[yearsArray.length-1]])
+        //.domain(yearsArray[0])
+        .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square
+    console.log(x.range());
+    console.log(x.domain());
+
     var axis = d3.svg.axis()
 
     var chart = d3.select(".graph")
@@ -569,6 +570,8 @@ function setChart() {
         .append("g")
         .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
 
+    //need a loop to create a new array of feature objects that holds the value of each time the law was changed in a particular state; possibly add a property to that object that would be year changed
+
     var rect = chart.selectAll(".rect")
         .data(joinedJson) //use data from the JSON after it has been joined with the various CSVs
         .enter()
@@ -577,7 +580,11 @@ function setChart() {
             return "rect " + d.properties.postal;
         })
         .attr("width", squareWidth+"px")
-        .attr("height", squareHeight+"px");
+        .attr("height", squareHeight+"px")
+        .attr("transform", function(d) {
+            
+            return "translate(" + x(1986) + ")";
+        })
     /*
         .transform("translate", function(d){
             for (data in consentyears){ */
