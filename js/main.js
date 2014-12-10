@@ -2,8 +2,8 @@
 var mapWidth = 850, mapHeight = 500;
 var keyArray = ["grade", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
-var expressed = Category[4];
-var yearExpressed = keyArray[40];
+var expressed = Category[1];
+var yearExpressed = keyArray[1];
 var colorize;
 var scale;
 var currentColors = [];
@@ -96,6 +96,7 @@ var chartHeight = 200;
 var chartWidth = 100;
 var squareWidth = 20;
 var squareHeight = 20;
+var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
 //--------------------------------------------------/
@@ -602,8 +603,6 @@ function setChart() {
         .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
 
     //need a loop to create a new array of feature objects that holds the value of each time the law was changed in a particular state; possibly add a property to that object that would be year changed
-
-    var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
     
     //for-loop creates an array of feature objects that stores three values: thisYear (for the year that a law was implemented), newLaw (the categorization of the new policy) and a feature object (the state that the law changed in)
     for (var feature in joinedJson) {
@@ -650,6 +649,8 @@ function setChart() {
             return "#000";
             // return choroplethChart(d, colorize); // can't get it to fill based on attribute
         })
+        .on("mouseover", highlightChart)
+        .on("mouseout", dehighlightChart);
 
     var axis = chart.append("svg")
         .attr("class", "axis")
@@ -682,6 +683,7 @@ function updateChart(currentVariable) {
 /*          START HIGHLIGHT FUNCTIONS          */
 //---------------------------------------------//
 // Robin's section
+//Highlighting for the map
 function highlight(joinedJson) {
     //holds the currently highlighted feature
     var feature = joinedJson.properties ? joinedJson.properties : joinedJson.feature.properties[expressed];
@@ -690,19 +692,31 @@ function highlight(joinedJson) {
         .style("fill", "#00C6FF");
 };
 
+//Highlighting for the chart
+function highlightChart(timelineFeatureArray) {
+    var feature = timelineFeatureArray.feature.properties;
+
+    d3.selectAll("."+feature.postal)
+        .style("fill", "#00C6FF");
+}
+
+//Dehlighting for the map
 function dehighlight(joinedJson) {
     var feature = joinedJson.properties ? joinedJson.properties : joinedJson.feature.properties[expressed];
 
     var selection = d3.selectAll("."+feature.postal);
-
     var fillColor = selection.select("desc").text();
     selection.style("fill", fillColor);
-
-    // var fillColor = selection.style("fill", "#fff");
-
 }
 
+//Dehlighting for the chart
+function dehighlightChart(joinedJson) {
+    var feature = timelineFeatureArray.feature.properties;
 
+    var selection = d3.selectAll("."+feature.postal);
+    var fillColor = selection.select("desc").text();
+    selection.style("fill", fillColor);
+}
 
 
 
