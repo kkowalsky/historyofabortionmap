@@ -277,6 +277,7 @@ function setMap(){
 function drawMenu(){
     $(".Overview").click(function(){ 
         expressed = Category[0];
+        yearExpressed = keyArray[0];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -388,7 +389,7 @@ function createMenu(arrayX, arrayY, title, infotext){
             .attr("class", "items")
             .attr("width", 50)
             .attr("height", 50)
-            .attr("x", 20);
+            .attr("x", 12);
         
         menuItems.data(yArray)
             .attr("y", function(d, i){
@@ -406,13 +407,17 @@ function createMenu(arrayX, arrayY, title, infotext){
         .enter()
         .append("text")
         .attr("class", "menuLabels")
-        .attr("x", 80)
+        .attr("x", 70)
         .text(function(d, i){
             for (var c = 0; c < arrayX.length; c++){
                 return arrayX[i]
             }
         })
-        .style({'font-size': '16px', 'font-family': 'Open Sans, sans-serif'});
+        .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif'});
+
+//    if (title = "Mandatory Ultrasound: "){
+//        menuLabels.style('font-size', '8px');
+//    };
     
         menuLabels.data(yArray)
             .attr("y", function(d, i){
