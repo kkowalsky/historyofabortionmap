@@ -590,6 +590,8 @@ function setChart() {
 
     //need a loop to create a new array of feature objects that holds the value of each time the law was changed in a particular state; possibly add a property to that object that would be year changed
 
+    var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
+
     var rect = chart.selectAll(".rect")
         .data(joinedJson) //use data from the JSON after it has been joined with the various CSVs
         .enter()
@@ -600,8 +602,17 @@ function setChart() {
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px")
         .attr("transform", function(d) {
-            
-            return "translate(" + x(1986) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
+            console.log(d.properties[expressed]);
+            //for-loop creates an array of feature objects that stores two values: a year (for the year that a law was implemented) and a feature object (the state that the law changed in)
+            for (var i=yearsArray[1]; i<yearsArray[yearsArray.length-1]; i++){
+                if (d.properties[expressed][i] != d.properties[expressed][i-1]) {
+                    timelineFeatureArray.push({year: i, feature: d});
+                }
+            }
+            console.log(timelineFeatureArray);
+
+                // }
+            return "translate(" + x(1976) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
     /*
         .transform("translate", function(d){
