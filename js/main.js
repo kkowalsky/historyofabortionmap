@@ -159,6 +159,7 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
+        console.log(joinedJson);
 //        console.log(topojson.feature(usa, usa.objects.states).features);
         // colorize = colorScale(joinedJson);
 //        console.log(colorize);
@@ -166,7 +167,7 @@ function setMap(){
         //Create an Array with CSV's loaded
         var csvArray = [grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound];
         //Names for the overall Label we'd like to assign them
-        var attributeNames = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData"];
+        var attributeNames = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
         //For each CSV in the array, run the LinkData function
         for (csv in csvArray){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
