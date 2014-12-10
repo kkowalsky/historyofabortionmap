@@ -1,9 +1,9 @@
 /******* GLOBAL VARIABLES *******/
 var mapWidth = 850, mapHeight = 500;
 var keyArray = ["grade", "1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
-var Category = ["gradeData", "consentData"];
-var expressed = Category[0];
-var yearExpressed = keyArray[0];
+var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
+var expressed = Category[4];
+var yearExpressed = keyArray[1];
 var colorize;
 var scale;
 var currentColors = [];
@@ -159,7 +159,7 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
-        console.log(joinedJson);
+        // console.log(joinedJson);
 //        console.log(topojson.feature(usa, usa.objects.states).features);
         // colorize = colorScale(joinedJson);
 //        console.log(colorize);
@@ -198,6 +198,7 @@ function setMap(){
 
                     jsonStates[a].properties[attribute] = attrObj;
                  // console.log(jsonStates[a].properties)
+                    console.log(attrObj[attr]);
                     break;
                     };
                 };
@@ -216,6 +217,7 @@ function setMap(){
                 return "states " + d.properties.postal;
             })
             .style("fill", function(d){
+                // console.log(choropleth(d, colorize));
                 return choropleth(d, colorize);
             })
             .attr("d", function(d) {
