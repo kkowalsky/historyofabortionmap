@@ -559,6 +559,11 @@ function choropleth(d, colorize){
     return colorScale(value);
 };
 
+// function choroplethChart(d, colorize) {
+//     var valueChart = d.properties ? d.properties[expressed] : d[expressed];
+//     return colorScale(valueChart);
+// }
+
 
 //---------------------------------------------//
 /*              START CHART FUNCTIONS          */
@@ -567,16 +572,12 @@ function choropleth(d, colorize){
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
-    console.log(joinedJson);
 
     var margin = {top: 10, right: 40, bottom: 30, left:40};
 
     var x = d3.scale.linear()
-        .domain([yearsArray[0], yearsArray[yearsArray.length-1]])
-        //.domain(yearsArray[0])
-        .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square
-    console.log(x.domain());
-    console.log(x.range());
+        .domain([yearsArray[0], yearsArray[yearsArray.length-1]]) //domain is an array of 2 values: the first and last years in the yearsArray (1973 and 2014)
+        .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
     
     var axis = d3.svg.axis()
 
@@ -591,36 +592,47 @@ function setChart() {
     //need a loop to create a new array of feature objects that holds the value of each time the law was changed in a particular state; possibly add a property to that object that would be year changed
 
     var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
+    
+    //for-loop creates an array of feature objects that stores three values: thisYear (for the year that a law was implemented), newLaw (the categorization of the new policy) and a feature object (the state that the law changed in)
+    for (var feature in joinedJson) {
+        // console.log(feature);
+        // console.log(joinedJson[feature]);
+        var featureObject = joinedJson[feature];
+        // console.log(featureObject.properties[expressed]);
+        for (var thisYear=yearsArray[1]; thisYear<yearsArray[yearsArray.length-1]; thisYear++){
+            // console.log(featureObject.properties[expressed][i]);
+            var lastYear = thisYear - 1;
+
+            if (featureObject.properties[expressed][thisYear] != featureObject.properties[expressed][lastYear] && featureObject.properties[expressed][thisYear] != undefined && featureObject.properties[expressed][lastYear] != undefined) { // have to account for the value not being undefined since the grade data is part of the linked data, and that's not relevant for the timeline
+            //     console.log(lastYear, thisYear);
+            // console.log(featureObject.properties[expressed][lastYear], featureObject.properties[expressed][thisYear]);
+            timelineFeatureArray.push({yearChanged: thisYear, newLaw: featureObject.properties[expressed][thisYear], feature: featureObject}); //each time a law is passed in a given year, a new feature object is p
+            }
+        }
+    }
+    // console.log(timelineFeatureArray);
 
     var rect = chart.selectAll(".rect")
-        .data(joinedJson) //use data from the JSON after it has been joined with the various CSVs
+        .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
         .enter()
         .append("rect") //create a rectangle for each state
         .attr("class", function(d) {
-            return "rect " + d.properties.postal;
+            return "rect " + d.feature.properties.postal;
         })
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px")
         .attr("transform", function(d) {
-            console.log(d.properties[expressed]);
-            //for-loop creates an array of feature objects that stores two values: a year (for the year that a law was implemented) and a feature object (the state that the law changed in)
-            for (var i=yearsArray[1]; i<yearsArray[yearsArray.length-1]; i++){
-                if (d.properties[expressed][i] != d.properties[expressed][i-1]) {
-                    timelineFeatureArray.push({year: i, feature: d});
-                }
-            }
-            console.log(timelineFeatureArray);
-
-                // }
-            return "translate(" + x(1976) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
+            // console.log(d.yearChanged);
+            // console.log(d.newLaw);
+            // console.log(d.feature.properties.name);
+            // console.log(d.feature.properties[expressed]);
+            return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
-    /*
-        .transform("translate", function(d){
-            for (data in consentyears){ */
-    
-                //if year val is diff than previous, return scale(year) as translate x value
-
- //   console.log(joinedJson);
+        .style("fill", function(d) {
+            console.log(d);
+            console.log(d.newLaw);
+            return choropleth(d, colorize); // can't get it to fill based on attribute
+        })
 
     var axis = chart.append("svg")
         .attr("class", "axis")
@@ -646,4 +658,4 @@ function updateChart(currentVariable) {
 
     // for (i in currentVariable)
 }
-/* ------------END CHART FUNCTIONS------------*/
+/* ------------END CHART FUNCTIONS------------ */
