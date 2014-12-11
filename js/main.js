@@ -159,7 +159,6 @@ function setMap(){
     
     //creates menu [overview starts on load]
     drawMenu();
-    drawMenuInfo(colorize);
         
     //retrieve and process json file and data
     function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
@@ -272,6 +271,7 @@ function setMap(){
         setChart(); //draw the chart
         //calls overlay function
         overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
+        drawMenuInfo(colorize);
     }; //END callback
 }; //END setmap
 
@@ -297,7 +297,6 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
-        yearExpressed = keyArray[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -316,7 +315,6 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
-        yearExpressed = keyArray[2];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -335,7 +333,6 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
-        yearExpressed = keyArray[3];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -354,7 +351,6 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        yearExpressed = keyArray[4];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -373,7 +369,6 @@ function drawMenu(){
     
     $(".Ultrasound").click(function(){
         expressed = Category[5];
-        yearExpressed = keyArray[5];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -418,15 +413,22 @@ function drawMenuInfo(colorize){
 
 //changes year displayed on map
 function changeAttribute(year, colorize){
+    for (x = 0; x < keyArray.length; x++){
+        if (year == keyArray[x]) {
+             yearExpressed = keyArray[x];
+        }
+    }
+    
     d3.selectAll(".states")
-        .style("fill", function(year){
-            return choropleth(year, choropleth);
+        //POSSIBLE ADD .data(), .enter() functioN????
+        .style("fill", function(d){
+        console.log(d);
+            return choropleth(d, colorize);
         })
         .select("desc")
             .text(function(d) {
                 return choropleth(d, colorize);
         });
-    console.log("hello world");
 }
 
 
@@ -743,13 +745,10 @@ function colorScaleChart(data) {
     return scale(data);
 }
 
-// function choropleth(d, colorize){
-//     var value = d.properties ? d.properties[expressed] : d[expressed];
-//     return colorScale(value);
-// };
-
 function choropleth(d, colorize){
     var data = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
+    console.log(data);
+    //var timeData = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
     return colorScale(data);
 };
 
