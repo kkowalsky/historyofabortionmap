@@ -155,7 +155,7 @@ function setMap(){
     
     //creates menu [overview starts on load]
     drawMenu();
-    drawMenuInfo();
+    drawMenuInfo(colorize);
         
     //retrieve and process json file and data
     function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
@@ -357,14 +357,14 @@ function animateMap(){
 }; //end AnimateMAP
 
 //creates dropdown menu
-function drawMenuInfo(){
+function drawMenuInfo(colorize){
     var dropdown = d3.select(".sequence-buttons")
         .append("div")
         .attr("class", "dropdown")
         //.html("<h4>Select Year: </h4>")
         .append("select")
         .on("change", function(){
-            changeAttribute(this.value);
+            changeAttribute(this.value, colorize);
         });
     
     dropdown.selectAll("options")
@@ -377,10 +377,10 @@ function drawMenuInfo(){
 }; //End DrawMenuInfo
 
 //changes year displayed on map
-function changeAttribute(year){
+function changeAttribute(year, colorize){
     d3.selectAll(".states")
-        .style("fill", function(d){
-            return ;
+        .style("fill", function(year){
+            return choropleth(year, choropleth);
     });
     console.log("hello world");
 }
