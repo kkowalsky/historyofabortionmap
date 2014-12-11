@@ -731,6 +731,12 @@ function setChart() {
         }
     }
     // console.log(timelineFeatureArray);
+    var yearObjectArray = [];
+    for (i = 0; i < keyArray.length; i++) {
+        var yearObject = {"year": keyArray[i],"count":0} ;
+        yearObjectArray.push(yearObject);         
+    }
+    console.log(yearObjectArray);
 
     var rect = chart.selectAll(".rect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
@@ -749,7 +755,16 @@ function setChart() {
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
         .attr("y", function(d,i) {
-            "transform"
+            var yValue;
+            for (i = 0; i < yearObjectArray.length; i++) {
+                // console.log()
+                // console.log(yearObjectArray[i]);
+                if (yearObjectArray[i].year == d.yearChanged) {
+                    yValue = yearObjectArray[i].count*(squareHeight+1);
+                    yearObjectArray[i].count-=1;
+                }
+            }
+            return yValue;
         })
         .style("fill", function(d) {
             // console.log(d);
