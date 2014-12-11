@@ -20,6 +20,15 @@ ul.nav a:hover {
     float: left;
     margin: 10px;
 }
+
+.page-header {
+    margin-top: 0px;
+}
+
+.container {
+    margin-top: 10px;
+}
+
 /*  Menu CSS */
 /*  ------ */
 .main-menu { 
@@ -251,7 +260,7 @@ ul.nav a:hover {
 }
 
 .labelName {
-    
+
 }
 
 /* Graph CSS  */
@@ -272,6 +281,10 @@ ul.nav a:hover {
 
 /* Analysis CSS  */
 /* ------------  */
+
+#analysis {
+    padding-top:0px;
+}
 
 .analysis{
     padding-left: 20px;
