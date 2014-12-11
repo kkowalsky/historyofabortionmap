@@ -632,7 +632,7 @@ function choroplethChart(d, colorize) {
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
     var oldChart = d3.selectAll(".chart").remove();
-    var margin = {top: 100, right: 40, bottom: 30, left:80};
+    var margin = {top: 100, right: 40, bottom: 30, left:200};
 
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
@@ -667,13 +667,13 @@ function setChart() {
             }
         }
     }
-    console.log(timelineFeatureArray);
+    // console.log(timelineFeatureArray);
     var yearObjectArray = [];
     for (i = 0; i < keyArray.length; i++) {
         var yearObject = {"year": keyArray[i],"count":0} ;
         yearObjectArray.push(yearObject);         
     }
-    console.log(yearObjectArray);
+    // console.log(yearObjectArray);
 
     var rect = chart.selectAll(".rect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
@@ -692,7 +692,16 @@ function setChart() {
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
         .attr("y", function(d,i) {
-            "transform"
+            var yValue;
+            for (i = 0; i < yearObjectArray.length; i++) {
+                // console.log()
+                // console.log(yearObjectArray[i]);
+                if (yearObjectArray[i].year == d.yearChanged) {
+                    yValue = yearObjectArray[i].count*(squareHeight+1);
+                    yearObjectArray[i].count-=1;
+                }
+            }
+            return yValue;
         })
         .style("fill", function(d) {
             // console.log(d);
