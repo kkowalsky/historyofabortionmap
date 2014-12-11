@@ -129,14 +129,14 @@ ul.nav a:hover {
 }
 
 .overlay-menu {
-    margin-top: 420px;
+    margin-top: 430px;
 }
 
 .cpc {
     float: left;
     background-color: #c8e713;
     text-align: center;
-    padding: 5%;
+    padding: 1.5%;
 }
 
 .cpc:hover {
@@ -160,7 +160,7 @@ ul.nav a:hover {
     float: left;
     background-color:  #9608cb;
     text-align: center;
-    padding: 5%;
+    padding: 3%;
 }
 
 .abortion:hover {

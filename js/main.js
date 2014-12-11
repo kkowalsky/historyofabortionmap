@@ -1,5 +1,5 @@
 /****** GLOBAL VARIABLES *******/
-var mapWidth = 850, mapHeight = 500;
+var mapWidth = 750, mapHeight = 400;
 var keyArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
 var expressed;
@@ -94,7 +94,7 @@ var removeChart;
 var chartHeight = 200;
 var chartWidth = 100;
 var squareWidth = 20;
-var squareHeight = 20;
+var squareHeight = 10;
 var chartRect;
 var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
 var margin = {top: 100, right: 40, bottom: 30, left:150};
@@ -138,7 +138,7 @@ function setMap(){
     
     //Create a Albers equal area conic projection
     var projection = d3.geo.albersUsa()
-        .scale(1000)
+        .scale(900)
         .translate([mapWidth / 2, mapHeight / 2]);
     
     //create svg path generator using the projection
@@ -288,6 +288,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
+        d3.selectAll(".sequence-buttons").style("");
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
@@ -747,8 +748,6 @@ function colorScaleChart(data) {
 
 function choropleth(d, colorize){
     var data = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
-    console.log(data);
-    //var timeData = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
     return colorScale(data);
 };
 
