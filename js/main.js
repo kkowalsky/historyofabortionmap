@@ -89,7 +89,9 @@ var currentColors = [];
 var currentArray = [];
 
 //SET UP VARIABLES FOR TIMELINE
-var chartHeight = 200;
+var colorizeChart; // colorScale generator for the chart
+var removeChart;
+var chartHeight = 300;
 var chartWidth = 100;
 var squareWidth = 20;
 var squareHeight = 20;
@@ -163,9 +165,7 @@ function setMap(){
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
  //       console.log(joinedJson);
-//        console.log(topojson.feature(usa, usa.objects.states).features);
-//        colorize = colorScale(joinedJson);
-//        console.log(colorize);
+        colorize = colorScale(joinedJson);
 
         //Create an Array with CSV's loaded
         var csvArray = [grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound];
@@ -266,6 +266,7 @@ function setMap(){
             .range([2, 23]);
 
 //        colorScale(joinedJson);
+        removeChart();
         setChart(); //draw the chart
         //calls overlay function
         overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
@@ -283,6 +284,8 @@ function drawMenu(){
             });
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        //robin's code
+        var oldChart = d3.select(".chart").remove();
     });
     
      $(".Prohibited").click(function(){ 
@@ -294,7 +297,8 @@ function drawMenu(){
             });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
-         //robin's code
+        //robin's code
+        // var oldChart = d3.select(".chart").remove();
         setChart();
      });
     
@@ -308,6 +312,7 @@ function drawMenu(){
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2]);
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
+        // var oldChart = d3.select(".chart").remove();
         setChart();
         });
     
@@ -321,6 +326,7 @@ function drawMenu(){
         createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3]);
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
+        // var oldChart = d3.select(".chart").remove();
         setChart();
         });
     
@@ -334,6 +340,7 @@ function drawMenu(){
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
+        // var oldChart = d3.select(".chart").remove();
         setChart();
 });
     
@@ -347,6 +354,7 @@ function drawMenu(){
         createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
+        // var oldChart = d3.select(".chart").remove();
         setChart();
 });
 }; //END drawMenu
@@ -640,7 +648,7 @@ function createInset() {
 //         colorize = colorScale(consent, grade);
 //SET UP COLOR ARRAYS FOR MAP + CHART
 // Color array for Overview & Waiting Period   
-function colorScale(value){
+function colorScale(data){
 // this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
     if (expressed === "gradeData") {   
         currentColors = colorArrayOverview;
@@ -668,8 +676,36 @@ function colorScale(value){
     // console.log(currentColors);
     // console.log(currentArray);
     // console.log(scale(value[yearExpressed]));
-    return scale(value[yearExpressed]);
+    return scale(data[yearExpressed]);
 };
+
+function colorScaleChart(data) {
+    if (expressed === "gradeData") {   
+        currentColors = colorArrayOverview;
+        currentArray = arrayOverview;
+    } else if (expressed === "consentData") {
+        currentColors = colorArrayConsent;
+        currentArray = arrayConsent;
+    } else if (expressed === "prohibitedAfter") {
+        currentColors = colorArrayProhibited;
+        currentArray = arrayProhibited;
+    } else if (expressed === "counseling") {
+        currentColors = colorArrayCounseling;
+        currentArray = arrayCounseling;
+    } else if (expressed === "waitingPeriod") {
+         currentColors = colorArrayCounseling;
+         currentArray = arrayWaitingPeriod;
+    } else if (expressed === "ultrasound") {
+        currentColors = colorArrayUltrasound;
+        currentArray = arrayUltrasound;
+    };
+
+    scale = d3.scale.ordinal()
+                .range(currentColors)
+                .domain(currentArray); 
+
+    return scale(data);
+}
 
 // function choropleth(d, colorize){
 //     var value = d.properties ? d.properties[expressed] : d[expressed];
@@ -677,14 +713,16 @@ function colorScale(value){
 // };
 
 function choropleth(d, colorize){
-    var value = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
-    return colorScale(value);
+    var data = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
+    return colorScale(data);
 };
 
-function choroplethChart(d, colorize) {
-    var valueChart = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
-    return colorScale(valueChart);
-}
+// function choroplethChart(d, colorize) {
+//     colorizeChart = colorScaleChart(timelineFeatureArray);
+//     var valueChart = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
+//     console.log(valueChart);
+//     return colorScaleChart(valueChart);
+// }
 
 
 //---------------------------------------------//
@@ -694,14 +732,15 @@ function choroplethChart(d, colorize) {
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
-    var oldChart = d3.selectAll(".chart").remove();
-    var margin = {top: 100, right: 40, bottom: 30, left:80};
+    // var oldChart = d3.select(".chart").remove();
+    // $(".menu-options").click(function() {     
+    var margin = {top: 100, right: 40, bottom: 30, left:150};
 
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
     
-    var axis = d3.svg.axis()
+    var axis = d3.svg.axis();
 
     var chart = d3.select(".graph")
         .append("svg")
@@ -736,14 +775,14 @@ function setChart() {
         var yearObject = {"year": keyArray[i],"count":0} ;
         yearObjectArray.push(yearObject);         
     }
-    console.log(yearObjectArray);
-
-    var rect = chart.selectAll(".rect")
+    // console.log(yearObjectArray);
+    colorize = colorScale(yearObjectArray);
+    var chartRect = chart.selectAll(".chartRect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
         .enter()
         .append("rect") //create a rectangle for each state
         .attr("class", function(d) {
-            return "rect " + d.feature.properties.postal;
+            return "chartRect " + d.feature.properties.postal;
         })
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px")
@@ -770,10 +809,11 @@ function setChart() {
             // console.log(d);
             // console.log(d.newLaw);
             // console.log(d.feature.properties[expressed]);
-            return "#000";
-            // return choroplethChart(d, colorize); // can't get it to fill based on attribute
+            // return "#000";
+            console.log(yearObjectArray);
+            return choropleth(d, colorize); // can't get it to fill based on attribute
         })
-        .on("mouseover", highlightChart)
+        .on("mouseover", highlight)
         .on("mouseout", dehighlightChart);
 
     var axis = chart.append("svg")
@@ -790,6 +830,12 @@ function setChart() {
         // .tickSize(0)
     // updateChart(joinedJson);
 };
+
+function removeChart() {
+    if ($(".chartRect").length > 0) {
+    removeChart = d3.selectAll(".chart").remove();
+    }
+}
 
 // updateChart function is called when the variable is changed
 function updateChart(currentVariable) {
@@ -808,10 +854,10 @@ function updateChart(currentVariable) {
 //---------------------------------------------//
 // Robin's section
 //Highlighting for the map
-function highlight(joinedJson) {
+function highlight(joinedJson, timelineFeatureArray) {
     //holds the currently highlighted feature
-    var feature = joinedJson.properties ? joinedJson.properties : joinedJson.feature.properties[expressed];
-
+    var feature = joinedJson.properties ? joinedJson.properties : timelineFeatureArray.feature.properties;
+    console.log(timelineFeatureArray);
     d3.selectAll("."+feature.postal)
         // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#00C6FF");
@@ -826,7 +872,7 @@ function highlightChart(timelineFeatureArray) {
 }
 
 //Dehlighting for the map
-function dehighlight(joinedJson) {
+function dehighlight(joinedJson, timelineFeatureArray) {
     var feature = joinedJson.properties ? joinedJson.properties : joinedJson.feature.properties[expressed];
 
     var selection = d3.selectAll("."+feature.postal);
