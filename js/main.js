@@ -291,7 +291,8 @@ function drawMenu(){
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
-        var oldChart = d3.select(".chart").remove();
+        var oldChart = d3.selectAll(".chart").remove();
+        var oldRects = d3.selectAll(".chartRect").remove();
     });
     
      $(".Prohibited").click(function(){ 
@@ -308,7 +309,8 @@ function drawMenu(){
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
-        // var oldChart = d3.select(".chart").remove();
+        var oldChart = d3.select(".chart").remove();
+        var oldRects = d3.selectAll(".chartRect").remove();
         setChart();
      });
     
@@ -326,7 +328,8 @@ function drawMenu(){
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2]);
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
-        // var oldChart = d3.select(".chart").remove();
+        var oldChart = d3.select(".chart").remove();
+        var oldRects = d3.selectAll(".chartRect").remove();
         setChart();
         });
     
@@ -344,7 +347,8 @@ function drawMenu(){
         createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3]);
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
-        // var oldChart = d3.select(".chart").remove();
+        var oldChart = d3.select(".chart").remove();
+        var oldRects = d3.selectAll(".chartRect").remove();
         setChart();
         });
     
@@ -362,7 +366,8 @@ function drawMenu(){
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
-        // var oldChart = d3.select(".chart").remove();
+        var oldChart = d3.select(".chart").remove();
+        var oldRects = d3.selectAll(".chartRect").remove();
         setChart();
 });
     
@@ -380,7 +385,8 @@ function drawMenu(){
         createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
-        // var oldChart = d3.select(".chart").remove();
+        var oldChart = d3.select(".chart").remove();
+        var oldRects = d3.selectAll(".chartRect").remove();
         setChart();
 });
 }; //END drawMenu
@@ -762,7 +768,7 @@ function choropleth(d, colorize){
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
-    // var oldChart = d3.select(".chart").remove();
+    var oldChart = d3.selectAll(".chart").remove();
     // $(".menu-options").click(function() {     
     
     var axis = d3.svg.axis();
@@ -856,6 +862,7 @@ function setChart() {
 
 // updateChart function is called when the variable is changed
 function updateChart(data) {
+    var moreOldStuff = d3.selectAll(".rectStyle").remove();
     var xValue = 0; //holds the x position of each square in the timeline
     var yValue = 0; //holds the y position of each square in the timeline
     var curentYear; //year the for-loop is currently looking at
