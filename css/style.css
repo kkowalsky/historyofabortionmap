@@ -237,6 +237,23 @@ ul.nav a:hover {
     stroke-width: 0.75px;
 }
 
+/* Labels CSS  */
+/* ---------  */
+
+.infoLabel {
+    position: absolute;
+    width: 180px;
+    height: auto;
+    background-color: rgba(51,51,51,.85);
+    color:#f7eb3e;
+    /*border: solid thin #fff;*/
+    padding: 10px;
+}
+
+.labelName {
+    
+}
+
 /* Graph CSS  */
 /* ---------  */
 

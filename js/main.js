@@ -281,6 +281,10 @@ function drawMenu(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
             });
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -294,6 +298,10 @@ function drawMenu(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
             });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -308,6 +316,10 @@ function drawMenu(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
             });
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2]);
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -322,6 +334,10 @@ function drawMenu(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
             });
         createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3]);
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -336,6 +352,10 @@ function drawMenu(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
             });
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -350,6 +370,10 @@ function drawMenu(){
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
             });
         createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -389,7 +413,11 @@ function changeAttribute(year, colorize){
     d3.selectAll(".states")
         .style("fill", function(year){
             return choropleth(year, choropleth);
-    });
+        })
+        .select("desc")
+            .text(function(d) {
+                return choropleth(d, colorize);
+        });
     console.log("hello world");
 }
 
@@ -663,7 +691,7 @@ function colorScale(data){
         currentColors = colorArrayCounseling;
         currentArray = arrayCounseling;
     } else if (expressed === "waitingPeriod") {
-         currentColors = colorArrayCounseling;
+         currentColors = colorArrayOverview;
          currentArray = arrayWaitingPeriod;
     } else if (expressed === "ultrasound") {
         currentColors = colorArrayUltrasound;
@@ -693,7 +721,7 @@ function colorScaleChart(data) {
         currentColors = colorArrayCounseling;
         currentArray = arrayCounseling;
     } else if (expressed === "waitingPeriod") {
-         currentColors = colorArrayCounseling;
+         currentColors = colorArrayOverview;
          currentArray = arrayWaitingPeriod;
     } else if (expressed === "ultrasound") {
         currentColors = colorArrayUltrasound;
@@ -813,7 +841,7 @@ function setChart() {
             console.log(yearObjectArray);
             return choropleth(d, colorize); // can't get it to fill based on attribute
         })
-        .on("mouseover", highlight)
+        .on("mouseover", highlightChart)
         .on("mouseout", dehighlightChart);
 
     var axis = chart.append("svg")
@@ -857,16 +885,25 @@ function updateChart(currentVariable) {
 function highlight(joinedJson, timelineFeatureArray) {
     //holds the currently highlighted feature
     var feature = joinedJson.properties ? joinedJson.properties : timelineFeatureArray.feature.properties;
-    console.log(timelineFeatureArray);
+    console.log(feature.name);
+    console.log(feature.postal);
     d3.selectAll("."+feature.postal)
         // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#00C6FF");
+
+    var labelName = feature.name;
+
+    var infoLabel = d3.select("body")
+        .append("div")
+        .attr("class", "infoLabel")
+        .attr("id",feature.postal+"label")
+        .html(labelName);
 };
 
 //Highlighting for the chart
 function highlightChart(timelineFeatureArray) {
     var feature = timelineFeatureArray.feature.properties;
-
+    console.log(feature);
     d3.selectAll("."+feature.postal)
         .style("fill", "#00C6FF");
 }
@@ -878,6 +915,8 @@ function dehighlight(joinedJson, timelineFeatureArray) {
     var selection = d3.selectAll("."+feature.postal);
     var fillColor = selection.select("desc").text();
     selection.style("fill", fillColor);
+
+    var deselect = d3.select("#"+feature.postal+"label").remove();
 }
 
 //Dehlighting for the chart
