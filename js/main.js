@@ -159,6 +159,7 @@ function setMap(){
     
     //creates menu [overview starts on load]
     drawMenu();
+    drawMenuInfo(colorize);
         
     //retrieve and process json file and data
     function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
@@ -288,8 +289,8 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        d3.selectAll(".sequence-buttons").style("");
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
+        d3.selectAll(".sequence-buttons").style("");
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.selectAll(".chart").remove();
@@ -298,6 +299,7 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
+        yearExpressed = keyArray[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -316,6 +318,7 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
+        yearExpressed = keyArray[2];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -334,6 +337,7 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
+        yearExpressed = keyArray[3];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -352,6 +356,7 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
+        yearExpressed = keyArray[4];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -370,6 +375,7 @@ function drawMenu(){
     
     $(".Ultrasound").click(function(){
         expressed = Category[5];
+        yearExpressed = keyArray[5];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -419,17 +425,15 @@ function changeAttribute(year, colorize){
              yearExpressed = keyArray[x];
         }
     }
-    
     d3.selectAll(".states")
-        //POSSIBLE ADD .data(), .enter() functioN????
-        .style("fill", function(d){
-        console.log(d);
-            return choropleth(d, colorize);
+        .style("fill", function(year){
+            return choropleth(year, colorize);
         })
         .select("desc")
             .text(function(d) {
                 return choropleth(d, colorize);
         });
+    console.log("hello world");
 }
 
 
@@ -746,6 +750,11 @@ function colorScaleChart(data) {
     return scale(data);
 }
 
+// function choropleth(d, colorize){
+//     var value = d.properties ? d.properties[expressed] : d[expressed];
+//     return colorScale(value);
+// };
+
 function choropleth(d, colorize){
     var data = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
     return colorScale(data);
@@ -794,7 +803,7 @@ function setChart() {
             if (featureObject.properties[expressed][thisYear] != featureObject.properties[expressed][lastYear] && featureObject.properties[expressed][thisYear] != undefined && featureObject.properties[expressed][lastYear] != undefined) { // have to account for the value not being undefined since the grade data is part of the linked data, and that's not relevant for the timeline
             //     console.log(lastYear, thisYear);
             // console.log(featureObject.properties[expressed][lastYear], featureObject.properties[expressed][thisYear]);
-            timelineFeatureArray.push({yearChanged: thisYear, newLaw: featureObject.properties[expressed][thisYear], feature: featureObject}); //each time a law is passed in a given year, a new feature object is pushed to the timelineFeatureArray
+            timelineFeatureArray.push({yearChanged: Number(thisYear), newLaw: featureObject.properties[expressed][thisYear], feature: featureObject}); //each time a law is passed in a given year, a new feature object is pushed to the timelineFeatureArray
             }
         }
     }
@@ -871,8 +880,15 @@ function updateChart(data) {
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
-    for (i = 0; i < keyArray.length; i++) {
-        var yearObject = {"year": keyArray[i],"count":0} ;
+    for (i = 0; i < timelineFeatureArray.length; i++) {
+        for (key in keyArray) {
+            //hello
+            //loop through here to see which year it matches and up
+            console.log(keyArray[key]);
+            var yearObject = {"year": keyArray[key],"count":0};
+        }
+        // var yearObject = {"year": keyArray[i],"count":0};
+        //need another for-loop to loop through all of the states and determines whether they have a change that year
         yearObjectArray.push(yearObject);         
     }
 
@@ -898,12 +914,13 @@ function updateChart(data) {
             return yValue;
         })
         .style("fill", function(d) {
-            // console.log(d);
+            console.log(d.feature.properties);
             // console.log(d.newLaw);
             // console.log(d.feature.properties[expressed]);
             // return "#000";
             // console.log(yearObjectArray);
-            return choropleth(d, colorize); // can't get it to fill based on attribute
+            console.log(choropleth(d.feature, colorize));
+            return choropleth(d.feature, colorize); // can't get it to fill based on attribute
         })
         .on("mouseover", highlightChart)
         .on("mouseout", dehighlight);
