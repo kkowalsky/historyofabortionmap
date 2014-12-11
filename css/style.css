@@ -184,6 +184,19 @@ ul.nav a:hover {
     font-family: Open Sans, sans-serif;
 }
 
+.cpcMenuInfoBox{
+    margin-top: 3%;
+    margin-left: 29%;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
+}
+
+.abortionMenuInfoBox{
+    margin-top: 3%;
+    margin-left: 29%;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
+}
 
 .sequence-buttons {
     padding-right: 15%;

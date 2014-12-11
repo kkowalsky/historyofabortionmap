@@ -10,12 +10,10 @@ var currentColors = [];
 var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
-var textArray = ["Explanation of Overview Henshaw travelled to France near the beginning of World War I, and returned to give speeches in favour of conscription and to raise money for ambulance services there. She particularly spoke to female audiences, some of whom had been granted the right to vote by the Wartime Elections Act of 1917, and hence to vote on the conscription question", "Explanation of Prohibited At Born in Yate, Gloucestershire, Rowling was working as a researcher and bilingual secretary for Amnesty International when she conceived the idea for the Harry Potter series on a delayed train from Manchester to London in 1990.", "Explanation of Mandated Counseling The university has three campuses: Streatham; St Luke's (both of which are in Exeter); and Tremough in Cornwall. The university is centred in the city of Exeter, Devon, where it is the principal higher education institution.", "Explanation of Waiting Period In 2007, Spears's much-publicized personal issues sent her career into hiatus. Her fifth studio album, Blackout, was released later that year, and spawned hits such as Gimme More and Piece of Me. ", "Explanation of Parental Consent Mad Men is set in the 1960s, initially at the fictional Sterling Cooper advertising agency on Madison Avenue in New York City, and later at the newly created firm, Sterling Cooper Draper Pryce (later Sterling Cooper & Partners), located nearby in the Time-Life Building, at 1271 Sixth Avenue.", "Explanation of Mandatory Ultrasound They have a lot of production meetings during pre-production. The day the script comes in we all meet for a first page turn, and Matt starts telling us how he envisions it. Then there's a tone meeting a few days later where Matt tells us how he envisions it. And then there's a final full crew production meeting where Matt again tells us how he envisions it....", "Explanation of CPCS Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", "Explanation of Abortion Providers Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."];
+var textArray = ["State grade based on abortion choice-related laws.", "State laws restricting abortion services provided beyond the national law.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "State required waiting period (in hours) after counseling before a woman can have an abortion.", "State laws restricting young women's access to abortion services by mandating parental consent and/or notice.", "State laws mandating the offering of and/or requiring ultrasound services.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
-
-//minorchange
 
 // SET UP ARRAYS FOR CATEGORIES OF EACH VARIABLE
     //Variable array for Overview
@@ -100,7 +98,7 @@ var timelineFeatureArray = []; //this will hold the new feature objects that wil
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
 //--------------------------------------------------/
 
-//changes active state
+//loads everythang
 window.onload = initialize();
 
 //changes active state of navbar
@@ -114,16 +112,17 @@ $(function(){
                 $thisLi.addClass('active');
         }
     })
-});
+});//end active navbar function
 
 function initialize(){
     expressed = Category[0];
     yearExpressed = keyArray[keyArray.length-1];
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
+    createInset();
     //$(".glyphicon-pause").hide();
     $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
-}; //END initialize
+}; //End initialize
 
 //creates map
 function setMap(){
@@ -165,7 +164,7 @@ function setMap(){
         joinedJson = topojson.feature(usa, usa.objects.states).features;
  //       console.log(joinedJson);
 //        console.log(topojson.feature(usa, usa.objects.states).features);
-        // colorize = colorScale(joinedJson);
+//        colorize = colorScale(joinedJson);
 //        console.log(colorize);
 
         //Create an Array with CSV's loaded
@@ -178,7 +177,6 @@ function setMap(){
         };
 
         function LinkData(topojson, csvData, attribute){
-
              var jsonStates = usa.objects.states.geometries;
 
             //loop through the csv and tie it to the json's via the State Abbreviation
@@ -354,16 +352,20 @@ function drawMenu(){
 }; //END drawMenu
 
 //TODO: animate map with play/pause buttons
+function animateMap(){
+    
+}; //end AnimateMAP
 
-//TODO: have map year change with dropdown
-
-
+//creates dropdown menu
 function drawMenuInfo(){
     var dropdown = d3.select(".sequence-buttons")
         .append("div")
         .attr("class", "dropdown")
         //.html("<h4>Select Year: </h4>")
-        .append("select");
+        .append("select")
+        .on("change", function(){
+            changeAttribute(this.value);
+        });
     
     dropdown.selectAll("options")
         .data(keyArray)
@@ -371,9 +373,18 @@ function drawMenuInfo(){
         .append("option")
         .attr("value", function(d){ return d})
         .text(function(d){
-            return d });
-    
+            return d });  
 }; //End DrawMenuInfo
+
+//changes year displayed on map
+function changeAttribute(year){
+    d3.selectAll(".states")
+        .style("fill", function(d){
+            return ;
+    });
+    console.log("hello world");
+}
+
 
 //creates the menu items 
 function createMenu(arrayX, arrayY, title, infotext){
@@ -452,14 +463,13 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
         var cpcInsetDiv = document.getElementById('cpc-inset');
         if (d3.selectAll(".cpcLocations")[0].length > 0){
             removeCPC = d3.selectAll(".cpcLocations").remove();
-            removeCPCInset = d3.selectAll(".cpcCircles").remove();
+            removeCPCInfo = d3.selectAll(".cpcMenuInfoBox").remove();
             cpcDiv.style.backgroundColor = "#c8e713";
             cpcDiv.style.color = "#fff";
             cpcDiv.style.border = "none";
             cpcInsetDiv.style.visibility = "hidden";
         } else {
             cpcPoints(map, cpc, path, cpcRadius);
-            createInset();
             cpcDiv.style.backgroundColor = "#fff";
             cpcDiv.style.borderStyle = "solid";
             cpcDiv.style.borderColor = "#c8e713";
@@ -474,14 +484,13 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
         var insetDiv = document.getElementById('abortion-inset');
         if (d3.selectAll(".abortionLocations")[0].length > 0){
             removeAbortion = d3.selectAll(".abortionLocations").remove();
-            removeAbortionInset = d3.selectAll(".abortionCircles").remove();
+            removeAbortionInfo = d3.selectAll(".abortionMenuInfoBox").remove();
             abortionDiv.style.backgroundColor = "#9608cb";
             abortionDiv.style.color = "#fff";
             abortionDiv.style.border = "none";
             insetDiv.style.visibility = "hidden";
         } else {
             abortionPoints(map, abortionprovider, path, abortionRadius);
-            createInset();
             abortionDiv.style.backgroundColor = "#fff";
             abortionDiv.style.borderStyle = "solid";
             abortionDiv.style.borderColor = "#9608cb";
@@ -502,6 +511,14 @@ function cpcPoints(map, cpc, path, cpcRadius){
         .attr('d', path.pointRadius(function(d){
             return cpcRadius(d.properties.Count);
         }));   
+    
+    //creates menuBoxes
+    var menuInfoBox = d3.select(".menu-info")
+        .append("div")
+        .attr("width", menuInfoWidth)
+        .attr("height", menuInfoHeight)
+        .attr("class", "cpcMenuInfoBox")
+        .text(textArray[6]);
 }; //end cpcPoints
 
 //creates abortion providers point data
@@ -514,15 +531,24 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
         .attr('d', path.pointRadius(function(d){
             return abortionRadius(d.properties.Count);
         }));
+    
+    //creates menuBoxes
+    var menuInfoBox = d3.select(".menu-info")
+        .append("div")
+        .attr("width", menuInfoWidth)
+        .attr("height", menuInfoHeight)
+        .attr("class", "abortionMenuInfoBox")
+        .text(textArray[7]);
 }; //end abortionPoints
 
-//TODO: finish overlay menus
 //creates proportional symbol legend
 function createInset() {
     var oldItems3 = d3.selectAll(".cpcCircles").remove();
     var oldItems4 = d3.selectAll(".abortionCircles").remove();
     var cpcRadiusArray = [2, 11.85, 20];
+    var cpcLabelArray = [1, 4, 8];
     var abortionRadiusArray = [2, 16.23, 20];
+    var abortionLabelArray = [1, 6, 11];
     
     //creates menuBoxes
     cpcMenuBox = d3.select(".cpc-inset")
@@ -538,7 +564,7 @@ function createInset() {
         .append("circle")
         .attr("cy", 30)
         .attr("cx", function(d, i){
-            return (2*d)+(i*40)+10;
+            return (2*d)+(i*50)+10;
         })
         .attr("r", function(d, i){
             return d;
@@ -546,6 +572,24 @@ function createInset() {
         .attr("class", "cpcCircles")
         .style({'fill': '#c8e713','fill-opacity': '0.5', 'stroke': '#9fb80f', 'stroke-width': '0.75px'});  
     
+    //labels cpc circles
+    var cpcLabels = cpcMenuBox.selectAll(".cpcOverlayLabels")
+        .data(cpcLabelArray)
+        .enter()
+        .append("text")
+        .attr("class", "cpcOverlayLabels")
+        .attr("y", 35)
+        .text(function(d, i){
+            for (var k = 0; k < cpcLabelArray.length; k++){
+                return cpcLabelArray[i]
+            }
+        })
+        .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif'});
+    
+        cpcLabels.data(cpcRadiusArray)
+            .attr("x", function(d, i){
+                return (3*d)+(i*50)+15;
+            });
     
     abortionMenuBox = d3.select(".abortion-inset")
         .append("svg")
@@ -560,14 +604,33 @@ function createInset() {
         .append("circle")
         .attr("cy", 30)
         .attr("cx", function(d, i){
-            return (2*d)+(i*40)+10;
+            return (2*d)+(i*50)+10;
         })
         .attr("r", function(d, i){
             return d;
         })
         .attr("class", "abortionCircles")
-        .style({'fill': '#9608cb','fill-opacity': '0.5', 'stroke': '#72069a', 'stroke-width': '0.75px'});      
-    //labels circles
+        .style({'fill': '#9608cb','fill-opacity': '0.5', 'stroke': '#72069a', 'stroke-width': '0.75px'}); 
+    
+    //labels abortion circles
+    var abortionLabels = abortionMenuBox.selectAll(".abortionOverlayLabels")
+        .data(abortionLabelArray)
+        .enter()
+        .append("text")
+        .attr("class", "abortionOverlayLabels")
+        .attr("y", 35)
+        .text(function(d, i){
+            for (var k = 0; k < abortionLabelArray.length; k++){
+                return abortionLabelArray[i]
+            }
+        })
+        .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif'});
+    
+        abortionLabels.data(abortionRadiusArray)
+            .attr("x", function(d, i){
+                return (3*d)+(i*50)+15;
+            });
+    
 }; //END create inset
 /* Katie's section end */
 
