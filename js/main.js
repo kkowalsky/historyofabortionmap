@@ -162,7 +162,7 @@ function setMap(){
     //creates menu [overview starts on load]
     drawMenu();
     drawMenuInfo(colorize);
-    
+        
     //retrieve and process json file and data
     function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
 
@@ -301,6 +301,7 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
+        yearExpressed = keyArray[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -319,6 +320,7 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
+        yearExpressed = keyArray[2];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -337,6 +339,7 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
+        yearExpressed = keyArray[3];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -355,6 +358,7 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
+        yearExpressed = keyArray[4];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -373,6 +377,7 @@ function drawMenu(){
     
     $(".Ultrasound").click(function(){
         expressed = Category[5];
+        yearExpressed = keyArray[5];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -876,18 +881,27 @@ function updateChart(data) {
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
+    console.log(timelineFeatureArray);
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
     for (i = 0; i < timelineFeatureArray.length; i++) {
         for (key in keyArray) {
-            //hello
             //loop through here to see which year it matches and up
-//           console.log(keyArray[key]);
-            var yearObject = {"year": keyArray[key],"count":0};
+            // console.log(keyArray[key]);
+            // console.log(timelineFeatureArray[i].yearChanged);
+            // console.log(key)
+            if (timelineFeatureArray[i].yearChanged == keyArray[key]) {
+                console.log(timelineFeatureArray[i].yearChanged)
+                console.log(keyArray[key])
+                var yearObject = {"year": keyArray[key],"count":0};
+                console.log(yearObject);
+                yearObjectArray.push(yearObject);  
+            }
         }
         // var yearObject = {"year": keyArray[i],"count":0};
         //need another for-loop to loop through all of the states and determines whether they have a change that year
-        yearObjectArray.push(yearObject);         
+               
     }
+    console.log(yearObjectArray);
 
     colorize = colorScale(yearObjectArray);
 
@@ -901,7 +915,6 @@ function updateChart(data) {
         .attr("y", function(d,i) {
             var yValue;
             for (i = 0; i < yearObjectArray.length; i++) {
-                // console.log()
                 // console.log(yearObjectArray[i]);
                 if (yearObjectArray[i].year == d.yearChanged) {
                     yValue = yearObjectArray[i].count*(squareHeight+1);
