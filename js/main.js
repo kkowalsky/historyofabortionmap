@@ -11,7 +11,7 @@ var currentColors = [];
 var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
-var textArray = ["State grade based on abortion choice-related laws.", "State laws restricting abortion services provided beyond the national law.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "State required waiting period (in hours) after counseling before a woman can have an abortion.", "State laws restricting young women's access to abortion services by mandating parental consent and/or notice.", "State laws mandating the offering of and/or requiring ultrasound services.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
+var textArray = ["The report card grade given to each state based on their policies regarding a woman's choice and access to abortions.", "States with laws that require biased-counseling to women seeking abortion services.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "States where a woman must wait a designated period of time after counseling before having an abortion.", "States with laws restricting young women's access to abortion services by mandating parental consent.", "States where an ultrasound either must be performed, offered, or advised prior to an abortion.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
 var linkArray = ["<a href = '#jumpoverview'> Read More...</a>", "<a href = '#jumpprohibted'> Read More...</a>", "<a href = '#jumpconsent'> Read More...</a>", "<a href = '#jumpcounseling'> Read More...</a>", "<a href = '#jumpultra'> Read More...</a>", "<a href = '#jumpcpc'> Read More...</a>"];
 var removeCPC;
 var removeAbortion;
@@ -886,7 +886,7 @@ function updateChart(data) {
         for (key in keyArray) {
             //hello
             //loop through here to see which year it matches and up
-            console.log(keyArray[key]);
+//           console.log(keyArray[key]);
             var yearObject = {"year": keyArray[key],"count":0};
         }
         // var yearObject = {"year": keyArray[i],"count":0};
@@ -916,7 +916,7 @@ function updateChart(data) {
             return yValue;
         })
         .style("fill", function(d) {
-            console.log(d.feature.properties);
+  //          console.log(d.feature.properties);
             // console.log(d.newLaw);
             // console.log(d.feature.properties[expressed]);
             // return "#000";
