@@ -49,9 +49,9 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
                             "none"   ];  
 
     //Variable array for Ultrasound
-    var arrayUltrasound = ["Must be performed, offer to view",      
-                        "x",      
-                        "o",      
+    var arrayUltrasound = ["Must be performed",      
+                        "Must be offered",      
+                        "Must be informed",      
                         "none"   ];  
 
 // SET UP COLOR ARRAYS FOR EACH VARIABLE
