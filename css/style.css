@@ -191,6 +191,7 @@ ul.nav a:hover {
     margin-left: 29%;
     font-size: 14px;
     font-family: Open Sans, sans-serif;
+    display: inline-block;
 }
 
 .cpcMenuInfoBox{
