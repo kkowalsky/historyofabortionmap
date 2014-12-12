@@ -162,7 +162,7 @@ function setMap(){
     //creates menu [overview starts on load]
     drawMenu();
     drawMenuInfo(colorize);
-        
+    
     //retrieve and process json file and data
     function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
 
