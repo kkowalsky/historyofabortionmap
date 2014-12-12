@@ -11,8 +11,8 @@ var currentColors = [];
 var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
-var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions.", "States with laws that require biased-counseling to women seeking abortion services.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "States where a woman must wait a designated period of time after counseling before having an abortion.", "States with laws restricting young women's access to abortion services by mandating parental consent.", "States where an ultrasound either must be performed, offered, or advised prior to an abortion.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
-var linkArray = ["<a href = '#jumpoverview'> Read More</a>", "<a href = '#jumpprohibted'> Read More</a>", "<a href = '#jumpconsent'> Read More</a>", "<a href = '#jumpcounseling'> Read More</a>", "<a href = '#jumpultra'> Read More</a>", "<a href = '#jumpcpc'> Read More</a>"];
+var textArray = ["The report card grade given to each state based on their policies regarding a woman's choice and access to abortions.", "States with laws that require biased-counseling to women seeking abortion services.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "States where a woman must wait a designated period of time after counseling before having an abortion.", "States with laws restricting young women's access to abortion services by mandating parental consent.", "States where an ultrasound either must be performed, offered, or advised prior to an abortion.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
+var linkArray = ["<a href = '#jumpoverview'> Read More...</a>", "<a href = '#jumpprohibted'> Read More...</a>", "<a href = '#jumpconsent'> Read More...</a>", "<a href = '#jumpcounseling'> Read More...</a>", "<a href = '#jumpultra'> Read More...</a>", "<a href = '#jumpcpc'> Read More...</a>"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -161,7 +161,7 @@ function setMap(){
     
     //creates menu [overview starts on load]
     drawMenu();
-    //drawMenuInfo(colorize);
+    drawMenuInfo(colorize);
         
     //retrieve and process json file and data
     function callback(error, grade, prohibitedAfter, counseling, waitingPeriod, consent, ultrasound, usa, cpc, abortionprovider){
@@ -301,7 +301,6 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
-        yearExpressed = keyArray[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -320,7 +319,6 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
-        yearExpressed = keyArray[2];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -339,7 +337,6 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
-        yearExpressed = keyArray[3];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -358,7 +355,6 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        yearExpressed = keyArray[4];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -377,7 +373,6 @@ function drawMenu(){
     
     $(".Ultrasound").click(function(){
         expressed = Category[5];
-        yearExpressed = keyArray[5];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -881,27 +876,18 @@ function updateChart(data) {
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
-    console.log(timelineFeatureArray);
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
     for (i = 0; i < timelineFeatureArray.length; i++) {
         for (key in keyArray) {
+            //hello
             //loop through here to see which year it matches and up
-            // console.log(keyArray[key]);
-            // console.log(timelineFeatureArray[i].yearChanged);
-            // console.log(key)
-            if (timelineFeatureArray[i].yearChanged == keyArray[key]) {
-                console.log(timelineFeatureArray[i].yearChanged)
-                console.log(keyArray[key])
-                var yearObject = {"year": keyArray[key],"count":0};
-                console.log(yearObject);
-                yearObjectArray.push(yearObject);  
-            }
+//           console.log(keyArray[key]);
+            var yearObject = {"year": keyArray[key],"count":0};
         }
         // var yearObject = {"year": keyArray[i],"count":0};
         //need another for-loop to loop through all of the states and determines whether they have a change that year
-               
+        yearObjectArray.push(yearObject);         
     }
-    console.log(yearObjectArray);
 
     colorize = colorScale(yearObjectArray);
 
@@ -915,6 +901,7 @@ function updateChart(data) {
         .attr("y", function(d,i) {
             var yValue;
             for (i = 0; i < yearObjectArray.length; i++) {
+                // console.log()
                 // console.log(yearObjectArray[i]);
                 if (yearObjectArray[i].year == d.yearChanged) {
                     yValue = yearObjectArray[i].count*(squareHeight+1);
