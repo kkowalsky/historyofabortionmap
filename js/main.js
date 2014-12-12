@@ -12,6 +12,7 @@ var menuWidth = 200, menuHeight = 420;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
 var textArray = ["State grade based on abortion choice-related laws.", "State laws restricting abortion services provided beyond the national law.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "State required waiting period (in hours) after counseling before a woman can have an abortion.", "State laws restricting young women's access to abortion services by mandating parental consent and/or notice.", "State laws mandating the offering of and/or requiring ultrasound services.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
+var linkArray = ["<a href = '#jumpoverview'> Read More...</a>", "<a href = '#jumpprohibted'> Read More...</a>", "<a href = '#jumpconsent'> Read More...</a>", "<a href = '#jumpcounseling'> Read More...</a>", "<a href = '#jumpultra'> Read More...</a>", "<a href = '#jumpcpc'> Read More...</a>"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -123,7 +124,7 @@ function initialize(){
     expressed = Category[0];
     yearExpressed = keyArray[keyArray.length-1];
     setMap();
-    createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
+    createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
     //$(".glyphicon-pause").hide();
     $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
@@ -290,7 +291,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0]);
+        createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
         d3.selectAll(".sequence-buttons").style("");
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
@@ -309,7 +310,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1]);
+        createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1], linkArray[1]);
             $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
@@ -328,7 +329,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2]);
+        createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2], linkArray[2]);
         $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
@@ -347,7 +348,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3]);
+        createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3], linkArray[3]);
         $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
@@ -366,7 +367,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4])
+        createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4], linkArray[4])
         $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
@@ -385,7 +386,7 @@ function drawMenu(){
                 .text(function(d) {
                     return choropleth(d, colorize);
             });
-        createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5]);
+        createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5], linkArray[5]);
         $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
@@ -439,7 +440,7 @@ function changeAttribute(year, colorize){
 
 
 //creates the menu items 
-function createMenu(arrayX, arrayY, title, infotext){
+function createMenu(arrayX, arrayY, title, infotext, infolink){
     var yArray = [50, 105, 160, 215, 270, 325];
     var oldItems = d3.selectAll(".menuBox").remove();
     var oldItems2 = d3.selectAll(".menuInfoBox").remove();
@@ -505,7 +506,7 @@ function createMenu(arrayX, arrayY, title, infotext){
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
         .attr("class", "menuInfoBox")
-        .text(infotext);
+        .html(infotext + infolink);
 }; //end createMenu
 
 //creates proportional symbol overlay
