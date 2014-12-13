@@ -283,6 +283,10 @@ ul.nav a:hover {
 /* Analysis CSS  */
 /* ------------  */
 
+.container{
+    width: 60%;
+}
+
 #analysis {
     padding-top:0px;
 }
@@ -290,6 +294,10 @@ ul.nav a:hover {
 .analysis{
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.letscenter{
+    text-align: center;
 }
 
 /* About CSS  */
