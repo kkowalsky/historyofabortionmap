@@ -91,6 +91,7 @@ var currentColors = [];
 var currentArray = [];
 
 //SET UP VARIABLES FOR TIMELINE
+var timelineFeatureArray = [];
 var colorizeChart; // colorScale generator for the chart
 var removeChart;
 var chartHeight = 200;
@@ -212,7 +213,7 @@ function setMap(){
     // console.log statement to show the contents of the joined json object
     // console.log(topojson.feature(usa, usa.objects.states).features);
 
-        //Prep the states to be able to be styled according to the data
+        //Style the states to be styled according to the data
         var states = map.selectAll(".states")
             .data(joinedJson)
             .enter()
@@ -800,7 +801,7 @@ function choroplethChart(d, colorize) {
 function setChart() {
     // var oldChart = d3.selectAll(".chart").remove();
     // var moreOldStuff = d3.selectAll(".rectStyle").remove();
-    var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
+    timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
     colorizeChart = colorScaleChart(timelineFeatureArray);
     // $(".menu-options").click(function() {     
     
@@ -824,7 +825,6 @@ function setChart() {
             };
         };
     };
-    console.log(timelineFeatureArray);
 
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
 
@@ -852,11 +852,6 @@ function setChart() {
         })
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px");
-
-    var xValue = 0; //holds the x position of each square in the timeline
-    var yValue = 0; //holds the y position of each square in the timeline
-    var curentYear; //year the for-loop is currently looking at
-    var previousYear; //previous year, used for comparison to see if there was a change from the previous year to the current year, and thus whether a square should be drawn in currentYear
     
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
@@ -870,9 +865,8 @@ function setChart() {
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
         .attr("y", function(d,i) {
-            var yValue;
+            var yValue = 0;
             for (i = 0; i < yearObjectArray.length; i++) {
-                // console.log(yearObjectArray[i]);
                 if (yearObjectArray[i].year == d.yearChanged) {
                     yValue = yearObjectArray[i].count*(squareHeight+1);
                     yearObjectArray[i].count-=1;
@@ -881,14 +875,16 @@ function setChart() {
             return yValue;
         })
         .style("fill", function(d) {
-            //console.log(d.newLaw);
-            // console.log(d.feature);
-            // console.log(d.newLaw);
-            // console.log(yearObjectArray);
-            return choroplethChart(d.newLaw, colorizeChart); // can't get it to fill based on attribute
+            return choroplethChart(d.newLaw, colorize); //apply the color according to what the new law is in that year
         })
         .on("mouseover", highlightChart)
-        .on("mouseout", dehighlight);
+        .on("mouseout", dehighlightChart);
+
+    var rectColor = rectStyle.append("desc")
+            .text(function(d) {
+                return choropleth(d, colorize);
+            });
+
 
     var axis = chart.append("svg")
         .attr("class", "axis")
@@ -944,18 +940,19 @@ function highlightChart(timelineFeatureArray) {
 }
 
 //Dehlighting for the map
-function dehighlight(joinedJson, timelineFeatureArray) {
-    var feature = joinedJson.properties ? joinedJson.properties : joinedJson.feature.properties[expressed];
+function dehighlight(joinedJson) {
+    var selectedFeature = joinedJson.properties;
 
-    var selection = d3.selectAll("."+feature.postal);
+    var selection = d3.selectAll("."+selectedFeature.postal);
     var fillColor = selection.select("desc").text();
     selection.style("fill", fillColor);
 
-    var deselect = d3.select("#"+feature.postal+"label").remove();
+    var deselect = d3.select("#"+selectedFeature.postal+"label").remove();
 }
 
 //Dehlighting for the chart
-function dehighlightChart(joinedJson) {
+function dehighlightChart(timelineFeatureArray) {
+    console.log(timelineFeatureArray.feature.properties)
     var feature = timelineFeatureArray.feature.properties;
 
     var selection = d3.selectAll("."+feature.postal);
