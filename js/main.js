@@ -96,7 +96,7 @@ var removeChart;
 var chartHeight = 200;
 var chartWidth = 100;
 var squareWidth = 20;
-var squareHeight = 10;
+var squareHeight = 20;
 var chartRect;
 var margin = {top: 100, right: 40, bottom: 30, left:150};
 
@@ -220,7 +220,6 @@ function setMap(){
                 return "states " + d.properties.postal;
             })
             .style("fill", function(d){
-                // console.log(choropleth(d, colorize));
                 return choropleth(d, colorize);
             })
             .attr("d", function(d) {
@@ -758,22 +757,14 @@ function colorScaleChart(data) {
     return scale(data);
 }
 
-// function choropleth(d, colorize){
-//     var value = d.properties ? d.properties[expressed] : d[expressed];
-//     return colorScale(value);
-// };
-
 function choropleth(d, colorize){
-    var data = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
+    var data = d.properties ? d.properties[expressed] : d;
     return colorScale(data);
 };
 
-// function choroplethChart(d, colorize) {
-//     colorizeChart = colorScaleChart(timelineFeatureArray);
-//     var valueChart = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
-//     console.log(valueChart);
-//     return colorScaleChart(valueChart);
-// }
+function choroplethChart(d, colorize) {
+    return colorScaleChart(d);
+}
 
 
 //---------------------------------------------//
@@ -786,6 +777,7 @@ function setChart() {
     // var oldChart = d3.selectAll(".chart").remove();
     // var moreOldStuff = d3.selectAll(".rectStyle").remove();
     var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
+    colorizeChart = colorScaleChart(timelineFeatureArray);
     // $(".menu-options").click(function() {     
     
     var axis = d3.svg.axis();
@@ -808,27 +800,26 @@ function setChart() {
             };
         };
     };
-    //console.log(timelineFeatureArray);
+    console.log(timelineFeatureArray);
 
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
 
     for (key in keyArray) {
-        var countYears = 0;
-        var yearObject;
+        var yearCount = 1;
         for (i = 0; i < timelineFeatureArray.length; i++) {
             //loop through here to see which year it matches and up
             // console.log(keyArray[key]);
             // console.log(timelineFeatureArray[i].yearChanged);
             // console.log(key)
             if (timelineFeatureArray[i].yearChanged == keyArray[key]) {
-                countYears++;
-                yearObjectArray.push({"year": Number(keyArray[key]), "count":countYears});
+                //countYears++;
+                yearObjectArray.push({"year": Number(keyArray[key]), "count":yearCount});
+                yearCount = yearCount++;
             };
         };   
     };
-    
     console.log(yearObjectArray);
-
+    
     chartRect = chart.selectAll(".chartRect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
         .enter()
@@ -847,8 +838,6 @@ function setChart() {
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
-
-    colorize = colorScale(yearObjectArray);
 
     var rectStyle = chartRect.attr("transform", function(d) {
             // console.log(d.yearChanged);
@@ -869,13 +858,11 @@ function setChart() {
             return yValue;
         })
         .style("fill", function(d) {
-  //          console.log(d.feature.properties);
+            //console.log(d.newLaw);
+            // console.log(d.feature);
             // console.log(d.newLaw);
-            // console.log(d.feature.properties[expressed]);
-            // return "#000";
             // console.log(yearObjectArray);
-            // console.log(choropleth(d.feature, colorize));
-            return choropleth(d.feature, colorize); // can't get it to fill based on attribute
+            return choroplethChart(d.newLaw, colorizeChart); // can't get it to fill based on attribute
         })
         .on("mouseover", highlightChart)
         .on("mouseout", dehighlight);
@@ -929,7 +916,6 @@ function highlight(joinedJson, timelineFeatureArray) {
 //Highlighting for the chart
 function highlightChart(timelineFeatureArray) {
     var feature = timelineFeatureArray.feature.properties;
-    console.log(feature);
     d3.selectAll("."+feature.postal)
         .style("fill", "#00C6FF");
 }
