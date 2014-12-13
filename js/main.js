@@ -445,7 +445,15 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     });
     
     $(".stepForward").click(function(){
-        console.log("step forward");
+        if (yearExpressed < keyArray[keyArray.length-1]){
+            yearExpressed++;
+            console.log(yearExpressed);
+            changeAttribute(yearExpressed, colorize);
+        } else {
+            yearExpressed = keyArray[keyArray.length-1];
+            console.log(yearExpressed);
+            changeAttribute(yearExpressed, colorize);
+        }; 
     });
 }; //end AnimateMAP
 
