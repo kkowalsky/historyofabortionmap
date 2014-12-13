@@ -403,22 +403,22 @@ function drawMenuInfo(colorize, yearExpressed){
         .text(yearExpressed)
         .style({'font-size':'36px', 'font-weight': 'strong'});
     
-    var dropdown = d3.select(".sequence-buttons")
-        .append("div")
-        .attr("class", "dropdown")
-        //.html("<h4>Select Year: </h4>")
-        .append("select")
-        .on("change", function(){
-            changeAttribute(this.value, colorize);
-        });
-    
-    dropdown.selectAll("options")
-        .data(keyArray)
-        .enter()
-        .append("option")
-        .attr("value", function(d){ return d})
-        .text(function(d){
-            return d });  
+//    var dropdown = d3.select(".sequence-buttons")
+//        .append("div")
+//        .attr("class", "dropdown")
+//        //.html("<h4>Select Year: </h4>")
+//        .append("select")
+//        .on("change", function(){
+//            changeAttribute(this.value, colorize);
+//        });
+//    
+//    dropdown.selectAll("options")
+//        .data(keyArray)
+//        .enter()
+//        .append("option")
+//        .attr("value", function(d){ return d})
+//        .text(function(d){
+//            return d });  
 }; //End DrawMenuInfo
 
 //TODO: animate map with play/pause buttons
@@ -426,38 +426,45 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     $(".stepBackward").click(function(){
         if (yearExpressed <= keyArray[keyArray.length-1] && yearExpressed > keyArray[0]){
             yearExpressed--;
-            console.log(yearExpressed);
             changeAttribute(yearExpressed, colorize);
         } else {
             yearExpressed = keyArray[keyArray.length-1];
-            console.log(yearExpressed);
             changeAttribute(yearExpressed, colorize);
         }; 
     });
     
     $(".play").click(function(){
-        console.log("play");
+            timer.play();
     });
     
     $(".pause").click(function(){
-        console.log("pause");
+        timer.pause();
     });
     
     $(".stepForward").click(function(){
         if (yearExpressed < keyArray[keyArray.length-1]){
             yearExpressed++;
-            console.log(yearExpressed);
             changeAttribute(yearExpressed, colorize);
         } else {
-            yearExpressed = keyArray[keyArray.length-1];
-            console.log(yearExpressed);
+            yearExpressed = keyArray[0];
             changeAttribute(yearExpressed, colorize);
         }; 
     });
 }; //end AnimateMAP
 
+function timeMapSequence(yearsExpressed) {
+    if (yearsExpressed < keyArray[keyArray.length-1]){
+        yearExpressed++; 
+    } else{
+        yearsExpressed = 1973;
+    }
+        changeAttribute(yearExpressed, colorize);
+};
+
 //changes year displayed on map
 function changeAttribute(year, colorize){
+    var removeOldYear = d3.selectAll(".yearExpressedText").remove();
+    
     for (x = 0; x < keyArray.length; x++){
         if (year == keyArray[x]) {
              yearExpressed = keyArray[x];
@@ -472,6 +479,8 @@ function changeAttribute(year, colorize){
             .text(function(d) {
                 return choropleth(d, colorize);
         });
+    
+     drawMenuInfo(colorize, yearExpressed);
 }; //END changeAttribute
 
 
@@ -824,7 +833,7 @@ function setChart() {
             };
         };
     };
-    console.log(timelineFeatureArray);
+    //console.log(timelineFeatureArray);
 
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
 
@@ -963,6 +972,8 @@ function dehighlightChart(joinedJson) {
     selection.style("fill", fillColor);
 }
 
-
-
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
+var timer = $.timer(function() {
+            timeMapSequence(yearExpressed);  
+	});
+timer.set({ time : 500, autostart : false });
