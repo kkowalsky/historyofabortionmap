@@ -429,8 +429,8 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
             yearExpressed--;
             changeAttribute(yearExpressed, colorize);
         } else {
-            yearExpressed = keyArray[keyArray.length-1];
-            changeAttribute(yearExpressed, colorize);
+            var newYearExpressed = keyArray[keyArray.length-1];
+            changeAttribute(newYearExpressed, colorize);
         }; 
     });
     
@@ -447,8 +447,8 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
             yearExpressed++;
             changeAttribute(yearExpressed, colorize);
         } else {
-            yearExpressed = keyArray[0];
-            changeAttribute(yearExpressed, colorize);
+            var newYearExpressed = keyArray[0];
+            changeAttribute(newYearExpressed, colorize);
         }; 
     });
 }; //end AnimateMAP
@@ -456,9 +456,7 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
 function timeMapSequence(yearsExpressed) {
     if (yearsExpressed < keyArray[keyArray.length-1]){
         yearExpressed++; 
-    } else{
-        yearsExpressed = 1973;
-    }
+    };
         changeAttribute(yearExpressed, colorize);
 };
 
