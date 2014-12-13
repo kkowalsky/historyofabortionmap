@@ -126,7 +126,7 @@ function initialize(){
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
-    //$(".glyphicon-pause").hide();
+    $(".sequence-buttons").hide();
     $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 }; //End initialize
 
@@ -282,6 +282,7 @@ function drawMenu(){
     $(".Overview").click(function(){ 
         expressed = Category[0];
         yearExpressed = keyArray[keyArray.length-1];
+        $(".sequence-buttons").hide();
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -291,7 +292,6 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
-        d3.selectAll(".sequence-buttons").style("");
         $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
         //robin's code
         var oldChart = d3.selectAll(".chart").remove();
@@ -300,6 +300,7 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
+        $(".sequence-buttons").show();
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -318,6 +319,7 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
+        $(".sequence-buttons").show();
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -336,6 +338,7 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
+        $(".sequence-buttons").show();
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -354,6 +357,7 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
+        $(".sequence-buttons").show();
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -372,6 +376,7 @@ function drawMenu(){
     
     $(".Ultrasound").click(function(){
         expressed = Category[5];
+        $(".sequence-buttons").show();
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -419,21 +424,27 @@ function drawMenuInfo(colorize, yearExpressed){
 
 //TODO: animate map with play/pause buttons
 function animateMap(yearExpressed, colorize, yearExpressedText){
-    $(".glyphicon-chevron-left").click(function(){
+    $(".stepBackward").click(function(){
+        if (yearExpressed <= keyArray[keyArray.length-1] && yearExpressed > keyArray[0]){
             yearExpressed--;
             console.log(yearExpressed);
             changeAttribute(yearExpressed, colorize);
+        } else {
+            yearExpressed = keyArray[keyArray.length-1];
+            console.log(yearExpressed);
+            changeAttribute(yearExpressed, colorize);
+        }; 
     });
     
-    $("#play").click(function(){
+    $(".play").click(function(){
         console.log("play");
     });
     
-    $("#pause").click(function(){
+    $(".pause").click(function(){
         console.log("pause");
     });
     
-    $("#stepForward").click(function(){
+    $(".stepForward").click(function(){
         console.log("step forward");
     });
 }; //end AnimateMAP
