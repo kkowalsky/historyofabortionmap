@@ -187,11 +187,20 @@ ul.nav a:hover {
 /*  Map Info CSS (includes section info, play, pause, dropdown) */
 /*  ------ */
 .menuInfoBox {
-    margin-top: 3%;
     margin-left: 29%;
     font-size: 14px;
     font-family: Open Sans, sans-serif;
-    display: inline-block;
+}
+
+.textBox {
+    width: 650px;
+    float: left;
+    padding-bottom: 2%;
+}
+
+.yearExpressedText {
+    float: right; 
+    padding-right: 150px;
 }
 
 .cpcMenuInfoBox{

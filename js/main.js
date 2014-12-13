@@ -1,10 +1,10 @@
 /****** GLOBAL VARIABLES *******/
-
 var mapWidth = 750, mapHeight = 400;
 var keyArray = ["1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
 var expressed;
 var yearExpressed;
+var yearExpressedText;
 var colorize;
 var scale;
 var currentColors = [];
@@ -122,6 +122,7 @@ $(function(){
 function initialize(){
     expressed = Category[0];
     yearExpressed = keyArray[keyArray.length-1];
+    animateMap(yearExpressed, colorize, yearExpressedText);
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
@@ -299,7 +300,6 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
-        yearExpressed = keyArray[1];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -318,7 +318,6 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
-        yearExpressed = keyArray[2];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -337,7 +336,6 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
-        yearExpressed = keyArray[3];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -356,7 +354,6 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        yearExpressed = keyArray[4];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -375,7 +372,6 @@ function drawMenu(){
     
     $(".Ultrasound").click(function(){
         expressed = Category[5];
-        yearExpressed = keyArray[5];
         d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -393,20 +389,15 @@ function drawMenu(){
 });
 }; //END drawMenu
 
-//TODO: animate map with play/pause buttons
-function animateMap(){
-    
-}; //end AnimateMAP
-
 //creates dropdown menu
 function drawMenuInfo(colorize, yearExpressed){
-    var yearExpressed = d3.select(".menuInfoBox")
+    yearExpressedText = d3.select(".menu-info")
         .append("text")
-        .attr("x", 12)
-        .attr("y", 30)
-        .attr("class", "yearExpressed menuInfoBox")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "yearExpressedText menu-info")
         .text(yearExpressed)
-        .style({'font-size':'24px', 'float': 'right', 'padding-right':'50px'});
+        .style({'font-size':'36px', 'font-weight': 'strong'});
     
     var dropdown = d3.select(".sequence-buttons")
         .append("div")
@@ -425,6 +416,27 @@ function drawMenuInfo(colorize, yearExpressed){
         .text(function(d){
             return d });  
 }; //End DrawMenuInfo
+
+//TODO: animate map with play/pause buttons
+function animateMap(yearExpressed, colorize, yearExpressedText){
+    $(".glyphicon-chevron-left").click(function(){
+            yearExpressed--;
+            console.log(yearExpressed);
+            changeAttribute(yearExpressed, colorize);
+    });
+    
+    $("#play").click(function(){
+        console.log("play");
+    });
+    
+    $("#pause").click(function(){
+        console.log("pause");
+    });
+    
+    $("#stepForward").click(function(){
+        console.log("step forward");
+    });
+}; //end AnimateMAP
 
 //changes year displayed on map
 function changeAttribute(year, colorize){
@@ -511,7 +523,7 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
-        .attr("class", "menuInfoBox")
+        .attr("class", "menuInfoBox textBox")
         .html(infotext + infolink);
 }; //end createMenu
 
@@ -688,17 +700,14 @@ function createInset() {
         abortionLabels.data(abortionRadiusArray)
             .attr("x", function(d, i){
                 return (3*d)+(i*50)+15;
-            });
-    
+            });  
 }; //END create inset
 /* Katie's section end */
 
 //---------------------------------------------//
 /* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
 //---------------------------------------------//
-//         colorize = colorScale(consent, grade);
-//SET UP COLOR ARRAYS FOR MAP + CHART
-// Color array for Overview & Waiting Period   
+//SET UP COLOR ARRAYS FOR MAP + CHART  
 function colorScale(data){
 // this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
     if (expressed === "gradeData") {   
@@ -723,59 +732,14 @@ function colorScale(data){
 
     scale = d3.scale.ordinal()
                 .range(currentColors)
-                .domain(currentArray); //sets the range of colors and domain of values based on the currently selected variable
-    // console.log(currentColors);
-    // console.log(currentArray);
-    // console.log(scale(value[yearExpressed]));
+                .domain(currentArray); //sets the range of colors and domain of values based on the currently selected 
     return scale(data[yearExpressed]);
-};
-
-function colorScaleChart(data) {
-    if (expressed === "gradeData") {   
-        currentColors = colorArrayOverview;
-        currentArray = arrayOverview;
-    } else if (expressed === "consentData") {
-        currentColors = colorArrayConsent;
-        currentArray = arrayConsent;
-    } else if (expressed === "prohibitedAfter") {
-        currentColors = colorArrayProhibited;
-        currentArray = arrayProhibited;
-    } else if (expressed === "counseling") {
-        currentColors = colorArrayCounseling;
-        currentArray = arrayCounseling;
-    } else if (expressed === "waitingPeriod") {
-         currentColors = colorArrayOverview;
-         currentArray = arrayWaitingPeriod;
-    } else if (expressed === "ultrasound") {
-        currentColors = colorArrayUltrasound;
-        currentArray = arrayUltrasound;
-    };
-
-    scale = d3.scale.ordinal()
-                .range(currentColors)
-                .domain(currentArray); 
-
-    return scale(data);
-}
-
-// function choropleth(d, colorize){
-//     var value = d.properties ? d.properties[expressed] : d[expressed];
-//     return colorScale(value);
-// };
+}; //end Colorscale
 
 function choropleth(d, colorize){
     var data = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
     return colorScale(data);
-};
-
-// function choroplethChart(d, colorize) {
-//     colorizeChart = colorScaleChart(timelineFeatureArray);
-//     var valueChart = d.properties ? d.properties[expressed] : d.feature.properties[expressed];
-//     console.log(valueChart);
-//     return colorScaleChart(valueChart);
-// }
-
-
+}; //end Choropleth
 //---------------------------------------------//
 /*              START CHART FUNCTIONS          */
 //---------------------------------------------//
@@ -827,7 +791,7 @@ function setChart() {
         };   
     };
     
-    console.log(yearObjectArray);
+    //console.log(yearObjectArray);
 
     chartRect = chart.selectAll(".chartRect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
