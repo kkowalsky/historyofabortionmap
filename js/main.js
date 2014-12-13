@@ -1,7 +1,7 @@
 /****** GLOBAL VARIABLES *******/
-//hello
+
 var mapWidth = 750, mapHeight = 400;
-var keyArray = ["1973", "1974", "1975", "1976", "1977", "1977","1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+var keyArray = ["1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014"];
 var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "consentData", "ultrasound"];
 var expressed;
 var yearExpressed;
@@ -98,7 +98,6 @@ var chartWidth = 100;
 var squareWidth = 20;
 var squareHeight = 10;
 var chartRect;
-var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
 var margin = {top: 100, right: 40, bottom: 30, left:150};
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
@@ -784,7 +783,9 @@ function choropleth(d, colorize){
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart() {
-    var oldChart = d3.selectAll(".chart").remove();
+    // var oldChart = d3.selectAll(".chart").remove();
+    // var moreOldStuff = d3.selectAll(".rectStyle").remove();
+    var timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
     // $(".menu-options").click(function() {     
     
     var axis = d3.svg.axis();
@@ -797,27 +798,37 @@ function setChart() {
         .append("g")
         .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
 
-    //need a loop to create a new array of feature objects that holds the value of each time the law was changed in a particular state; possibly add a property to that object that would be year changed
-    
     //for-loop creates an array of feature objects that stores three values: thisYear (for the year that a law was implemented), newLaw (the categorization of the new policy) and a feature object (the state that the law changed in)
     for (var feature in joinedJson) {
-        // console.log(feature);
-        // console.log(joinedJson[feature]);
         var featureObject = joinedJson[feature];
-        // console.log(featureObject.properties[expressed]);
-        for (var thisYear=keyArray[1]; thisYear<keyArray[keyArray.length-1]; thisYear++){
-            // console.log(featureObject.properties[expressed][i]);
+        for (var thisYear = 1; thisYear<=keyArray.length-1; thisYear++){
             var lastYear = thisYear - 1;
+            if (featureObject.properties[expressed][keyArray[thisYear]] != featureObject.properties[expressed][keyArray[lastYear]]) { //have to account for the value not being undefined since the grade data is part of the linked data, and that's not relevant for the timeline
+                timelineFeatureArray.push({yearChanged: Number(keyArray[thisYear]), newLaw: featureObject.properties[expressed][keyArray[thisYear]], feature: featureObject}); //each time a law is passed in a given year, a new feature object is pushed to the timelineFeatureArray
+            };
+        };
+    };
+    //console.log(timelineFeatureArray);
 
-            if (featureObject.properties[expressed][thisYear] != featureObject.properties[expressed][lastYear] && featureObject.properties[expressed][thisYear] != undefined && featureObject.properties[expressed][lastYear] != undefined) { // have to account for the value not being undefined since the grade data is part of the linked data, and that's not relevant for the timeline
-            //     console.log(lastYear, thisYear);
-            // console.log(featureObject.properties[expressed][lastYear], featureObject.properties[expressed][thisYear]);
-            timelineFeatureArray.push({yearChanged: Number(thisYear), newLaw: featureObject.properties[expressed][thisYear], feature: featureObject}); //each time a law is passed in a given year, a new feature object is pushed to the timelineFeatureArray
-            }
-        }
-    }
-    // console.log(timelineFeatureArray);
-    // console.log(yearObjectArray);
+    var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
+
+    for (key in keyArray) {
+        var countYears = 0;
+        var yearObject;
+        for (i = 0; i < timelineFeatureArray.length; i++) {
+            //loop through here to see which year it matches and up
+            // console.log(keyArray[key]);
+            // console.log(timelineFeatureArray[i].yearChanged);
+            // console.log(key)
+            if (timelineFeatureArray[i].yearChanged == keyArray[key]) {
+                countYears++;
+                yearObjectArray.push({"year": Number(keyArray[key]), "count":countYears});
+            };
+        };   
+    };
+    
+    console.log(yearObjectArray);
+
     chartRect = chart.selectAll(".chartRect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
         .enter()
@@ -827,58 +838,7 @@ function setChart() {
         })
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px");
-        // .attr("transform", function(d) {
-        //     // console.log(d.yearChanged);
-        //     // console.log(d.newLaw);
-        //     // console.log(d.feature.properties.name);
-        //     // console.log(d.feature.properties[expressed]);
-        //     return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
-        // })
-        // .attr("y", function(d,i) {
-        //     var yValue;
-        //     for (i = 0; i < yearObjectArray.length; i++) {
-        //         // console.log()
-        //         // console.log(yearObjectArray[i]);
-        //         if (yearObjectArray[i].year == d.yearChanged) {
-        //             yValue = yearObjectArray[i].count*(squareHeight+1);
-        //             yearObjectArray[i].count-=1;
-        //         }
-        //     }
-        //     return yValue;
-        // })
-        // .style("fill", function(d) {
-        //     // console.log(d);
-        //     // console.log(d.newLaw);
-        //     // console.log(d.feature.properties[expressed]);
-        //     // return "#000";
-        //     // console.log(yearObjectArray);
-        //     return choropleth(d, colorize); // can't get it to fill based on attribute
-        // })
-        // // .select("desc")
-        // //     .text(function(d) {
-        // //         return choropleth(d, colorize);
-        // //     })
-        // .on("mouseover", highlightChart)
-        // .on("mouseout", dehighlightChart);
 
-    var axis = chart.append("svg")
-        .attr("class", "axis")
-        .attr("width", 90+"%")
-        .attr("height", 10+"px");
-
-    // var timeline = axis.axis()
-    //     .scale(x)
-    //     .orient('bottom')
-    //     .tickValues(timelineArray)
-    //     .attr("class", "timeline");
-        // .tickFormat(d3.time.format('%y'))
-        // .tickSize(0)
-    updateChart(chartRect);
-};
-
-// updateChart function is called when the variable is changed
-function updateChart(data) {
-    var moreOldStuff = d3.selectAll(".rectStyle").remove();
     var xValue = 0; //holds the x position of each square in the timeline
     var yValue = 0; //holds the y position of each square in the timeline
     var curentYear; //year the for-loop is currently looking at
@@ -887,28 +847,6 @@ function updateChart(data) {
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
-
-    console.log(timelineFeatureArray);
-    var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
-    for (i = 0; i < timelineFeatureArray.length; i++) {
-        for (key in keyArray) {
-            //loop through here to see which year it matches and up
-            // console.log(keyArray[key]);
-            // console.log(timelineFeatureArray[i].yearChanged);
-            // console.log(key)
-            if (timelineFeatureArray[i].yearChanged == keyArray[key]) {
-                console.log(timelineFeatureArray[i].yearChanged)
-                console.log(keyArray[key])
-                var yearObject = {"year": keyArray[key],"count":0};
-                console.log(yearObject);
-                yearObjectArray.push(yearObject);  
-            }
-        }
-        // var yearObject = {"year": keyArray[i],"count":0};
-        //need another for-loop to loop through all of the states and determines whether they have a change that year
-               
-    }
-    console.log(yearObjectArray);
 
     colorize = colorScale(yearObjectArray);
 
@@ -926,8 +864,8 @@ function updateChart(data) {
                 if (yearObjectArray[i].year == d.yearChanged) {
                     yValue = yearObjectArray[i].count*(squareHeight+1);
                     yearObjectArray[i].count-=1;
-                }
-            }
+                };
+            };
             return yValue;
         })
         .style("fill", function(d) {
@@ -936,13 +874,25 @@ function updateChart(data) {
             // console.log(d.feature.properties[expressed]);
             // return "#000";
             // console.log(yearObjectArray);
-            console.log(choropleth(d.feature, colorize));
+            // console.log(choropleth(d.feature, colorize));
             return choropleth(d.feature, colorize); // can't get it to fill based on attribute
         })
         .on("mouseover", highlightChart)
         .on("mouseout", dehighlight);
 
-}
+    var axis = chart.append("svg")
+        .attr("class", "axis")
+        .attr("width", 90+"%")
+        .attr("height", 10+"px");
+
+    // var timeline = axis.axis()
+    //     .scale(x)
+    //     .orient('bottom')
+    //     .tickValues(timelineArray)
+    //     .attr("class", "timeline");
+        // .tickFormat(d3.time.format('%y'))
+        // .tickSize(0)
+};
 
 function removeChart() {
     if ($(".chartRect").length > 0) {
