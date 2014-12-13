@@ -834,10 +834,8 @@ function setChart() {
             };
         };
     };
-<<<<<<< HEAD
+    
     //console.log(timelineFeatureArray);
-=======
->>>>>>> FETCH_HEAD
 
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
 
