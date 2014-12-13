@@ -293,7 +293,7 @@ ul.nav a:hover {
 /* ------------  */
 
 .container{
-    width: 60%;
+    width: 40%;
 }
 
 #analysis {
@@ -307,6 +307,16 @@ ul.nav a:hover {
 
 .letscenter{
     text-align: center;
+}
+
+.container h2{
+    position: relative;
+    left: -20px;
+    padding: 6px;
+    margin-bottom: 24px;
+    width: 60%;
+    color: white;
+    background-color: #000;
 }
 
 /* About CSS  */
@@ -333,7 +343,7 @@ ul.nav a:hover {
 }
 
 p {
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -343,6 +353,7 @@ h1 {
 }
 
 h2 {
+    
     font-family: 'Roboto Slab', serif;
 }
 
