@@ -187,11 +187,20 @@ ul.nav a:hover {
 /*  Map Info CSS (includes section info, play, pause, dropdown) */
 /*  ------ */
 .menuInfoBox {
-    margin-top: 3%;
     margin-left: 29%;
     font-size: 14px;
     font-family: Open Sans, sans-serif;
-    display: inline-block;
+}
+
+.textBox {
+    width: 650px;
+    float: left;
+    padding-bottom: 2%;
+}
+
+.yearExpressedText {
+    float: right; 
+    padding-right: 150px;
 }
 
 .cpcMenuInfoBox{
@@ -284,7 +293,7 @@ ul.nav a:hover {
 /* ------------  */
 
 .container{
-    width: 60%;
+    width: 40%;
 }
 
 #analysis {
@@ -298,6 +307,16 @@ ul.nav a:hover {
 
 .letscenter{
     text-align: center;
+}
+
+.container h2{
+    position: relative;
+    left: -20px;
+    padding: 6px;
+    margin-bottom: 24px;
+    width: 60%;
+    color: white;
+    background-color: #000;
 }
 
 /* About CSS  */
@@ -324,7 +343,7 @@ ul.nav a:hover {
 }
 
 p {
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -334,6 +353,7 @@ h1 {
 }
 
 h2 {
+    
     font-family: 'Roboto Slab', serif;
 }
 
