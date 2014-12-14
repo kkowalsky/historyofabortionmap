@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*  navbar CSS */
 /*  ------ */
 #custom-bootstrap-menu.navbar-custom .navbar-brand {
@@ -39,13 +40,27 @@
 #custom-bootstrap-menu.navbar-custom .navbar-toggle:focus .icon-bar {
     background-color: #e1e1e1;
 }
+=======
+>>>>>>> FETCH_HEAD
 
-/*  random CSS */
-/*  ------ */
 .jumbotron {
     padding: 20px;
     color: #f9f9f9; 
     background-color:  #986cb3;
+}
+
+.image2 {
+    float: right;
+    margin: 10px;
+}
+
+.paragraph2 {
+    text-align: right;
+}
+
+.image3 {
+    float: left;
+    margin: 10px;
 }
 
 .page-header {
@@ -59,12 +74,10 @@
     position: absolute;
     margin-left: 0% !important;
     color: #969696;
-    font-family: Open Sans, sans-serif;
 }
 
 .menu-options {
     float: left;
-    font-size: 14px;
     background-color:  #e1e1e1;
 }
 
@@ -136,21 +149,24 @@
 }
 
 .overlay-menu {
-    margin-top: 325px;
-    font-size: 12px;
+    margin-top: 42%;
 }
 
 .cpc {
     float: left;
-    color: #fff;
-    background-color: rgba(250, 110, 57, 1);
+    background-color: rgba(250, 110, 57, 0.7);
     text-align: center;
     padding: 1.5%;
 }
 
 .cpc:hover {
+<<<<<<< HEAD
     color: #fff;
     background-color: #f95618;
+=======
+    color: #c8e713;
+    background-color: #fff;
+>>>>>>> FETCH_HEAD
 }
 
 #cpc-inset {
@@ -161,15 +177,19 @@
 
 .abortion {
     float: left;
-    color: #fff;
-    background-color:  rgba(55, 196, 171, 1);
+    background-color:  rgba(55, 196, 171, 0.7);
     text-align: center;
     padding: 3%;
 }
 
 .abortion:hover {
+<<<<<<< HEAD
     color:  #fff;
     background-color: #248271;
+=======
+    color:  #8856a7;
+    background-color: #fff;
+>>>>>>> FETCH_HEAD
 }
 
 #abortion-inset {
@@ -219,6 +239,10 @@
     float: right;
 }
 
+.dropdown {
+    margin-top: 6%;
+}
+
 /*  Map CSS */
 /*  ------ */
 
@@ -237,11 +261,14 @@
 .cpcLocations {
 	fill: #FA6E39;
 	fill-opacity:0.7;
+    stroke: #AB5D30;
+    stroke-width: 0.75px;
 }
 
 .abortionLocations {
     fill: #37C4AB;
 	fill-opacity:0.7;
+    stroke-width: 0.75px;
 }
 
 /* Labels CSS  */
@@ -333,11 +360,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #FA6E39; 
+    background: #c8e713; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #FA6E39; 
+    background: #cccccc; 
     color: #fff;
 }
 

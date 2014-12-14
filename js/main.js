@@ -11,8 +11,8 @@ var currentColors = [];
 var menuWidth = 200, menuHeight = 300;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
-var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions.", "States with laws that require biased-counseling to women seeking abortion services.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "States where a woman must wait a designated period of time after counseling before having an abortion.", "States with laws restricting young women's access to abortion services by mandating parental consent.", "States where an ultrasound either must be performed, offered, or advised prior to an abortion.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
-var linkArray = ["<a href = '#overview'> Read More</a>", "<a href = '#prohibition'> Read More</a>", "<a href = '#counseling'> Read More</a>", "<a href = '#waiting'> Read More</a>", "<a href = '#consent'> Read More</a>", "<a href = '#ultrasound'> Read More</a>"];
+var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions. ", "States which prohibit abortion at an earlier date than the federal law. ", "States with laws that require biased-counseling to women seeking abortion services. ","States where a woman must wait a designated period of time after counseling before having an abortion. ", "States with laws restricting young women's access to abortion services by mandating parental consent. ", "States where an ultrasound either must be performed, offered, or advised prior to an abortion. ", "Crisis Pregnancy Centers provide counseling but appose and undermine abortion rights. ", "Abortion Providers provide counseling and do not promote abortion but help women in need of one. "]
+var linkArray = ["<a href = '#overview'> We provide an overview of these policies here.</a>", "<a href = '#prohibition'>  What sort of prohibitions?</a>", "<a href = '#counseling'> What constitutes biased-counseling?</a>", "<a href = '#waiting'> Why are waiting periods considered a restriction?</a>", "<a href = '#consent'> Why is parental consent considered a restriction?</a>", "<a href = '#ultrasound'> What are the differences between these laws?</a>", "<a href = '#CPC'> Here's why.</a>"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -585,7 +585,7 @@ function cpcPoints(map, cpc, path, cpcRadius){
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
         .attr("class", "cpcMenuInfoBox")
-        .text(textArray[6]);
+        .html(textArray[6] + linkArray[6]);
 }; //end cpcPoints
 
 //creates abortion providers point data
