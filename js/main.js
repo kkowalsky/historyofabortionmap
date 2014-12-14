@@ -99,7 +99,7 @@ var chartWidth = 100;
 var squareWidth = 20;
 var squareHeight = 20;
 var chartRect;
-var margin = {top: 19730, right: 40, bottom: 30, left:150};
+var margin = {top: 130, right: 40, bottom: 30, left:150};
 var rectColor;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
