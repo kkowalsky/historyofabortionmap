@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*  navbar CSS */
 /*  ------ */
 #custom-bootstrap-menu.navbar-custom .navbar-brand {
@@ -40,8 +39,6 @@
 #custom-bootstrap-menu.navbar-custom .navbar-toggle:focus .icon-bar {
     background-color: #e1e1e1;
 }
-=======
->>>>>>> FETCH_HEAD
 
 .jumbotron {
     padding: 20px;
@@ -150,23 +147,21 @@
 
 .overlay-menu {
     margin-top: 42%;
+    font-size: 12px;
+    font-family: Open Sans, sans-serif;
 }
 
 .cpc {
     float: left;
-    background-color: rgba(250, 110, 57, 0.7);
+    background-color: rgba(250, 110, 57, 1);
+    color: #fff;
     text-align: center;
     padding: 1.5%;
 }
 
 .cpc:hover {
-<<<<<<< HEAD
     color: #fff;
     background-color: #f95618;
-=======
-    color: #c8e713;
-    background-color: #fff;
->>>>>>> FETCH_HEAD
 }
 
 #cpc-inset {
@@ -177,19 +172,15 @@
 
 .abortion {
     float: left;
-    background-color:  rgba(55, 196, 171, 0.7);
+    color: #fff;
+    background-color:  rgba(55, 196, 171, 1);
     text-align: center;
     padding: 3%;
 }
 
 .abortion:hover {
-<<<<<<< HEAD
     color:  #fff;
     background-color: #248271;
-=======
-    color:  #8856a7;
-    background-color: #fff;
->>>>>>> FETCH_HEAD
 }
 
 #abortion-inset {
