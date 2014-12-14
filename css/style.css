@@ -343,21 +343,21 @@ body {
 }
 
 a:link {
-    color: #E80882;
+    color: #37c4ab;
     text-decoration: none;
 }
 
 a:visited {
-    color: #E80882;
+    color: #37c4ab;
     text-decoration: none;
 }
 
 a:hover {
-    color: #00C6FF;
-    text-decoration: none;
+    color: #248271;
+    text-decoration: underline;
 }
 
 a:active {
-    color: #E80882;
+    color: #37c4ab;
     text-decoration: none;
 }
