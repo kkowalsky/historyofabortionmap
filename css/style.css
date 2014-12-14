@@ -1,22 +1,13 @@
+/*  Menu CSS */
+/*  ------ */
 
+
+/*  random CSS */
+/*  ------ */
 .jumbotron {
     padding: 20px;
     color: #f9f9f9; 
     background-color:  #986cb3;
-}
-
-.image2 {
-    float: right;
-    margin: 10px;
-}
-
-.paragraph2 {
-    text-align: right;
-}
-
-.image3 {
-    float: left;
-    margin: 10px;
 }
 
 .page-header {
@@ -30,10 +21,12 @@
     position: absolute;
     margin-left: 0% !important;
     color: #969696;
+    font-family: Open Sans, sans-serif;
 }
 
 .menu-options {
     float: left;
+    font-size: 14px;
     background-color:  #e1e1e1;
 }
 
@@ -105,18 +98,20 @@
 }
 
 .overlay-menu {
-    margin-top: 42%;
+    margin-top: 325px;
+    font-size: 12px;
 }
 
 .cpc {
     float: left;
-    background-color: rgba(250, 110, 57, 0.7);
+    color: #fff;
+    background-color: rgba(250, 110, 57, 1);
     text-align: center;
     padding: 1.5%;
 }
 
 .cpc:hover {
-    color: #c8e713;
+    color: rgba(250, 110, 57, 1);
     background-color: #fff;
 }
 
@@ -128,13 +123,14 @@
 
 .abortion {
     float: left;
-    background-color:  rgba(55, 196, 171, 0.7);
+    color: #fff;
+    background-color:  rgba(55, 196, 171, 1);
     text-align: center;
     padding: 3%;
 }
 
 .abortion:hover {
-    color:  #8856a7;
+    color:  rgba(55, 196, 171, 1);
     background-color: #fff;
 }
 
@@ -185,10 +181,6 @@
     float: right;
 }
 
-.dropdown {
-    margin-top: 6%;
-}
-
 /*  Map CSS */
 /*  ------ */
 
@@ -207,14 +199,11 @@
 .cpcLocations {
 	fill: #FA6E39;
 	fill-opacity:0.7;
-    stroke: #AB5D30;
-    stroke-width: 0.75px;
 }
 
 .abortionLocations {
     fill: #37C4AB;
 	fill-opacity:0.7;
-    stroke-width: 0.75px;
 }
 
 /* Labels CSS  */
@@ -306,11 +295,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #c8e713; 
+    background: #FA6E39; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #c8e713; 
+    background: #FA6E39; 
     color: #fff;
 }
 
@@ -343,21 +332,21 @@ body {
 }
 
 a:link {
-    color: #E80882;
+    color: #37c4ab;
     text-decoration: none;
 }
 
 a:visited {
-    color: #E80882;
+    color: #37c4ab;
     text-decoration: none;
 }
 
 a:hover {
-    color: #00C6FF;
-    text-decoration: none;
+    color: #248271;
+    text-decoration: underline;
 }
 
 a:active {
-    color: #E80882;
+    color: #37c4ab;
     text-decoration: none;
 }
