@@ -99,7 +99,7 @@ var chartWidth = 100;
 var squareWidth = 20;
 var squareHeight = 20;
 var chartRect;
-var margin = {top: 130, right: 40, bottom: 30, left:150};
+var margin = {top: 19730, right: 40, bottom: 30, left:150};
 var rectColor;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
@@ -861,18 +861,18 @@ function setChart() {
             });
 
 
-    //var xAxis = chart.append("svg")
-    var axis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .attr("class", "axis")
-        .attr("width", chartWidth)
-        .attr("height", 10+"px");
+    //var axis = chart.append("svg")
+    // var axis = d3.svg.axis()
+    //     .scale(x)
+    //     .orient("bottom")
+    //     .attr("class", "axis")
+    //     .attr("width", chartWidth)
+    //     .attr("height", 10+"px");
 
-    var timeline = chart.append("g")
-        .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-        .attr("class", "timeline")
-        .call(axis);
+    // var timeline = chart.append("g")
+    //     .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+    //     .attr("class", "timeline")
+    //     .call(axis);
     // var timeline = axis.axis()
     //     .scale(x)
     //     .orient('bottom')
@@ -905,14 +905,54 @@ function highlight(data) {
         // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#00C6FF");
 
+    //set the state name as the label title
     var labelName = feature.name;
+    var labelAttribute;
+
+    //set up the text for the dynamic labels
+    if (expressed == "gradeData") {
+        //console.log(yearExpressed);
+        //console.log(feature[expressed][Number(yearExpressed)]);
+        labelAttribute = "Report Card: "+feature[expressed][Number(yearExpressed)];
+    } else if (expressed == "prohibitedAfter") {
+        labelAttribute = yearExpressed+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
+    } else if (expressed == "counseling") {
+        if (feature[expressed][Number(yearExpressed)] == "Yes") {
+            labelAttribute = yearExpressed+"<br>"+"Pre-abortion counseling mandated by law";
+        } else if (feature[expressed][Number(yearExpressed)] == "No") {
+            labelAttribute = yearExpressed+"<br>"+"No pre-abortion counseling";
+        };
+    } else if (expressed == "waitingPeriod") {
+        if (feature[expressed][Number(yearExpressed)] == "None") {
+            labelAttribute = yearExpressed+"<br>No mandated waiting period";
+        } else {
+            labelAttribute = yearExpressed+"<br>Mandated waiting period: "+feature[expressed][Number(yearExpressed)];
+        };
+    } else if (expressed == "consentData") {
+        if (feature[expressed][Number(yearExpressed)] == "none") {
+            labelAttribute = yearExpressed+"<br>No law requiring parental consent for minors";
+        } else if (feature[expressed][Number(yearExpressed)] == "notice") {
+            labelAttribute = yearExpressed+"<br>Minor must notify parents about an abortion";
+        } else if (feature[expressed][Number(yearExpressed)] == "consent") {
+            labelAttribute = yearExpressed+"<br>Minor's parents must give consent before abortion can be performed";
+        };
+    } else if (expressed == "ultrasound") {
+        if (feature[expressed][Number(yearExpressed)] == "none")
+
+        labelAttribute = yearExpressed+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
+    }
+    
+    console.log(labelAttribute);
 
     var infoLabel = d3.select("body")
         .append("div")
         .attr("class", "infoLabel")
         .attr("id",feature.postal+"label")
         .html(labelName)
-        .attr("class", "labelName");
+        .attr("class", "labelName")
+        .append("div")
+        .html(labelAttribute)
+        .attr("class", labelName);
 };
 
 //Dehlighting for the map & chart
