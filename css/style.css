@@ -264,18 +264,28 @@
     padding-right: 20px;
 }
 
-.letscenter{
-    text-align: center;
+#AnalysisBox{
+    position: relative;
+    left: 20%;
+    width: 60%;
 }
 
-.container h2{
+.letscenter{
+    text-align: center;
+    marginbottom: 20px;
+}
+
+.chptrhead{
     position: relative;
-    left: -20px;
-    padding: 6px;
-    margin-bottom: 24px;
-    width: 60%;
+    left: -30px;
+}
+
+.chptrhead h2{
     color: white;
     background-color: #000;
+    position: relative;
+    padding: 6px;
+    margin-bottom: 24px;
 }
 
 /* About CSS  */
@@ -302,7 +312,7 @@
 }
 
 p {
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'Open Sans', sans-serif;
 }
 
