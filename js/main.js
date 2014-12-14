@@ -424,6 +424,7 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     
     $(".pause").click(function(){
         timer.pause();
+        changeAttribute(yearExpressed, colorize);
     });
     
     $(".stepForward").click(function(){
@@ -979,6 +980,7 @@ function moveLabel(data) {
 
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
 var timer = $.timer(function() {
+            animateMap(yearExpressed, colorize, yearExpressedText)
             timeMapSequence(yearExpressed);  
 	});
 timer.set({ time : 500, autostart : false });
