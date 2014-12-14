@@ -8,11 +8,11 @@ var yearExpressedText;
 var colorize;
 var scale;
 var currentColors = [];
-var menuWidth = 200, menuHeight = 420;
+var menuWidth = 200, menuHeight = 300;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
 var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions.", "States with laws that require biased-counseling to women seeking abortion services.", "States with laws that subject women seeking abortion services to biased-counseling requirements.", "States where a woman must wait a designated period of time after counseling before having an abortion.", "States with laws restricting young women's access to abortion services by mandating parental consent.", "States where an ultrasound either must be performed, offered, or advised prior to an abortion.", "Crisis Pregnancy Centers are facilities that provide women with services and counseling to pregnant women, but appose abortion. CPC's are known for intimidating women about the dangers of abortion with inaccurate information.", "Abortion Providers are facilites that help with family planning, reproductive health, and educate people about safe sex. They do not promote abortion, but help women in need of one"];
-var linkArray = ["<a href = '#jumpoverview'> Read More</a>", "<a href = '#jumpprohibted'> Read More</a>", "<a href = '#jumpconsent'> Read More</a>", "<a href = '#jumpcounseling'> Read More</a>", "<a href = '#jumpultra'> Read More</a>", "<a href = '#jumpcpc'> Read More</a>"];
+var linkArray = ["<a href = '#overview'> Read More</a>", "<a href = '#prohibited'> Read More</a>", "<a href = '#counseling'> Read More</a>", "<a href = '#waiting'> Read More</a>", "<a href = '#consent'> Read More</a>", "<a href = '#ultrasound'> Read More</a>"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -129,7 +129,7 @@ function initialize(){
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
     $(".sequence-buttons").hide();
-    $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+    //$(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 }; //End initialize
 
 //creates map
@@ -285,7 +285,7 @@ function drawMenu(){
         expressed = Category[0];
         yearExpressed = keyArray[keyArray.length-1];
         $(".sequence-buttons").hide();
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -294,7 +294,7 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
-        $(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.selectAll(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
@@ -303,7 +303,7 @@ function drawMenu(){
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
         $(".sequence-buttons").show();
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -312,7 +312,7 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1], linkArray[1]);
-            $(".Prohibited").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+            $(".Prohibited").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
@@ -322,7 +322,7 @@ function drawMenu(){
     $(".Counseling").click(function(){  
         expressed = Category[2];
         $(".sequence-buttons").show();
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -331,7 +331,7 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2], linkArray[2]);
-        $(".Counseling").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        $(".Counseling").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
@@ -341,7 +341,7 @@ function drawMenu(){
     $(".Waiting").click(function(){ 
         expressed = Category[3];
         $(".sequence-buttons").show();
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -350,7 +350,7 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3], linkArray[3]);
-        $(".Waiting").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        $(".Waiting").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
@@ -360,7 +360,7 @@ function drawMenu(){
     $(".Parental").click(function(){  
         expressed = Category[4];
         $(".sequence-buttons").show();
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -369,17 +369,16 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4], linkArray[4])
-        $(".Parental").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        $(".Parental").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
         setChart();
 });
-    
     $(".Ultrasound").click(function(){
         expressed = Category[5];
         $(".sequence-buttons").show();
-        d3.selectAll(".menu-options div").style({'background-color': '#00c6ff','color': '#fff','border-style': 'none'});
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -388,7 +387,7 @@ function drawMenu(){
                     return choropleth(d, colorize);
             });
         createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5], linkArray[5]);
-        $(".Ultrasound").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
+        $(".Ultrasound").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
@@ -404,24 +403,7 @@ function drawMenuInfo(colorize, yearExpressed){
         .attr("y", 0)
         .attr("class", "yearExpressedText menu-info")
         .text(yearExpressed)
-        .style({'font-size':'36px', 'font-weight': 'strong'});
-    
-//    var dropdown = d3.select(".sequence-buttons")
-//        .append("div")
-//        .attr("class", "dropdown")
-//        //.html("<h4>Select Year: </h4>")
-//        .append("select")
-//        .on("change", function(){
-//            changeAttribute(this.value, colorize);
-//        });
-//    
-//    dropdown.selectAll("options")
-//        .data(keyArray)
-//        .enter()
-//        .append("option")
-//        .attr("value", function(d){ return d})
-//        .text(function(d){
-//            return d });  
+        .style({'font-size':'36px', 'font-weight': 'strong'}); 
 }; //End DrawMenuInfo
 
 //TODO: animate map with play/pause buttons
@@ -487,7 +469,7 @@ function changeAttribute(year, colorize){
 
 //creates the menu items 
 function createMenu(arrayX, arrayY, title, infotext, infolink){
-    var yArray = [50, 105, 160, 215, 270, 325];
+    var yArray = [40, 85, 130, 175, 220, 265];
     var oldItems = d3.selectAll(".menuBox").remove();
     var oldItems2 = d3.selectAll(".menuInfoBox").remove();
     
@@ -500,7 +482,7 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
     
     //creates Menu Title
     var menuTitle = menuBox.append("text")
-        .attr("x", 12)
+        .attr("x", 10)
         .attr("y", 30)
         .attr("class","title")
         .text(title)
@@ -513,9 +495,9 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
             .enter()
             .append("rect")
             .attr("class", "items")
-            .attr("width", 50)
-            .attr("height", 50)
-            .attr("x", 12);
+            .attr("width", 40)
+            .attr("height", 40)
+            .attr("x", 15);
         
         menuItems.data(yArray)
             .attr("y", function(d, i){
@@ -533,7 +515,7 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
         .enter()
         .append("text")
         .attr("class", "menuLabels")
-        .attr("x", 70)
+        .attr("x", 60)
         .text(function(d, i){
             for (var c = 0; c < arrayX.length; c++){
                 return arrayX[i]
@@ -563,17 +545,9 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
         if (d3.selectAll(".cpcLocations")[0].length > 0){
             removeCPC = d3.selectAll(".cpcLocations").remove();
             removeCPCInfo = d3.selectAll(".cpcMenuInfoBox").remove();
-            cpcDiv.style.backgroundColor = "#c8e713";
-            cpcDiv.style.color = "#fff";
-            cpcDiv.style.border = "none";
             cpcInsetDiv.style.visibility = "hidden";
         } else {
             cpcPoints(map, cpc, path, cpcRadius);
-            cpcDiv.style.backgroundColor = "#fff";
-            cpcDiv.style.borderStyle = "solid";
-            cpcDiv.style.borderColor = "#c8e713";
-            cpcDiv.style.borderWidth = "2px";
-            cpcDiv.style.color = "#c8e713";
             cpcInsetDiv.style.visibility = "visible";
         }
     });
@@ -584,17 +558,9 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
         if (d3.selectAll(".abortionLocations")[0].length > 0){
             removeAbortion = d3.selectAll(".abortionLocations").remove();
             removeAbortionInfo = d3.selectAll(".abortionMenuInfoBox").remove();
-            abortionDiv.style.backgroundColor = "#9608cb";
-            abortionDiv.style.color = "#fff";
-            abortionDiv.style.border = "none";
             insetDiv.style.visibility = "hidden";
         } else {
             abortionPoints(map, abortionprovider, path, abortionRadius);
-            abortionDiv.style.backgroundColor = "#fff";
-            abortionDiv.style.borderStyle = "solid";
-            abortionDiv.style.borderColor = "#9608cb";
-            abortionDiv.style.borderWidth = "2px";
-            abortionDiv.style.color = "#9608cb";
             insetDiv.style.visibility = "visible";
         }
     }); 
@@ -612,7 +578,7 @@ function cpcPoints(map, cpc, path, cpcRadius){
         }));   
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".menu-info")
+    var menuInfoBox = d3.select(".map")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
@@ -632,7 +598,7 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
         }));
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".menu-info")
+    var menuInfoBox = d3.select(".map")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
