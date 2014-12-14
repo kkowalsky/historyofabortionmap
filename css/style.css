@@ -247,6 +247,7 @@
     fill: #808080;
     stroke: #fff;
     stroke-width: 0.5px;
+    float:left;
 }
 
 .cpcLocations {
@@ -267,15 +268,27 @@
 
 .infoLabel {
     position: absolute;
-    width: 180px;
     height: auto;
-    background-color: rgba(51,51,51,.85);
-    color:#f7eb3e;
     /*border: solid thin #fff;*/
     padding: 10px;
+    float:right;
+    display:inline-block;
+    margin-right:-200px;
 }
 
-.labelName {
+.labelTitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size:16px;
+    background-color: #252525;
+    color:#fff;
+    width:200px;
+    margin:2px;
+    margin-right:0px;
+    padding:6px;
+    padding-left:10px;
+}
+
+.labelAttribute {
     font-weight:bold;
 }
 

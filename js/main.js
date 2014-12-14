@@ -835,10 +835,6 @@ function setChart() {
         .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
     var rectStyle = chartRect.attr("transform", function(d) {
-            // console.log(d.yearChanged);
-            // console.log(d.newLaw);
-            // console.log(d.feature.properties.name);
-            // console.log(d.feature.properties[expressed]);
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
         .attr("y", function(d,i) {
@@ -939,22 +935,33 @@ function highlight(data) {
             labelAttribute = yearExpressed+"<br>Minor's parents must give consent before abortion can be performed";
         };
     } else if (expressed == "ultrasound") {
-        if (feature[expressed][Number(yearExpressed)] == "none")
-
-        labelAttribute = yearExpressed+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
+        if (feature[expressed][Number(yearExpressed)] == "none") {
+        labelAttribute = yearExpressed+"<br>No mandatory ultrasound law";
+        } else {
+            labelAttribute = yearExpressed+"<br>"+feature[expressed][Number(yearExpressed)];
+        }
     }
-    
-    console.log(labelAttribute);
 
-    var infoLabel = d3.select("body")
+    var infoLabel = d3.select(".map")
         .append("div")
         .attr("class", "infoLabel")
         .attr("id",feature.postal+"label")
+        .attr("padding-left", 500+"px");
+
+    var labelTitle = d3.select(".infoLabel")
         .html(labelName)
-        .attr("class", "labelName")
+        .attr("class", "labelTitle")
+        .attr("background-color", function(d) {
+            var feature = data.properties ? data.properties : data.feature.properties;
+            var selection = d3.selectAll("."+feature.postal);
+            var fillColor = selection.select("desc").text();
+            return fillColor;  
+        });
+
+    var labelAttribute = d3.select(".labelTitle")
         .append("div")
         .html(labelAttribute)
-        .attr("class", labelName);
+        .attr("class", "labelAttribute")
 };
 
 //Dehlighting for the map & chart
