@@ -71,6 +71,8 @@
     position: absolute;
     margin-left: 0% !important;
     color: #969696;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
 }
 
 .menu-options {
@@ -146,7 +148,7 @@
 }
 
 .overlay-menu {
-    margin-top: 42%;
+    margin-top: 325px;
     font-size: 12px;
     font-family: Open Sans, sans-serif;
 }
