@@ -61,7 +61,7 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
                             "#636363",      //D     //48 hours
                             "#969696",      //C     //24 hours
                             "#cccccc",      //B     //18 hours
-                            "#e6e6e6"   ];  //A     //None
+                            "#e6e6e6"   ];  //A     //None''
 
     // Color array for Prohibited At
     var colorArrayProhibited = ["#252525",      //12 weeks
@@ -903,7 +903,7 @@ function highlight(data) {
     // console.log(feature.postal);
     d3.selectAll("."+feature.postal)
         // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
-        .style("fill", "#00C6FF");
+        .style("fill", "#8856A7");
 
     //set the state name as the label title
     var labelName = feature.name;
