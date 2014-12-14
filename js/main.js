@@ -128,6 +128,7 @@ function initialize(){
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
+    $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
     $(".sequence-buttons").hide();
     //$(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 }; //End initialize
@@ -419,11 +420,12 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     });
     
     $(".play").click(function(){
-        timer.play();
+            timer.play();
     });
     
     $(".pause").click(function(){
         timer.pause();
+        changeAttribute(yearExpressed, colorize);
     });
     
     $(".stepForward").click(function(){
@@ -629,13 +631,13 @@ function createInset() {
         .append("circle")
         .attr("cy", 30)
         .attr("cx", function(d, i){
-            return (2*d)+(i*50)+10;
+            return (1*d)+(i*50)+10;
         })
         .attr("r", function(d, i){
             return d;
         })
         .attr("class", "cpcCircles")
-        .style({'fill': '#c8e713','fill-opacity': '0.5', 'stroke': '#9fb80f', 'stroke-width': '0.75px'});  
+        .style({'fill': '#FA6E39','fill-opacity': '0.7'});  
     
     //labels cpc circles
     var cpcLabels = cpcMenuBox.selectAll(".cpcOverlayLabels")
@@ -653,7 +655,7 @@ function createInset() {
     
         cpcLabels.data(cpcRadiusArray)
             .attr("x", function(d, i){
-                return (3*d)+(i*50)+15;
+                return (2*d)+(i*50)+15;
             });
     
     abortionMenuBox = d3.select(".abortion-inset")
@@ -669,13 +671,13 @@ function createInset() {
         .append("circle")
         .attr("cy", 30)
         .attr("cx", function(d, i){
-            return (2*d)+(i*50)+10;
+            return (1*d)+(i*50)+10;
         })
         .attr("r", function(d, i){
             return d;
         })
         .attr("class", "abortionCircles")
-        .style({'fill': '#9608cb','fill-opacity': '0.5', 'stroke': '#72069a', 'stroke-width': '0.75px'}); 
+        .style({'fill': '#37C4AB','fill-opacity': '0.7'}); 
     
     //labels abortion circles
     var abortionLabels = abortionMenuBox.selectAll(".abortionOverlayLabels")
@@ -693,7 +695,7 @@ function createInset() {
     
         abortionLabels.data(abortionRadiusArray)
             .attr("x", function(d, i){
-                return (3*d)+(i*50)+15;
+                return (2*d)+(i*50)+15;
             });  
 }; //END create inset
 /* Katie's section end */
@@ -979,7 +981,7 @@ function moveLabel(data) {
 
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
 var timer = $.timer(function() {
-            animateMap(yearExpressed, colorize, yearExpressedText);
+            animateMap(yearExpressed, colorize, yearExpressedText)
             timeMapSequence(yearExpressed);  
 	});
 timer.set({ time : 500, autostart : false });
