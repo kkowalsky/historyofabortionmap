@@ -302,17 +302,35 @@ ul.nav a:hover {
 }
 
 .letscenter{
+    margin-top: 15px;
+    margin-bottom: 15px;
     text-align: center;
 }
 
-.container h2{
+#AnalysisBox{
     position: relative;
-    left: -20px;
+    left: 20%;
+    width: 60%;
+}
+
+.chptrhead{
+    position: relative;
+    left: -30px;
+}
+
+.chptrhead h2{
+    color:white;
+    background-color: black;
+    position: relative;
     padding: 6px;
     margin-bottom: 24px;
-    width: 60%;
+}
+
+.container h2{
+
+/*    width: 60%;
     color: white;
-    background-color: #000;
+    background-color: #000;*/
 }
 
 /* About CSS  */
@@ -339,7 +357,7 @@ ul.nav a:hover {
 }
 
 p {
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'Open Sans', sans-serif;
 }
 
