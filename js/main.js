@@ -99,7 +99,7 @@ var chartWidth = 100;
 var squareWidth = 20;
 var squareHeight = 20;
 var chartRect;
-var margin = {top: 100, right: 40, bottom: 30, left:150};
+var margin = {top: 130, right: 40, bottom: 30, left:150};
 var rectColor;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
@@ -779,8 +779,6 @@ function setChart() {
     timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
     colorizeChart = colorScaleChart(timelineFeatureArray);
     // $(".menu-options").click(function() {     
-    
-    var axis = d3.svg.axis();
 
     var chart = d3.select(".graph")
         .append("svg")
@@ -863,11 +861,18 @@ function setChart() {
             });
 
 
-    var axis = chart.append("svg")
+    //var xAxis = chart.append("svg")
+    var axis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
         .attr("class", "axis")
-        .attr("width", 90+"%")
+        .attr("width", chartWidth)
         .attr("height", 10+"px");
 
+    var timeline = chart.append("g")
+        .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+        .attr("class", "timeline")
+        .call(axis);
     // var timeline = axis.axis()
     //     .scale(x)
     //     .orient('bottom')

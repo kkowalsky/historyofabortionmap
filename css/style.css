@@ -248,6 +248,10 @@
     background-color: #000;
 }
 
+.timeline {
+    position:absolute;
+}
+
 /* Analysis CSS  */
 /* ------------  */
 
