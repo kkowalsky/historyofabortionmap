@@ -854,8 +854,8 @@ function setChart() {
         .style("fill", function(d) {
             return choroplethChart(d.newLaw, colorize); //apply the color according to what the new law is in that year
         })
-        .on("mouseover", highlightChart)
-        .on("mouseout", dehighlightChart);
+        .on("mouseover", highlight)
+        .on("mouseout", dehighlight);
 
     rectColor = rectStyle.append("desc")
             .text(function(d) {
@@ -890,10 +890,10 @@ function removeChart() {
 /*       START HIGHLIGHT & LABEL FUNCTIONS     */
 //---------------------------------------------//
 // Robin's section
-//Highlighting for the map
-function highlight(joinedJson, timelineFeatureArray) {
+//Highlighting for the map & chart
+function highlight(data) {
     //holds the currently highlighted feature
-    var feature = joinedJson.properties ? joinedJson.properties : timelineFeatureArray.feature.properties;
+    var feature = data.properties ? data.properties : data.feature.properties;
     // console.log(feature.name);
     // console.log(feature.postal);
     d3.selectAll("."+feature.postal)
@@ -906,38 +906,19 @@ function highlight(joinedJson, timelineFeatureArray) {
         .append("div")
         .attr("class", "infoLabel")
         .attr("id",feature.postal+"label")
-        .html(labelName);
+        .html(labelName)
+        .attr("class", "labelName");
 };
 
-//Highlighting for the chart
-function highlightChart(timelineFeatureArray) {
-    var feature = timelineFeatureArray.feature.properties;
-    d3.selectAll("."+feature.postal)
-        .style("fill", "#00C6FF");
-}
-
-//Dehlighting for the map
-function dehighlight(joinedJson) {
-    var selectedFeature = joinedJson.properties;
-
-    var selection = d3.selectAll("."+selectedFeature.postal);
-    var fillColor = selection.select("desc").text();
-    selection.style("fill", fillColor);
-
-    var deselect = d3.select("#"+selectedFeature.postal+"label").remove();
-}
-
-//Dehlighting for the chart
-function dehighlightChart(timelineFeatureArray) {
-    var feature = timelineFeatureArray.feature.properties;
+//Dehlighting for the map & chart
+function dehighlight(data) {
+    var feature = data.properties ? data.properties : data.feature.properties;
 
     var selection = d3.selectAll("."+feature.postal);
     var fillColor = selection.select("desc").text();
-    selection.style("fill", function(d,i) {
-        for (i=0; i < selection.length; i++) {
-            return fillColor;
-        }
-    })
+    selection.style("fill", fillColor);
+
+    var deselect = d3.select("#"+feature.postal+"label").remove();
 }
 
 function moveLabel(data) {

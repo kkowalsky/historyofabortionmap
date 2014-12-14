@@ -229,7 +229,7 @@
 }
 
 .labelName {
-
+    font-weight:bold;
 }
 
 /* Graph CSS  */
@@ -245,7 +245,7 @@
 }
 
 .axis {
-    background-color: #fff;
+    background-color: #000;
 }
 
 /* Analysis CSS  */
