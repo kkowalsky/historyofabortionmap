@@ -130,7 +130,6 @@ function initialize(){
     createInset();
     $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
     $(".sequence-buttons").hide();
-    //$(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 }; //End initialize
 
 //creates map
@@ -170,7 +169,6 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
- //       console.log(joinedJson);
         colorize = colorScale(joinedJson);
 
         //Create an Array with CSV's loaded
@@ -212,9 +210,6 @@ function setMap(){
              }; 
         }; //END linkData
 
-    // console.log statement to show the contents of the joined json object
-    // console.log(topojson.feature(usa, usa.objects.states).features);
-
         //Style the states to be styled according to the data
         var states = map.selectAll(".states")
             .data(joinedJson)
@@ -238,7 +233,6 @@ function setMap(){
                 return choropleth(d, colorize);
             })
 
-// -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
         //data stuff for overlay
         var cpcCount = [];
         for (var a = 0; a < cpc.features.length; a++){
@@ -271,7 +265,6 @@ function setMap(){
             .domain([abortionMin, abortionMax])
             .range([2, 23]);
 
-//        colorScale(joinedJson);
         removeChart();
         setChart(); //draw the chart
         //calls overlay function
