@@ -110,7 +110,7 @@
 
 .cpc {
     float: left;
-    background-color: #c8e713;
+    background-color: rgba(250, 110, 57, 0.7);
     text-align: center;
     padding: 1.5%;
 }
@@ -128,13 +128,13 @@
 
 .abortion {
     float: left;
-    background-color:  #9608cb;
+    background-color:  rgba(55, 196, 171, 0.7);
     text-align: center;
     padding: 3%;
 }
 
 .abortion:hover {
-    color:  #9608cb;
+    color:  #8856a7;
     background-color: #fff;
 }
 
