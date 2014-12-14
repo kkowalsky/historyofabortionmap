@@ -100,6 +100,7 @@ var squareWidth = 20;
 var squareHeight = 20;
 var chartRect;
 var margin = {top: 100, right: 40, bottom: 30, left:150};
+var rectColor;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
 //--------------------------------------------------/
@@ -228,7 +229,8 @@ function setMap(){
                 return path(d);
             })
             .on("mouseover", highlight)
-            .on("mouseout", dehighlight);
+            .on("mouseout", dehighlight)
+            .on("mousemove", moveLabel);
 
         var statesColor = states.append("desc")
             .text(function(d) {
@@ -889,7 +891,7 @@ function setChart() {
         .on("mouseover", highlightChart)
         .on("mouseout", dehighlightChart);
 
-    var rectColor = rectStyle.append("desc")
+    rectColor = rectStyle.append("desc")
             .text(function(d) {
                 return choropleth(d, colorize);
             });
@@ -919,7 +921,7 @@ function removeChart() {
 
 
 //---------------------------------------------//
-/*          START HIGHLIGHT FUNCTIONS          */
+/*       START HIGHLIGHT & LABEL FUNCTIONS     */
 //---------------------------------------------//
 // Robin's section
 //Highlighting for the map
@@ -961,13 +963,27 @@ function dehighlight(joinedJson) {
 
 //Dehlighting for the chart
 function dehighlightChart(timelineFeatureArray) {
-    console.log(timelineFeatureArray.feature.properties)
     var feature = timelineFeatureArray.feature.properties;
 
     var selection = d3.selectAll("."+feature.postal);
     var fillColor = selection.select("desc").text();
-    selection.style("fill", fillColor);
+    selection.style("fill", function(d,i) {
+        for (i=0; i < selection.length; i++) {
+            return fillColor;
+        }
+    })
 }
+
+function moveLabel(data) {
+    //horizontal label coordinate based mouse position stored in d3.event
+    var x = d3.event.clientX < window.innerWidth - 245 ? d3.event.clientX+10 : d3.event.clientX-210; 
+    //vertical label coordinate
+    var y = d3.event.clientY < window.innerHeight - 100 ? d3.event.clientY-75 : d3.event.clientY-175; 
+    
+    d3.select(".infoLabel") //select the label div for moving
+        .style("margin-left", x+"px") //reposition label horizontal
+        .style("margin-top", y+"px"); //reposition label vertical
+};
 
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
 var timer = $.timer(function() {
