@@ -95,11 +95,11 @@ var timelineFeatureArray = [];
 var colorizeChart; // colorScale generator for the chart
 var removeChart;
 var chartHeight = 200;
-var chartWidth = 100;
-var squareWidth = 20;
-var squareHeight = 20;
+var chartWidth = 855;
+var squareWidth = 19;
+var squareHeight = 19;
 var chartRect;
-var margin = {top: 130, right: 40, bottom: 30, left:150};
+var margin = {top: 80, right: 20, bottom: 30, left:10};
 var rectColor;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
@@ -783,7 +783,7 @@ function setChart() {
 
     var chart = d3.select(".graph")
         .append("svg")
-        .attr("width", chartWidth+"%")
+        .attr("width", chartWidth+"px")
         .attr("height", chartHeight+"px")
         .attr("class", "chart")
         .append("g")
@@ -831,7 +831,7 @@ function setChart() {
     
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
-        .rangeRound([0, window.innerWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
+        .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
     var rectStyle = chartRect.attr("transform", function(d) {
             // console.log(d.yearChanged);

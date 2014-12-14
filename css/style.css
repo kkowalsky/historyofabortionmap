@@ -242,8 +242,9 @@
 
 /* .chart is the SVG of the chart itself */
 .chart {
-    /*background-color: #00C6FF*/;
+    background-color: #00C6FF;
     background-color: #fff;
+    margin-left: 26%;
 }
 
 .axis {
