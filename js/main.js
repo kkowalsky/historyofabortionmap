@@ -5,14 +5,14 @@ var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "
 var expressed;
 var yearExpressed;
 var yearExpressedText;
-var colorize;
+var colorize;  
 var scale;
 var currentColors = [];
 var menuWidth = 200, menuHeight = 300;
 var otherMenuWidth = 198, otherMenuHeight = 70;
 var menuInfoWidth = 400, menuInfoHeight = 100;
-var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions. ", "States which prohibit abortion at an earlier date than the federal law. ", "States with laws that require biased-counseling to women seeking abortion services. ","States where a woman must wait a designated period of time after counseling before having an abortion. ", "States with laws restricting young women's access to abortion services by mandating parental consent. ", "States where an ultrasound either must be performed, offered, or advised prior to an abortion. ", "Crisis Pregnancy Centers provide counseling but appose and undermine abortion rights. ", "Abortion Providers provide counseling and do not promote abortion but help women in need of one. "]
-var linkArray = ["<a href = '#overview'> We provide an overview of these policies here.</a>", "<a href = '#prohibition'>  What sort of prohibitions?</a>", "<a href = '#counseling'> What constitutes biased-counseling?</a>", "<a href = '#waiting'> Why are waiting periods considered a restriction?</a>", "<a href = '#consent'> Why is parental consent considered a restriction?</a>", "<a href = '#ultrasound'> What are the differences between these laws?</a>", "<a href = '#CPC'> Here's why.</a>"];
+var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions. ", "States that prohibit abortion at an earlier gestation date than the federal law of viability. ", "States that require biased counseling to women seeking abortion services. ","States where a woman must wait a designated period of time after counseling before having an abortion. ", "States with laws that restrict young women's access to abortion services by mandating parental consent. ", "States where an ultrasound either must be performed, offered, or advised prior to an abortion. ", "Crisis Pregnancy Centers provide counseling but appose and undermine abortion rights. ", "Abortion Providers provide counseling and do not promote abortion but help women in need of one. "]
+var linkArray = ["<a href = '#overview'> We provide an overview of these policies here.</a>", "<a href = '#prohibition'>  What sort of prohibitions?</a>", "<a href = '#counseling'> What constitutes biased counseling?</a>", "<a href = '#waiting'> Why are waiting periods considered a restriction?</a>", "<a href = '#consent'> Why is parental consent considered a restriction?</a>", "<a href = '#ultrasound'> What are the differences between these laws?</a>", "<a href = '#CPC'> Here's why.</a>"];
 var removeCPC;
 var removeAbortion;
 var joinedJson; //Variable to store the USA json combined with all attribute data
@@ -82,7 +82,7 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
 
     // Color array for Ultrasound
     var colorArrayUltrasound = ["#525252",      //Must be performed, offer to view
-                            "#636363",      //Must be performed
+                            "#737373",      //Must be performed
                             "#969696",      //Must be offered
                             "#d9d9d9"   ];  //None
 
@@ -129,7 +129,10 @@ function initialize(){
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
     $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
-    $(".sequence-buttons").hide();
+    $('.stepBackward').prop('disabled', true);
+    $('.play').prop('disabled', true);
+    $('.pause').prop('disabled', true);
+    $('.stepForward').prop('disabled', true);
 }; //End initialize
 
 //creates map
@@ -180,6 +183,7 @@ function setMap(){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
         };
 
+        //this function combines the data 
         function LinkData(topojson, csvData, attribute){
              var jsonStates = usa.objects.states.geometries;
 
@@ -203,7 +207,6 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-                 // console.log(jsonStates[a].properties)
                     break;
                     };
                 };
@@ -265,21 +268,25 @@ function setMap(){
             .domain([abortionMin, abortionMax])
             .range([2, 23]);
 
-        removeChart();
         setChart(); //draw the chart
         //calls overlay function
-        overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
-        drawMenuInfo(colorize, yearExpressed);
+        overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider); //calls the overlay function to be ready
+        drawMenuInfo(colorize, yearExpressed); //draws the menu info
     }; //END callback
 }; //END setmap
 
-//menu items function
+//menu items function that handles the click handlers
 function drawMenu(){
     $(".Overview").click(function(){ 
         expressed = Category[0];
         yearExpressed = keyArray[keyArray.length-1];
-        $(".sequence-buttons").hide();
-        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
+        d3.selectAll(".yearExpressedText").remove();
+        drawMenuInfo(colorize, yearExpressed);
+        $('.stepBackward').prop('disabled', true);
+        $('.play').prop('disabled', true);
+        $('.pause').prop('disabled', true);
+        $('.stepForward').prop('disabled', true);
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696',});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -296,7 +303,10 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -315,7 +325,10 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -334,7 +347,10 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -353,7 +369,10 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -371,7 +390,10 @@ function drawMenu(){
 });
     $(".Ultrasound").click(function(){
         expressed = Category[5];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -414,10 +436,12 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     
     $(".play").click(function(){
             timer.play();
+        $('.play').prop('disabled', true);
     });
     
     $(".pause").click(function(){
         timer.pause();
+        $('.play').prop('disabled', false);
         changeAttribute(yearExpressed, colorize);
     });
     
@@ -541,9 +565,11 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
             removeCPC = d3.selectAll(".cpcLocations").remove();
             removeCPCInfo = d3.selectAll(".cpcMenuInfoBox").remove();
             cpcInsetDiv.style.visibility = "hidden";
+            cpcDiv.style.backgroundColor = "rgba(250, 110, 57, 1)";
         } else {
             cpcPoints(map, cpc, path, cpcRadius);
             cpcInsetDiv.style.visibility = "visible";
+            cpcDiv.style.backgroundColor = "#f95618";
         }
     });
     
@@ -554,9 +580,11 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
             removeAbortion = d3.selectAll(".abortionLocations").remove();
             removeAbortionInfo = d3.selectAll(".abortionMenuInfoBox").remove();
             insetDiv.style.visibility = "hidden";
+            abortionDiv.style.backgroundColor = "rgba(55, 196, 171, 1)";
         } else {
             abortionPoints(map, abortionprovider, path, abortionRadius);
             insetDiv.style.visibility = "visible";
+            abortionDiv.style.backgroundColor = "#248271";
         }
     }); 
 }; //END overlay function
@@ -573,7 +601,7 @@ function cpcPoints(map, cpc, path, cpcRadius){
         }));   
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".map")
+    var menuInfoBox = d3.select(".sequence-buttons")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
@@ -593,7 +621,7 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
         }));
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".map")
+    var menuInfoBox = d3.select(".sequence-buttons")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
@@ -685,11 +713,11 @@ function createInset() {
             }
         })
         .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif'});
-    
+
         abortionLabels.data(abortionRadiusArray)
             .attr("x", function(d, i){
                 return (2*d)+(i*50)+15;
-            });  
+    });  
 }; //END create inset
 /* Katie's section end */
 
@@ -872,12 +900,6 @@ function setChart() {
         // .tickFormat(d3.time.format('%y'))
         // .tickSize(0)
 };
-
-function removeChart() {
-    if ($(".chartRect").length > 0) {
-    removeChart = d3.selectAll(".chart").remove();
-    }
-}
 
 /* ------------END CHART FUNCTIONS------------ */
 
