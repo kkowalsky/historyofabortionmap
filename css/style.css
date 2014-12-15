@@ -314,11 +314,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #c8e713; 
+    background: #f95618; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #cccccc; 
+    background: #f95618; 
     color: #fff;
 }
 
