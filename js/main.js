@@ -9,8 +9,8 @@ var colorize;
 var scale;
 var currentColors = [];
 var menuWidth = 200, menuHeight = 300;
-var otherMenuWidth = 198, otherMenuHeight = 70;
-var menuInfoWidth = 400, menuInfoHeight = 100;
+var otherMenuWidth = 200, otherMenuHeight = 70;
+var menuInfoWidth = 250, menuInfoHeight = 100;
 var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions. ", "States which prohibit abortion at an earlier date than the federal law. ", "States with laws that require biased-counseling to women seeking abortion services. ","States where a woman must wait a designated period of time after counseling before having an abortion. ", "States with laws restricting young women's access to abortion services by mandating parental consent. ", "States where an ultrasound either must be performed, offered, or advised prior to an abortion. ", "Crisis Pregnancy Centers provide counseling but appose and undermine abortion rights. ", "Abortion Providers provide counseling and do not promote abortion but help women in need of one. "]
 var linkArray = ["<a href = '#overview'> We provide an overview of these policies here.</a>", "<a href = '#prohibition'>  What sort of prohibitions?</a>", "<a href = '#counseling'> What constitutes biased-counseling?</a>", "<a href = '#waiting'> Why are waiting periods considered a restriction?</a>", "<a href = '#consent'> Why is parental consent considered a restriction?</a>", "<a href = '#ultrasound'> What are the differences between these laws?</a>", "<a href = '#CPC'> Here's why.</a>"];
 var removeCPC;
@@ -129,7 +129,11 @@ function initialize(){
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
     $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
-    $(".sequence-buttons").hide();
+    $('.stepBackward').prop('disabled', true);
+    $('.play').prop('disabled', true);
+    $('.pause').prop('disabled', true);
+    $('.stepForward').prop('disabled', true);
+
 }; //End initialize
 
 //creates map
@@ -278,7 +282,12 @@ function drawMenu(){
     $(".Overview").click(function(){ 
         expressed = Category[0];
         yearExpressed = keyArray[keyArray.length-1];
-        $(".sequence-buttons").hide();
+        d3.selectAll(".yearExpressedText").remove();
+        drawMenuInfo(colorize, yearExpressed);
+        $('.stepBackward').prop('disabled', true);
+        $('.play').prop('disabled', true);
+        $('.pause').prop('disabled', true);
+        $('.stepForward').prop('disabled', true);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -296,7 +305,10 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+         $('.play').prop('disabled', false);
+         $('.pause').prop('disabled', false);
+         $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -315,7 +327,10 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+         $('.play').prop('disabled', false);
+         $('.pause').prop('disabled', false);
+         $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -334,7 +349,10 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+         $('.play').prop('disabled', false);
+         $('.pause').prop('disabled', false);
+         $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -353,7 +371,10 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+         $('.play').prop('disabled', false);
+         $('.pause').prop('disabled', false);
+         $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -371,7 +392,10 @@ function drawMenu(){
 });
     $(".Ultrasound").click(function(){
         expressed = Category[5];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+         $('.play').prop('disabled', false);
+         $('.pause').prop('disabled', false);
+         $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -413,11 +437,13 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     });
     
     $(".play").click(function(){
-            timer.play();
+        timer.play();
+        $('.play').prop('disabled', true);
     });
     
     $(".pause").click(function(){
         timer.pause();
+        $('.play').prop('disabled', false);
         changeAttribute(yearExpressed, colorize);
     });
     
@@ -573,7 +599,7 @@ function cpcPoints(map, cpc, path, cpcRadius){
         }));   
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".map")
+    var menuInfoBox = d3.select(".sequence-buttons")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
@@ -593,7 +619,7 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
         }));
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".map")
+    var menuInfoBox = d3.select(".sequence-buttons")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
