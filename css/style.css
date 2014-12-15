@@ -328,7 +328,18 @@
 .timeline {
     position:absolute;
     font-family: 'Open Sans', sans-serif;
-    font-weight: bold;
+    font-size:12px;
+/*    font-weight: bold;*/
+    fill: none;
+    stroke: gray;
+    shape-rendering: crispEdges;
+}
+
+.timeline path,
+.timeline line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
 }
 
 /* Analysis CSS  */

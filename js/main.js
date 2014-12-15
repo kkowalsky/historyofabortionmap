@@ -93,11 +93,10 @@ var currentArray = [];
 //SET UP VARIABLES FOR TIMELINE
 var timelineFeatureArray = [];
 var colorizeChart; // colorScale generator for the chart
-var removeChart;
 var chartHeight = 200;
 var chartWidth = 855;
-var squareWidth = 19;
-var squareHeight = 19;
+var squareWidth = 18;
+var squareHeight = 18;
 var chartRect;
 var margin = {top: 80, right: 20, bottom: 30, left:10};
 var rectColor;
@@ -270,8 +269,7 @@ function setMap(){
             .domain([abortionMin, abortionMax])
             .range([2, 23]);
 
-        removeChart();
-        setChart(); //draw the chart
+        //setChart(); //draw the chart
         //calls overlay function
         overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
         drawMenuInfo(colorize, yearExpressed);
@@ -855,6 +853,11 @@ function setChart() {
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
+    //set a time scale for drawing the axis; use a separate time scale rather than a linear scale for formatting purposes.
+    var timeScale = d3.time.scale()
+        .domain([new Date(keyArray[0]), d3.time.year.offset(new Date(keyArray[keyArray.length-1]), 1)]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
+        .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
+
     var rectStyle = chartRect.attr("transform", function(d) {
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
@@ -879,40 +882,29 @@ function setChart() {
                 return choropleth(d, colorize);
             });
 
-    var timeScale = d3.time.scale()
-        .domain([new Date(keyArray[0]), d3.time.year.offset(new Date(keyArray[keyArray.length-1]), 1)]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
-        .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
-
-    //Create the axis function
+    //Creates the axis function
     var axis = d3.svg.axis()
         .scale(timeScale)
         .orient("bottom")
         .ticks(d3.time.years, 1)
-        .tickFormat(d3.time.format('%y'));
+        .tickFormat(d3.time.format('%y'))
+        .tickPadding(5) //distance between axis line and labels
+        .innerTickSize(50);
 
-    var timelineMargin = {top: 50, right: 20, bottom: 30, left:1};
+    //sets the thickness of the line between the ticks and the corresponding squares in the chart
+    var timelineLine = axis.tickSize(1);
 
+    //sets the margins for the timeline transform
+    var timelineMargin = {top: 50, right: 20, bottom: 30, left:38};
+
+    //draw the timeline as a g element on the chart
     var timeline = chart.append("g")
         .attr("height", chartHeight)
         .attr("width", chartWidth)
-        .attr('transform', 'translate(' + margin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')')
+        .attr('transform', 'translate(' + timelineMargin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')')
         .attr("class", "timeline")
         .call(axis); //calls the axis function on the timeline
-
-    // var timeline = axis.axis()
-    //     .scale(x)
-    //     .orient('bottom')
-    //     .tickValues(timelineArray)
-    //     .attr("class", "timeline");
-        // .tickFormat(d3.time.format('%y'))
-        // .tickSize(0)
 };
-
-function removeChart() {
-    if ($(".chartRect").length > 0) {
-    removeChart = d3.selectAll(".chart").remove();
-    }
-}
 
 /* ------------END CHART FUNCTIONS------------ */
 
