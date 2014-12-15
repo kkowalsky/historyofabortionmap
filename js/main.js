@@ -458,10 +458,10 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
 }; //end AnimateMAP
 
 function timeMapSequence(yearsExpressed) {
+    changeAttribute(yearExpressed, colorize);
     if (yearsExpressed < keyArray[keyArray.length-1]){
         yearExpressed++; 
     };
-        changeAttribute(yearExpressed, colorize);
 };
 
 //changes year displayed on map
@@ -515,8 +515,8 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
             .enter()
             .append("rect")
             .attr("class", "items")
-            .attr("width", 40)
-            .attr("height", 40)
+            .attr("width", 35)
+            .attr("height", 35)
             .attr("x", 15);
         
         menuItems.data(yArray)
@@ -1002,7 +1002,10 @@ function moveLabel(data) {
 
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
 var timer = $.timer(function() {
-            animateMap(yearExpressed, colorize, yearExpressedText)
-            timeMapSequence(yearExpressed);  
+        if (yearExpressed == keyArray[keyArray.length-1]){
+            yearExpressed = keyArray[0];
+        };
+        animateMap(yearExpressed, colorize, yearExpressedText);
+        timeMapSequence(yearExpressed);  
 	});
-timer.set({ time : 500, autostart : false });
+timer.set({ time : 800, autostart : false });
