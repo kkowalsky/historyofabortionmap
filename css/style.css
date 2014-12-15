@@ -264,13 +264,12 @@
 /* ---------  */
 
 .infoLabel {
-    position: absolute;
+    position: relative;
     height: auto;
     /*border: solid thin #fff;*/
     padding: 10px;
     float:right;
-    display:inline-block;
-    margin-right:-200px;
+    margin:-200px;
 }
 
 .labelTitle {
