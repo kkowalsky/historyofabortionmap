@@ -30,8 +30,6 @@
     position: absolute;
     margin-left: 0% !important;
     color: #969696;
-    font-size: 14px;
-    font-family: Open Sans, sans-serif;
 }
 
 .menu-options {
@@ -107,13 +105,7 @@
 }
 
 .overlay-menu {
-<<<<<<< HEAD
     margin-top: 42%;
-=======
-    margin-top: 325px;
-    font-size: 12px;
-    font-family: Open Sans, sans-serif;
->>>>>>> af92ebbb1b4f49df9aedfe9cf24fb4d629716f9e
 }
 
 .cpc {
@@ -314,11 +306,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #f95618; 
+    background: #c8e713; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #f95618; 
+    background: #cccccc; 
     color: #fff;
 }
 
