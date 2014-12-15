@@ -5,7 +5,7 @@ var Category = ["gradeData", "prohibitedAfter", "counseling", "waitingPeriod", "
 var expressed;
 var yearExpressed;
 var yearExpressedText;
-var colorize;
+var colorize;  
 var scale;
 var currentColors = [];
 var menuWidth = 200, menuHeight = 300;
@@ -129,7 +129,10 @@ function initialize(){
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
     $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
-    $(".sequence-buttons").hide();
+    $('.stepBackward').prop('disabled', true);
+    $('.play').prop('disabled', true);
+    $('.pause').prop('disabled', true);
+    $('.stepForward').prop('disabled', true);
 }; //End initialize
 
 //creates map
@@ -180,6 +183,7 @@ function setMap(){
             LinkData(usa, csvArray[csv], attributeNames[csv]);
         };
 
+        //this function combines the data 
         function LinkData(topojson, csvData, attribute){
              var jsonStates = usa.objects.states.geometries;
 
@@ -203,7 +207,6 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-                 // console.log(jsonStates[a].properties)
                     break;
                     };
                 };
@@ -265,21 +268,26 @@ function setMap(){
             .domain([abortionMin, abortionMax])
             .range([2, 23]);
 
-        removeChart();
+        removeChart(); //removes the old chart
         setChart(); //draw the chart
         //calls overlay function
-        overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
-        drawMenuInfo(colorize, yearExpressed);
+        overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider); //calls the overlay function to be ready
+        drawMenuInfo(colorize, yearExpressed); //draws the menu info
     }; //END callback
 }; //END setmap
 
-//menu items function
+//menu items function that handles the click handlers
 function drawMenu(){
     $(".Overview").click(function(){ 
         expressed = Category[0];
         yearExpressed = keyArray[keyArray.length-1];
-        $(".sequence-buttons").hide();
-        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
+        d3.selectAll(".yearExpressedText").remove();
+        drawMenuInfo(colorize, yearExpressed);
+        $('.stepBackward').prop('disabled', true);
+        $('.play').prop('disabled', true);
+        $('.pause').prop('disabled', true);
+        $('.stepForward').prop('disabled', true);
+        d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696',});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
             })
@@ -296,7 +304,10 @@ function drawMenu(){
     
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -315,7 +326,10 @@ function drawMenu(){
     
     $(".Counseling").click(function(){  
         expressed = Category[2];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -334,7 +348,10 @@ function drawMenu(){
     
     $(".Waiting").click(function(){ 
         expressed = Category[3];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -353,7 +370,10 @@ function drawMenu(){
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -371,7 +391,10 @@ function drawMenu(){
 });
     $(".Ultrasound").click(function(){
         expressed = Category[5];
-        $(".sequence-buttons").show();
+        $('.stepBackward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -414,10 +437,12 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     
     $(".play").click(function(){
             timer.play();
+        $('.play').prop('disabled', true);
     });
     
     $(".pause").click(function(){
         timer.pause();
+        $('.play').prop('disabled', false);
         changeAttribute(yearExpressed, colorize);
     });
     
@@ -541,9 +566,11 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
             removeCPC = d3.selectAll(".cpcLocations").remove();
             removeCPCInfo = d3.selectAll(".cpcMenuInfoBox").remove();
             cpcInsetDiv.style.visibility = "hidden";
+            cpcDiv.style.backgroundColor = "rgba(250, 110, 57, 1)";
         } else {
             cpcPoints(map, cpc, path, cpcRadius);
             cpcInsetDiv.style.visibility = "visible";
+            cpcDiv.style.backgroundColor = "#f95618";
         }
     });
     
@@ -554,9 +581,11 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
             removeAbortion = d3.selectAll(".abortionLocations").remove();
             removeAbortionInfo = d3.selectAll(".abortionMenuInfoBox").remove();
             insetDiv.style.visibility = "hidden";
+            abortionDiv.style.backgroundColor = "rgba(55, 196, 171, 1)";
         } else {
             abortionPoints(map, abortionprovider, path, abortionRadius);
             insetDiv.style.visibility = "visible";
+            abortionDiv.style.backgroundColor = "#248271";
         }
     }); 
 }; //END overlay function
