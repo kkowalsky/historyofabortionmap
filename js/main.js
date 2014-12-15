@@ -430,8 +430,8 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
             yearExpressed--;
             changeAttribute(yearExpressed, colorize);
         } else {
-            var newYearExpressed = keyArray[keyArray.length-1];
-            changeAttribute(newYearExpressed, colorize);
+            yearExpressed = keyArray[keyArray.length-1];
+            changeAttribute(yearExpressed, colorize);
         }; 
     });
     
