@@ -128,8 +128,8 @@ function initialize(){
     setMap();
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
+    $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
     $(".sequence-buttons").hide();
-    //$(".Overview").css({'background-color': '#fff','border-style': 'solid','border-color': '#00c6ff','border-width': '2px','color': '#00c6ff'});
 }; //End initialize
 
 //creates map
@@ -169,7 +169,6 @@ function setMap(){
 
         //Variable to store the USA json with all attribute data
         joinedJson = topojson.feature(usa, usa.objects.states).features;
- //       console.log(joinedJson);
         colorize = colorScale(joinedJson);
 
         //Create an Array with CSV's loaded
@@ -211,9 +210,6 @@ function setMap(){
              }; 
         }; //END linkData
 
-    // console.log statement to show the contents of the joined json object
-    // console.log(topojson.feature(usa, usa.objects.states).features);
-
         //Style the states to be styled according to the data
         var states = map.selectAll(".states")
             .data(joinedJson)
@@ -237,7 +233,6 @@ function setMap(){
                 return choropleth(d, colorize);
             })
 
-// -- Grab State Abv. from TopoJSON -- (usa.objects.states.geometries[1].properties.postal)
         //data stuff for overlay
         var cpcCount = [];
         for (var a = 0; a < cpc.features.length; a++){
@@ -270,7 +265,6 @@ function setMap(){
             .domain([abortionMin, abortionMax])
             .range([2, 23]);
 
-//        colorScale(joinedJson);
         removeChart();
         setChart(); //draw the chart
         //calls overlay function
@@ -419,11 +413,12 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     });
     
     $(".play").click(function(){
-        timer.play();
+            timer.play();
     });
     
     $(".pause").click(function(){
         timer.pause();
+        changeAttribute(yearExpressed, colorize);
     });
     
     $(".stepForward").click(function(){
@@ -629,13 +624,13 @@ function createInset() {
         .append("circle")
         .attr("cy", 30)
         .attr("cx", function(d, i){
-            return (2*d)+(i*50)+10;
+            return (1*d)+(i*50)+10;
         })
         .attr("r", function(d, i){
             return d;
         })
         .attr("class", "cpcCircles")
-        .style({'fill': '#c8e713','fill-opacity': '0.5', 'stroke': '#9fb80f', 'stroke-width': '0.75px'});  
+        .style({'fill': '#FA6E39','fill-opacity': '0.7'});  
     
     //labels cpc circles
     var cpcLabels = cpcMenuBox.selectAll(".cpcOverlayLabels")
@@ -653,7 +648,7 @@ function createInset() {
     
         cpcLabels.data(cpcRadiusArray)
             .attr("x", function(d, i){
-                return (3*d)+(i*50)+15;
+                return (2*d)+(i*50)+15;
             });
     
     abortionMenuBox = d3.select(".abortion-inset")
@@ -669,13 +664,13 @@ function createInset() {
         .append("circle")
         .attr("cy", 30)
         .attr("cx", function(d, i){
-            return (2*d)+(i*50)+10;
+            return (1*d)+(i*50)+10;
         })
         .attr("r", function(d, i){
             return d;
         })
         .attr("class", "abortionCircles")
-        .style({'fill': '#9608cb','fill-opacity': '0.5', 'stroke': '#72069a', 'stroke-width': '0.75px'}); 
+        .style({'fill': '#37C4AB','fill-opacity': '0.7'}); 
     
     //labels abortion circles
     var abortionLabels = abortionMenuBox.selectAll(".abortionOverlayLabels")
@@ -693,7 +688,7 @@ function createInset() {
     
         abortionLabels.data(abortionRadiusArray)
             .attr("x", function(d, i){
-                return (3*d)+(i*50)+15;
+                return (2*d)+(i*50)+15;
             });  
 }; //END create inset
 /* Katie's section end */
@@ -833,10 +828,6 @@ function setChart() {
         .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
     var rectStyle = chartRect.attr("transform", function(d) {
-            // console.log(d.yearChanged);
-            // console.log(d.newLaw);
-            // console.log(d.feature.properties.name);
-            // console.log(d.feature.properties[expressed]);
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
         .attr("y", function(d,i) {
@@ -937,25 +928,36 @@ function highlight(data) {
             labelAttribute = yearExpressed+"<br>Minor's parents must give consent before abortion can be performed";
         };
     } else if (expressed == "ultrasound") {
-        if (feature[expressed][Number(yearExpressed)] == "none")
-
-        labelAttribute = yearExpressed+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
+        if (feature[expressed][Number(yearExpressed)] == "none") {
+        labelAttribute = yearExpressed+"<br>No mandatory ultrasound law";
+        } else {
+            labelAttribute = yearExpressed+"<br>"+feature[expressed][Number(yearExpressed)];
+        }
     }
-    
-    console.log(labelAttribute);
 
-    var infoLabel = d3.select("body")
+    var infoLabel = d3.select(".map")
         .append("div")
         .attr("class", "infoLabel")
         .attr("id",feature.postal+"label")
+        .attr("padding-left", 500+"px");
+
+    var labelTitle = d3.select(".infoLabel")
         .html(labelName)
-        .attr("class", "labelName")
+        .attr("class", "labelTitle")
+        .attr("background-color", function(d) {
+            var feature = data.properties ? data.properties : data.feature.properties;
+            var selection = d3.selectAll("."+feature.postal);
+            var fillColor = selection.select("desc").text();
+            return fillColor;  
+        });
+
+    var labelAttribute = d3.select(".labelTitle")
         .append("div")
         .html(labelAttribute)
-        .attr("class", labelName);
+        .attr("class", "labelAttribute")
 };
 
-//Dehlighting for the map & chart
+//Dehighlighting for the map & chart
 function dehighlight(data) {
     var feature = data.properties ? data.properties : data.feature.properties;
 
@@ -979,7 +981,7 @@ function moveLabel(data) {
 
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
 var timer = $.timer(function() {
-            animateMap(yearExpressed, colorize, yearExpressedText);
+            animateMap(yearExpressed, colorize, yearExpressedText)
             timeMapSequence(yearExpressed);  
 	});
 timer.set({ time : 500, autostart : false });
