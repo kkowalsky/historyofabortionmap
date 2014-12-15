@@ -55,36 +55,36 @@ var joinedJson; //Variable to store the USA json combined with all attribute dat
                         "Must be informed",      
                         "none"   ];  
 
-// SET UP COLOR ARRAYS FOR EACH VARIABLE
-    // Color array for Overview & Waiting Period
-    var colorArrayOverview = [  "#252525",      //F     //72 hours
-                            "#636363",      //D     //48 hours
+//SET UP COLOR ARRAYS FOR EACH VARIABLE
+    //Color array for Overview & Waiting Period
+    var colorArrayOverview = [  "#525252",      //F     //72 hours
+                            "#737373",      //D     //48 hours
                             "#969696",      //C     //24 hours
-                            "#cccccc",      //B     //18 hours
-                            "#e6e6e6"   ];  //A     //None''
+                            "#bdbdbd",      //B     //18 hours
+                            "#d9d9d9"   ];  //A     //None
 
     // Color array for Prohibited At
-    var colorArrayProhibited = ["#252525",      //12 weeks
-                            "#636363",      //20 weeks
+    var colorArrayProhibited = ["#525252",      //12 weeks
+                            "#737373",      //20 weeks
                             "#969696",      //22 weeks
                             "#bdbdbd",      //24 weeks
                             "#d9d9d9",      //3rd trimester
-                            "#e6e6e6"   ];  //Viability
+                            "#efefef"   ];  //Viability
 
     // Color array for Mandated Counseling
-    var colorArrayCounseling = ["#252525",      //Yes
-                            "#e6e6e6"   ];  //No
+    var colorArrayCounseling = ["#525252",      //Yes
+                            "#d9d9d9"   ];  //No
 
     // Color array for Parental Consent
-    var colorArrayConsent = [   "#252525",      //Consent
+    var colorArrayConsent = [   "#525252",      //Consent
                             "#969696",      //Notice
-                            "#e6e6e6"   ];  //None
+                            "#d9d9d9"   ];  //None
 
     // Color array for Ultrasound
-    var colorArrayUltrasound = ["#252525",      //Must be performed, offer to view
+    var colorArrayUltrasound = ["#525252",      //Must be performed, offer to view
                             "#636363",      //Must be performed
                             "#969696",      //Must be offered
-                            "#e6e6e6"   ];  //None
+                            "#d9d9d9"   ];  //None
 
 //SET UP VARIABLES FOR COLORSCALE & CHOROPLETH FUNCTIONS
 var currentColors = [];
@@ -911,7 +911,7 @@ function highlight(data) {
         if (feature[expressed][Number(yearExpressed)] == "Yes") {
             labelAttribute = yearExpressed+"<br>"+"Pre-abortion counseling mandated by law";
         } else if (feature[expressed][Number(yearExpressed)] == "No") {
-            labelAttribute = yearExpressed+"<br>"+"No pre-abortion counseling";
+            labelAttribute = yearExpressed+"<br>"+"No mandated counseling";
         };
     } else if (expressed == "waitingPeriod") {
         if (feature[expressed][Number(yearExpressed)] == "None") {
@@ -943,13 +943,7 @@ function highlight(data) {
 
     var labelTitle = d3.select(".infoLabel")
         .html(labelName)
-        .attr("class", "labelTitle")
-        .attr("background-color", function(d) {
-            var feature = data.properties ? data.properties : data.feature.properties;
-            var selection = d3.selectAll("."+feature.postal);
-            var fillColor = selection.select("desc").text();
-            return fillColor;  
-        });
+        .attr("class", "labelTitle");
 
     var labelAttribute = d3.select(".labelTitle")
         .append("div")
@@ -966,7 +960,7 @@ function dehighlight(data) {
     selection.style("fill", fillColor);
 
     var deselect = d3.select("#"+feature.postal+"label").remove();
-}
+};
 
 function moveLabel(data) {
     //horizontal label coordinate based mouse position stored in d3.event
