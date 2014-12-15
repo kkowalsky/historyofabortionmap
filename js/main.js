@@ -9,8 +9,8 @@ var colorize;
 var scale;
 var currentColors = [];
 var menuWidth = 200, menuHeight = 300;
-var otherMenuWidth = 198, otherMenuHeight = 70;
-var menuInfoWidth = 400, menuInfoHeight = 100;
+var otherMenuWidth = 200, otherMenuHeight = 70;
+var menuInfoWidth = 250, menuInfoHeight = 100;
 var textArray = ["The report card grade, created by NARAL, given to each state based on their policies regarding a woman's choice and access to abortions. ", "States which prohibit abortion at an earlier date than the federal law. ", "States with laws that require biased-counseling to women seeking abortion services. ","States where a woman must wait a designated period of time after counseling before having an abortion. ", "States with laws restricting young women's access to abortion services by mandating parental consent. ", "States where an ultrasound either must be performed, offered, or advised prior to an abortion. ", "Crisis Pregnancy Centers provide counseling but appose and undermine abortion rights. ", "Abortion Providers provide counseling and do not promote abortion but help women in need of one. "]
 var linkArray = ["<a href = '#overview'> We provide an overview of these policies here.</a>", "<a href = '#prohibition'>  What sort of prohibitions?</a>", "<a href = '#counseling'> What constitutes biased-counseling?</a>", "<a href = '#waiting'> Why are waiting periods considered a restriction?</a>", "<a href = '#consent'> Why is parental consent considered a restriction?</a>", "<a href = '#ultrasound'> What are the differences between these laws?</a>", "<a href = '#CPC'> Here's why.</a>"];
 var removeCPC;
@@ -602,7 +602,7 @@ function cpcPoints(map, cpc, path, cpcRadius){
         }));   
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".map")
+    var menuInfoBox = d3.select(".sequence-buttons")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
@@ -622,7 +622,7 @@ function abortionPoints(map, abortionprovider, path, abortionRadius){
         }));
     
     //creates menuBoxes
-    var menuInfoBox = d3.select(".map")
+    var menuInfoBox = d3.select(".sequence-buttons")
         .append("div")
         .attr("width", menuInfoWidth)
         .attr("height", menuInfoHeight)
@@ -714,11 +714,11 @@ function createInset() {
             }
         })
         .style({'font-size': '14px', 'font-family': 'Open Sans, sans-serif'});
-    
+
         abortionLabels.data(abortionRadiusArray)
             .attr("x", function(d, i){
                 return (2*d)+(i*50)+15;
-            });  
+    });  
 }; //END create inset
 /* Katie's section end */
 
