@@ -76,6 +76,7 @@
 .menu-options {
     float: left;
     background-color:  #e1e1e1;
+    cursor: pointer;
 }
 
 .menu-inset {
@@ -145,10 +146,11 @@
     background-color: #CCCCCC;
 }
 
-.overlay-menu {
+.overlay-menu { 
     margin-top: 325px;
     font-size: 12px;
     font-family: Open Sans, sans-serif;
+    cursor: pointer;
 }
 
 .cpc {
@@ -214,27 +216,33 @@
 }
 
 .cpcMenuInfoBox{
-    margin-top: 3%;
+    margin-left: 5px !important;
+    width: 275px;
+    float: left;
+    position: absolute;
     font-size: 14px;
     font-family: Open Sans, sans-serif;
 }
 
 .abortionMenuInfoBox{
-    margin-top: 3%;
+    margin-left: 5px !important;
+    margin-top: 6%;
+    width: 275px;
+    float: left;
+    position: absolute;
     font-size: 14px;
     font-family: Open Sans, sans-serif;
 }
 
 .sequence-buttons {
+
+}
+
+.sequence {
     padding-right: 15%;
     display: inline-flex;
     float: right;
 }
-
-.dropdown {
-    margin-top: 6%;
-}
-
 /*  Map CSS */
 /*  ------ */
 
@@ -253,12 +261,12 @@
 
 .cpcLocations {
 	fill: #FA6E39;
-	fill-opacity:0.7;
+	fill-opacity:0.6;
 }
 
 .abortionLocations {
     fill: #37C4AB;
-	fill-opacity:0.7;
+	fill-opacity:0.6;
 }
 
 /* Labels CSS  */
