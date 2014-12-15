@@ -101,6 +101,7 @@ var squareHeight = 19;
 var chartRect;
 var margin = {top: 80, right: 20, bottom: 30, left:10};
 var rectColor;
+var axisHeight = 30;
 
 /*---*******---END OF GLOBAL VARIABLES---*******---*/
 //--------------------------------------------------/
@@ -805,8 +806,9 @@ function setChart() {
         .append("svg")
         .attr("width", chartWidth+"px")
         .attr("height", chartHeight+"px")
-        .attr("class", "chart")
-        .append("g")
+        .attr("class", "chart");
+        
+    var squareContainer = chart.append("g")
         .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
 
     //for-loop creates an array of feature objects that stores three values: thisYear (for the year that a law was implemented), newLaw (the categorization of the new policy) and a feature object (the state that the law changed in)
@@ -839,7 +841,7 @@ function setChart() {
         };   
     };
 
-    chartRect = chart.selectAll(".chartRect")
+    chartRect = squareContainer.selectAll(".chartRect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
         .enter()
         .append("rect") //create a rectangle for each state
@@ -877,19 +879,26 @@ function setChart() {
                 return choropleth(d, colorize);
             });
 
+    var timeScale = d3.time.scale()
+        .domain([new Date(keyArray[0]), d3.time.year.offset(new Date(keyArray[keyArray.length-1]), 1)]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
+        .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
-    //var axis = chart.append("svg")
-    // var axis = d3.svg.axis()
-    //     .scale(x)
-    //     .orient("bottom")
-    //     .attr("class", "axis")
-    //     .attr("width", chartWidth)
-    //     .attr("height", 10+"px");
+    //Create the axis function
+    var axis = d3.svg.axis()
+        .scale(timeScale)
+        .orient("bottom")
+        .ticks(d3.time.years, 1)
+        .tickFormat(d3.time.format('%y'));
 
-    // var timeline = chart.append("g")
-    //     .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-    //     .attr("class", "timeline")
-    //     .call(axis);
+    var timelineMargin = {top: 50, right: 20, bottom: 30, left:1};
+
+    var timeline = chart.append("g")
+        .attr("height", chartHeight)
+        .attr("width", chartWidth)
+        .attr('transform', 'translate(' + margin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')')
+        .attr("class", "timeline")
+        .call(axis); //calls the axis function on the timeline
+
     // var timeline = axis.axis()
     //     .scale(x)
     //     .orient('bottom')

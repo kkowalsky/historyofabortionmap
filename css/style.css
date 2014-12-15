@@ -212,6 +212,7 @@
 .yearExpressedText {
     float: right; 
     padding-right: 180px;
+    font-family: 'Roboto Slab', sans-serif;
 }
 
 .cpcMenuInfoBox{
@@ -326,6 +327,8 @@
 
 .timeline {
     position:absolute;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
 }
 
 /* Analysis CSS  */
