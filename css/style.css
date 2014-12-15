@@ -1,3 +1,44 @@
+/*  navbar CSS */
+/*  ------ */
+#custom-bootstrap-menu.navbar-custom .navbar-brand {
+    color: #248271;
+}
+#custom-bootstrap-menu.navbar-custom {
+    font-size: 16px;
+    background-color: rgba(225, 225, 225, 1);
+    border-style: solid;
+    border-color: #CCCCCC;
+    border-bottom-width: 2px;
+}
+#custom-bootstrap-menu.navbar-custom .navbar-nav>li>a {
+    color: rgba(119, 119, 119, 1);
+    background-color: rgba(225, 225, 225, 1);
+}
+#custom-bootstrap-menu.navbar-custom .navbar-nav>li>a:hover,
+#custom-bootstrap-menu.navbar-custom .navbar-nav>li>a:focus {
+    color: rgba(255, 255, 255, 1);
+    background-color: #fa6e39;
+}
+#custom-bootstrap-menu.navbar-custom .navbar-nav>.active>a,
+#custom-bootstrap-menu.navbar-custom .navbar-nav>.active>a:hover,
+#custom-bootstrap-menu.navbar-custom .navbar-nav>.active>a:focus {
+    color: #fa6e39;
+    background-color: rgba(204, 204, 204, 1);
+}
+#custom-bootstrap-menu.navbar-custom .navbar-toggle {
+    border-color: #cccccc;
+}
+#custom-bootstrap-menu.navbar-custom .navbar-toggle:hover,
+#custom-bootstrap-menu.navbar-custom .navbar-toggle:focus {
+    background-color: #cccccc;
+}
+#custom-bootstrap-menu.navbar-custom .navbar-toggle .icon-bar {
+    background-color: #cccccc;
+}
+#custom-bootstrap-menu.navbar-custom .navbar-toggle:hover .icon-bar,
+#custom-bootstrap-menu.navbar-custom .navbar-toggle:focus .icon-bar {
+    background-color: #e1e1e1;
+}
 
 .jumbotron {
     padding: 20px;
@@ -30,6 +71,8 @@
     position: absolute;
     margin-left: 0% !important;
     color: #969696;
+    font-size: 14px;
+    font-family: Open Sans, sans-serif;
 }
 
 .menu-options {
@@ -105,19 +148,22 @@
 }
 
 .overlay-menu {
-    margin-top: 42%;
+    margin-top: 325px;
+    font-size: 12px;
+    font-family: Open Sans, sans-serif;
 }
 
 .cpc {
     float: left;
-    background-color: rgba(250, 110, 57, 0.7);
+    background-color: rgba(250, 110, 57, 1);
+    color: #fff;
     text-align: center;
     padding: 1.5%;
 }
 
 .cpc:hover {
-    color: #c8e713;
-    background-color: #fff;
+    color: #fff;
+    background-color: #f95618;
 }
 
 #cpc-inset {
@@ -128,14 +174,15 @@
 
 .abortion {
     float: left;
-    background-color:  rgba(55, 196, 171, 0.7);
+    color: #fff;
+    background-color:  rgba(55, 196, 171, 1);
     text-align: center;
     padding: 3%;
 }
 
 .abortion:hover {
-    color:  #8856a7;
-    background-color: #fff;
+    color:  #fff;
+    background-color: #248271;
 }
 
 #abortion-inset {
@@ -202,19 +249,17 @@
     fill: #808080;
     stroke: #fff;
     stroke-width: 0.5px;
+    float:left;
 }
 
 .cpcLocations {
 	fill: #FA6E39;
 	fill-opacity:0.7;
-    stroke: #AB5D30;
-    stroke-width: 0.75px;
 }
 
 .abortionLocations {
     fill: #37C4AB;
 	fill-opacity:0.7;
-    stroke-width: 0.75px;
 }
 
 /* Labels CSS  */
@@ -222,15 +267,27 @@
 
 .infoLabel {
     position: absolute;
-    width: 180px;
     height: auto;
-    background-color: rgba(51,51,51,.85);
-    color:#f7eb3e;
     /*border: solid thin #fff;*/
     padding: 10px;
+    float:right;
+    display:inline-block;
+    margin-right:-200px;
 }
 
-.labelName {
+.labelTitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size:16px;
+    background-color: #252525;
+    color:#fff;
+    width:200px;
+    margin:2px;
+    margin-right:0px;
+    padding:6px;
+    padding-left:10px;
+}
+
+.labelAttribute {
     font-weight:bold;
 }
 
@@ -285,7 +342,7 @@
 
 .chptrhead h2{
     color: white;
-    background-color: #000;
+    background-color: #636363;
     position: relative;
     padding: 6px;
     margin-bottom: 24px;
@@ -306,11 +363,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #c8e713; 
+    background: #f95618; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #cccccc; 
+    background: #f95618; 
     color: #fff;
 }
 

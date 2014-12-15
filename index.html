@@ -18,19 +18,19 @@
   </head>
   <body>
     <!-- navbar: fix active state-->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <div id="custom-bootstrap-menu" class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color:#e1e1e1;">
+      <div class="container-fluid">
+        <div class="navbar-header"><a class="navbar-brand navbar-left" href="index.html" style="font-family: 'Roboto Slab';"><strong>Your Body, (Not) Your Choice</strong></a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand navbar-left" href="index.html" style="color: #E80882; font-family: 'Roboto Slab';"><strong>Your Body, (Not) Your Choice</strong></a>
+        
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right" id="navbar-sections">
+        <div class="collapse navbar-collapse navbar-menubuilder">
+          <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#map">Map</a></li>
             <li><a href="#analysis">Analysis</a></li>
             <li><a href="#about">About</a></li>
@@ -62,15 +62,15 @@
                     Mandatory<br>Ultrasound</div>
             </div>
         <div class="overlay-menu">
-            <div class="cpc-section">
-                <div class="cpc" id ="cpc-centers" style="width:125px;height:60px;">
-                    <strong>Show: </strong><br>Crisis Pregnancy Centers</div>
-                <div class ="cpc-inset" id="cpc-inset" style="width:198px;height:60px;"></div>
-            </div>
             <div class="abortion-section">
                 <div class="abortion" id = "abortion-centers" style="width:125px;height:60px;">
                     <strong>Show: </strong><br>Abortion Providers</div>
                 <div class="abortion-inset" id="abortion-inset" style="width:198px;height:60px;"></div>
+            </div>
+            <div class="cpc-section">
+                <div class="cpc" id ="cpc-centers" style="width:125px;height:60px;">
+                    <strong>Show: </strong><br>Crisis Pregnancy Centers</div>
+                <div class ="cpc-inset" id="cpc-inset" style="width:198px;height:60px;"></div>
             </div>
         </div>
     </div>
