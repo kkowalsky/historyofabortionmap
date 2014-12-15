@@ -146,7 +146,7 @@
 }
 
 .overlay-menu {
-    margin-top: 42%;
+    margin-top: 325px;
     font-size: 12px;
     font-family: Open Sans, sans-serif;
 }
@@ -361,11 +361,11 @@
 /* ----------------  */
 
 ::selection {
-    background: #c8e713; 
+    background-color: #f95618; 
     color: #fff;
 }
 ::-moz-selection {
-    background: #cccccc; 
+    background-color: #f95618; 
     color: #fff;
 }
 
