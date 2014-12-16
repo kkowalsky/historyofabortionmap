@@ -43,6 +43,8 @@
 
 .jumbotron {
     padding: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
     color: #f9f9f9; 
     background-color:  #986cb3;
 }
@@ -346,6 +348,8 @@
 
 /* Jumps CSS  */
 /* ------------  */
+#map{
+}
 
 #overview{
     padding-top:70px;
@@ -395,7 +399,8 @@
 
 .letscenter{
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 12px;
+    margin-bottom: 24px;
     position: relative;
     right: 50px;
 }
@@ -407,10 +412,14 @@
 
 .chptrhead h2{
     color: white;
-    background-color: #636363;
+    background-color: #525252;
     position: relative;
     padding: 6px;
     margin-bottom: 24px;
+}
+
+#cite p{
+    font-size: 10px;
 }
 
 /* About CSS  */
