@@ -228,8 +228,7 @@ function setMap(){
                 return path(d);
             })
             .on("mouseover", highlight)
-            .on("mouseout", dehighlight)
-            .on("mousemove", moveLabel);
+            .on("mouseout", dehighlight);
 
         var statesColor = states.append("desc")
             .text(function(d) {
@@ -883,6 +882,7 @@ function setChart(yearExpressed) {
             return yValue;
         })
         .style("fill", function(d) {
+            console.log(choroplethChart(d.newLaw, colorize));
             return choroplethChart(d.newLaw, colorize); //apply the color according to what the new law is in that year
         })
         .on("mouseover", highlightChart)
@@ -890,8 +890,34 @@ function setChart(yearExpressed) {
 
     rectColor = rectStyle.append("desc")
             .text(function(d) {
-                return choropleth(d, colorize);
-            });
+                console.log(d.newLaw);
+                console.log(choroplethChart(d.newLaw, colorize));
+                return choroplethChart(d.newLaw, colorize);
+            })
+            .attr("class", "rectColor");
+
+        // var states = map.selectAll(".states")
+        //     .data(joinedJson)
+        //     .enter()
+        //     .append("path")
+        //     .attr("class", function(d){ 
+        //         return "states " + d.properties.postal;
+        //     })
+        //     .style("fill", function(d){
+        //         return choropleth(d, colorize);
+        //     })
+        //     .attr("d", function(d) {
+        //         return path(d);
+        //     })
+        //     .on("mouseover", highlight)
+        //     .on("mouseout", dehighlight);
+
+        // var statesColor = states.append("desc")
+        //     .text(function(d) {
+        //         return choropleth(d, colorize);
+        //     })
+
+
 
     //Creates the axis function
     var axis = d3.svg.axis()
@@ -1030,37 +1056,34 @@ function highlightChart(data) {
     var labelAttribute;
 
     //set up the text for the dynamic labels
-    if (expressed == "gradeData") {
-        //console.log(yearExpressed);
-        //console.log(feature[expressed][Number(yearExpressed)]);
-        labelAttribute = "Report Card: "+feature[expressed][Number(yearExpressed)];
-    } else if (expressed == "prohibitedAfter") {
-        labelAttribute = data.yearChanged+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
+    if (expressed == "prohibitedAfter") {
+        labelAttribute = data.yearChanged+"<br>Prohibited at "+data.newLaw;
     } else if (expressed == "counseling") {
-        if (feature[expressed][Number(yearExpressed)] == "Yes") {
+        if (data.newLaw == "Yes") {
             labelAttribute = data.yearChanged+"<br>"+"Pre-abortion counseling mandated by law";
-        } else if (feature[expressed][Number(yearExpressed)] == "No") {
-            labelAttribute = yearExpressed+"<br>"+"No mandated counseling";
+        } else if (data.newLaw == "No") {
+            labelAttribute = data.yearChanged+"<br>"+"No mandated counseling";
         };
     } else if (expressed == "waitingPeriod") {
-        if (feature[expressed][Number(yearExpressed)] == "None") {
+        if (data.newLaw == "None") {
             labelAttribute = data.yearChanged+"<br>No mandated waiting period";
         } else {
-            labelAttribute = data.yearChanged+"<br>Mandated waiting period: "+feature[expressed][Number(yearExpressed)];
+            labelAttribute = data.yearChanged+"<br>Mandated waiting period: "+data.newLaw;
         };
     } else if (expressed == "consentData") {
-        if (feature[expressed][Number(yearExpressed)] == "none") {
+        if (data.newLaw == "none") {
             labelAttribute = data.yearChanged+"<br>No law requiring parental consent for minors";
-        } else if (feature[expressed][Number(yearExpressed)] == "notice") {
+        } else if (data.newLaw == "notice") {
             labelAttribute = data.yearChanged+"<br>Minor must notify parents about an abortion";
-        } else if (feature[expressed][Number(yearExpressed)] == "consent") {
+        } else if (fdata.newLaw == "consent") {
             labelAttribute = data.yearChanged+"<br>Minor's parents must give consent before abortion can be performed";
         };
     } else if (expressed == "ultrasound") {
-        if (feature[expressed][Number(yearExpressed)] == "none") {
+        if (data.newLaw == "none") {
         labelAttribute = data.yearChanged+"<br>No mandatory ultrasound law";
         } else {
-            labelAttribute = data.yearChanged+"<br>"+feature[expressed][Number(yearExpressed)];
+            console.log(data.newLaw);
+            labelAttribute = data.yearChanged+"<br>"+data.newLaw;
         }
     }
 
@@ -1084,22 +1107,31 @@ function highlightChart(data) {
 function dehighlight(data) {
     var feature = data.properties ? data.properties : data.feature.properties;
 
+    var deselect = d3.selectAll("#"+feature.postal+"label").remove();
+
+    //dehighlighting the states
+    var selection = d3.selectAll("."+feature.postal)
+        .filter(".states");    
+    var fillColor = selection.select("desc").text();
+    selection.style("fill", fillColor);
+
+    //dehighlighting the chart
+    var chartSelection = d3.selectAll("."+feature.postal)
+        .filter(".chartRect");
+    var chartFillColor = chartSelection.select("desc").text();
+    console.log(chartFillColor);
+    chartSelection.style("fill", chartFillColor);
+
+};
+
+function dehighlightChart(data) {
+    var feature = data.properties ? data.properties : data.feature.properties;
+
     var selection = d3.selectAll("."+feature.postal);
     var fillColor = selection.select("desc").text();
     selection.style("fill", fillColor);
 
     var deselect = d3.select("#"+feature.postal+"label").remove();
-};
-
-function moveLabel(data) {
-    //horizontal label coordinate based mouse position stored in d3.event
-    var x = d3.event.clientX < window.innerWidth - 245 ? d3.event.clientX+10 : d3.event.clientX-210; 
-    //vertical label coordinate
-    var y = d3.event.clientY < window.innerHeight - 100 ? d3.event.clientY-75 : d3.event.clientY-175; 
-    
-    d3.select(".infoLabel") //select the label div for moving
-        .style("margin-left", x+"px") //reposition label horizontal
-        .style("margin-top", y+"px"); //reposition label vertical
 };
 
 /* ----------END HIGHLIGHT FUNCTIONS--------- */
