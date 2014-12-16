@@ -129,6 +129,7 @@ function initialize(){
     createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
     createInset();
     $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
+    //disables buttons on load
     $('.stepBackward').prop('disabled', true);
     $('.play').prop('disabled', true);
     $('.pause').prop('disabled', true);
@@ -274,6 +275,7 @@ function setMap(){
 
 //menu items function
 function drawMenu(){
+    //click changes on Overview
     $(".Overview").click(function(){ 
         expressed = Category[0];
         yearExpressed = keyArray[keyArray.length-1];
@@ -293,32 +295,34 @@ function drawMenu(){
             });
         createMenu(arrayOverview, colorArrayOverview, "Grading Scale: ", textArray[0], linkArray[0]);
         $(".Overview").css({'background-color': '#CCCCCC','color': '#333333'});
-        //robin's code
+        //removes chart
         var oldChart = d3.selectAll(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
     });
     
+    //click changes for Prohibited At
      $(".Prohibited").click(function(){ 
         expressed = Category[1];
         $('.stepBackward').prop('disabled', false);
-         $('.play').prop('disabled', false);
-         $('.pause').prop('disabled', false);
-         $('.stepForward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1], linkArray[1]);
         $(".Prohibited").css({'background-color': '#CCCCCC','color': '#333333'});
-        //robin's code
+        //removes and creates correct chart
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
         setChart(yearExpressed);
      });
     
+    //click changes for mandated counseling
     $(".Counseling").click(function(){  
         expressed = Category[2];
         $('.stepBackward').prop('disabled', false);
-         $('.play').prop('disabled', false);
-         $('.pause').prop('disabled', false);
-         $('.stepForward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -329,18 +333,19 @@ function drawMenu(){
             });
         createMenu(arrayCounseling, colorArrayCounseling, "Mandated Counseling: ", textArray[2], linkArray[2]);
         $(".Counseling").css({'background-color': '#CCCCCC','color': '#333333'});
-        //robin's code
+        //removes and creates correct chart
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
         setChart(yearExpressed);
         });
     
+    //click changes for waiting period
     $(".Waiting").click(function(){ 
         expressed = Category[3];
         $('.stepBackward').prop('disabled', false);
-         $('.play').prop('disabled', false);
-         $('.pause').prop('disabled', false);
-         $('.stepForward').prop('disabled', false);
+        $('.play').prop('disabled', false);
+        $('.pause').prop('disabled', false);
+        $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
         d3.selectAll(".states").style("fill", function(d){
                 return choropleth(d, colorize);
@@ -351,12 +356,13 @@ function drawMenu(){
             });
         createMenu(arrayWaitingPeriod, colorArrayOverview, "Waiting Period: ", textArray[3], linkArray[3]);
         $(".Waiting").css({'background-color': '#CCCCCC','color': '#333333'});
-        //robin's code
+        //removes and creates correct chart
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
         setChart(yearExpressed);
         });
     
+    //click changes for parental consent
     $(".Parental").click(function(){  
         expressed = Category[4];
          $('.stepBackward').prop('disabled', false);
@@ -373,11 +379,13 @@ function drawMenu(){
             });
         createMenu(arrayConsent, colorArrayConsent, "Parental Consent: ", textArray[4], linkArray[4])
         $(".Parental").css({'background-color': '#CCCCCC','color': '#333333'});
-        //robin's code
+        //removes and creates correct chart
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
         setChart(yearExpressed);
 });
+    
+    //click changes for mandatory ultrasound
     $(".Ultrasound").click(function(){
         expressed = Category[5];
         $('.stepBackward').prop('disabled', false);
@@ -394,7 +402,7 @@ function drawMenu(){
             });
         createMenu(arrayUltrasound, colorArrayUltrasound, "Mandatory Ultrasound: ", textArray[5], linkArray[5]);
         $(".Ultrasound").css({'background-color': '#CCCCCC','color': '#333333'});
-        //robin's code
+        //removes and creates correct chart
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
         setChart(yearExpressed);
@@ -403,6 +411,7 @@ function drawMenu(){
 
 //creates dropdown menu
 function drawMenuInfo(colorize, yearExpressed){
+    //creates year for map menu
     yearExpressedText = d3.select(".menu-info")
         .append("text")
         .attr("x", 0)
@@ -412,8 +421,9 @@ function drawMenuInfo(colorize, yearExpressed){
         .style({'font-size':'36px', 'font-weight': 'strong'}); 
 }; //End DrawMenuInfo
 
-//TODO: animate map with play/pause buttons
+//vcr controls click events
 function animateMap(yearExpressed, colorize, yearExpressedText){
+    //step backward functionality
     $(".stepBackward").click(function(){
         if (yearExpressed <= keyArray[keyArray.length-1] && yearExpressed > keyArray[0]){
             yearExpressed--;
@@ -423,18 +433,18 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
             changeAttribute(yearExpressed, colorize);
         }; 
     });
-    
+    //play functionality
     $(".play").click(function(){
         timer.play();
         $('.play').prop('disabled', true);
     });
-    
+    //pause functionality
     $(".pause").click(function(){
         timer.pause();
         $('.play').prop('disabled', false);
         changeAttribute(yearExpressed, colorize);
     });
-    
+    //step forward functionality
     $(".stepForward").click(function(){
         if (yearExpressed < keyArray[keyArray.length-1]){
             yearExpressed++;
@@ -446,12 +456,13 @@ function animateMap(yearExpressed, colorize, yearExpressedText){
     });
 }; //end AnimateMAP
 
+//for play functionality
 function timeMapSequence(yearsExpressed) {
     changeAttribute(yearExpressed, colorize);
     if (yearsExpressed < keyArray[keyArray.length-1]){
         yearExpressed++; 
     };
-};
+}; //end timeMapSequence
 
 //changes year displayed on map
 function changeAttribute(year, colorize){
@@ -462,7 +473,7 @@ function changeAttribute(year, colorize){
              yearExpressed = keyArray[x];
         }
     }
-    
+    //colorizes state
     d3.selectAll(".states")
         .style("fill", function(year){
             return choropleth(year, colorize);
@@ -471,7 +482,7 @@ function changeAttribute(year, colorize){
             .text(function(d) {
                 return choropleth(d, colorize);
         });
-        
+     //alters timeline year text    
     var timelineYear = d3.select(".timeline")
         .selectAll('g')
         .attr("font-weight", function(d){
@@ -539,7 +550,7 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
                 return arrayY[i];
             });
     };
-    
+    //creates menulabels
     var menuLabels = menuBox.selectAll(".menuLabels")
         .data(arrayX)
         .enter()
@@ -567,7 +578,7 @@ function createMenu(arrayX, arrayY, title, infotext, infolink){
         .html(infotext + infolink);
 }; //end createMenu
 
-//creates proportional symbol overlay
+//creates proportional symbol overlay with click events
 function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
     $(".cpc-section").click(function(){
         var cpcDiv = document.getElementById('cpc-centers');
@@ -598,6 +609,7 @@ function overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider){
 
 //creates cpc point data
 function cpcPoints(map, cpc, path, cpcRadius){
+    //adds cpc locations
     map.selectAll(".cpcLocations")
         .data(cpc.features)
         .enter()
@@ -618,6 +630,7 @@ function cpcPoints(map, cpc, path, cpcRadius){
 
 //creates abortion providers point data
 function abortionPoints(map, abortionprovider, path, abortionRadius){
+    //adds abortion provider locations
     map.selectAll(".abortionLocations")
         .data(abortionprovider.features)
         .enter()
@@ -685,7 +698,7 @@ function createInset() {
             .attr("x", function(d, i){
                 return (2*d)+(i*50)+15;
             });
-    
+    //creates abortion info inset
     abortionMenuBox = d3.select(".abortion-inset")
         .append("svg")
         .attr("width", otherMenuWidth)
@@ -726,7 +739,6 @@ function createInset() {
                 return (2*d)+(i*50)+15;
             });  
 }; //END create inset
-/* Katie's section end */
 
 //---------------------------------------------//
 /* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
@@ -953,16 +965,21 @@ function setChart(yearExpressed) {
                     .attr("stroke", "#986cb3");
             })
             .on("mouseout", function(){
-                var year = d.getFullYear();
-                if (year != yearExpressed){
+                // var year = d.getFullYear();
+                //if (year != yearExpressed){
                     d3.select(this)
                         .attr("font-weight", "normal")
                         .attr("font-size", "12px")
                         .attr("stroke", "gray")
                         .attr("cursor", "pointer");
-                };
+               // };
             })
             .on("click", function(){
+                 d3.select(this)
+                    .attr("font-weight", "bold")
+                    .attr("cursor", "pointer")
+                    .attr("font-size", "18px")
+                    .attr("stroke", "#986cb3");
                 var year = d.getFullYear();
                 changeAttribute(year, colorize);
                 animateMap(year, colorize, yearExpressedText);
