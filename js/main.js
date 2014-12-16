@@ -207,7 +207,6 @@ function setMap(){
                         };
 
                     jsonStates[a].properties[attribute] = attrObj;
-                 // console.log(jsonStates[a].properties)
                     break;
                     };
                 };
@@ -841,18 +840,12 @@ function setChart(yearExpressed) {
             };
         };
     };
-    
-    //console.log(timelineFeatureArray);
-
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
 
     for (key in keyArray) {
         var yearCount = 1;
         for (i = 0; i < timelineFeatureArray.length; i++) {
             //loop through here to see which year it matches and up
-            // console.log(keyArray[key]);
-            // console.log(timelineFeatureArray[i].yearChanged);
-            // console.log(key)
             if (timelineFeatureArray[i].yearChanged == keyArray[key]) {
                 //countYears++;
                 yearObjectArray.push({"year": Number(keyArray[key]), "count":yearCount});
@@ -894,7 +887,6 @@ function setChart(yearExpressed) {
             return yValue;
         })
         .style("fill", function(d) {
-            console.log(choroplethChart(d.newLaw, colorize));
             return choroplethChart(d.newLaw, colorize); //apply the color according to what the new law is in that year
         })
         .on("mouseover", highlightChart)
@@ -902,34 +894,9 @@ function setChart(yearExpressed) {
 
     rectColor = rectStyle.append("desc")
             .text(function(d) {
-                console.log(d.newLaw);
-                console.log(choroplethChart(d.newLaw, colorize));
                 return choroplethChart(d.newLaw, colorize);
             })
             .attr("class", "rectColor");
-
-        // var states = map.selectAll(".states")
-        //     .data(joinedJson)
-        //     .enter()
-        //     .append("path")
-        //     .attr("class", function(d){ 
-        //         return "states " + d.properties.postal;
-        //     })
-        //     .style("fill", function(d){
-        //         return choropleth(d, colorize);
-        //     })
-        //     .attr("d", function(d) {
-        //         return path(d);
-        //     })
-        //     .on("mouseover", highlight)
-        //     .on("mouseout", dehighlight);
-
-        // var statesColor = states.append("desc")
-        //     .text(function(d) {
-        //         return choropleth(d, colorize);
-        //     })
-
-
 
     //Creates the axis function
     var axis = d3.svg.axis()
@@ -998,8 +965,6 @@ function setChart(yearExpressed) {
 function highlight(data) {
     //holds the currently highlighted feature
     var feature = data.properties ? data.properties : data.feature.properties;
-    // console.log(feature.name);
-    // console.log(feature.postal);
     d3.selectAll("."+feature.postal)
         // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#8856A7");
@@ -1010,8 +975,6 @@ function highlight(data) {
 
     //set up the text for the dynamic labels
     if (expressed == "gradeData") {
-        //console.log(yearExpressed);
-        //console.log(feature[expressed][Number(yearExpressed)]);
         labelAttribute = "Report Card: "+feature[expressed][Number(yearExpressed)];
     } else if (expressed == "prohibitedAfter") {
         labelAttribute = yearExpressed+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
@@ -1062,10 +1025,7 @@ function highlight(data) {
 function highlightChart(data) {
     //holds the currently highlighted feature
     var feature = data.properties ? data.properties : data.feature.properties;
-    // console.log(feature.name);
-    // console.log(feature.postal);
     d3.selectAll("."+feature.postal)
-        // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#8856A7");
 
     //set the state name as the label title
@@ -1099,7 +1059,6 @@ function highlightChart(data) {
         if (data.newLaw == "none") {
         labelAttribute = data.yearChanged+"<br>No mandatory ultrasound law";
         } else {
-            console.log(data.newLaw);
             labelAttribute = data.yearChanged+"<br>"+data.newLaw;
         }
     }
@@ -1136,7 +1095,6 @@ function dehighlight(data) {
     var chartSelection = d3.selectAll("."+feature.postal)
         .filter(".chartRect");
     var chartFillColor = chartSelection.select("desc").text();
-    console.log(chartFillColor);
     chartSelection.style("fill", chartFillColor);
 
 };
