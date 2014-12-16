@@ -121,6 +121,7 @@ $(function(){
     })
 });//end active navbar function
 
+//start function for website
 function initialize(){
     expressed = Category[0];
     yearExpressed = keyArray[keyArray.length-1];
@@ -307,6 +308,13 @@ function drawMenu(){
         $('.pause').prop('disabled', false);
         $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
+        d3.selectAll(".states").style("fill", function(d){
+                return choropleth(d, colorize);
+            })
+            .select("desc")
+                .text(function(d) {
+                    return choropleth(d, colorize);
+            });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1], linkArray[1]);
         $(".Prohibited").css({'background-color': '#CCCCCC','color': '#333333'});
         //removes and creates correct chart
@@ -742,7 +750,7 @@ function createInset() {
 //---------------------------------------------//
 /* BEAUTIFUL GREYSCALE RAINBOW COLOR GENERATOR */
 //---------------------------------------------//
-//SET UP COLOR ARRAYS FOR MAP + CHART  
+//SET UP COLOR ARRAYS FOR MAP
 function colorScale(data){
 // this if/else statement determines which variable is currently being expressed and assigns the appropriate color scheme to currentColors
     if (expressed === "gradeData") {   
@@ -770,7 +778,7 @@ function colorScale(data){
                 .domain(currentArray); //sets the range of colors and domain of values based on the currently selected 
     return scale(data[yearExpressed]);
 };
-
+//Sets up color scale for chart
 function colorScaleChart(data) {
     if (expressed === "gradeData") {   
         currentColors = colorArrayOverview;
@@ -920,7 +928,7 @@ function setChart(yearExpressed) {
         .attr('transform', 'translate(' + timelineMargin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')')
         .attr("class", "timeline")
         .call(axis); //calls the axis function on the timeline
-    
+    //adds mouse events
     timeline.selectAll('g')
         .each(function(d){
             d3.select(this)
@@ -932,14 +940,11 @@ function setChart(yearExpressed) {
                     .attr("stroke", "#986cb3");
             })
             .on("mouseout", function(){
-                // var year = d.getFullYear();
-                //if (year != yearExpressed){
                     d3.select(this)
                         .attr("font-weight", "normal")
                         .attr("font-size", "12px")
                         .attr("stroke", "gray")
                         .attr("cursor", "pointer");
-               // };
             })
             .on("click", function(){
                  d3.select(this)
@@ -1109,7 +1114,7 @@ function dehighlightChart(data) {
     var deselect = d3.select("#"+feature.postal+"label").remove();
 };
 
-/* ----------END HIGHLIGHT FUNCTIONS--------- */
+// jQuery timer for play/pause
 var timer = $.timer(function() {
         if (yearExpressed == keyArray[keyArray.length-1]){
             yearExpressed = keyArray[0];
