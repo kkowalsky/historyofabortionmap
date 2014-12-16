@@ -874,7 +874,7 @@ function setChart() {
         .style("fill", function(d) {
             return choroplethChart(d.newLaw, colorize); //apply the color according to what the new law is in that year
         })
-        .on("mouseover", highlight)
+        .on("mouseover", highlightChart)
         .on("mouseout", dehighlight);
 
     rectColor = rectStyle.append("desc")
@@ -959,6 +959,74 @@ function highlight(data) {
         labelAttribute = yearExpressed+"<br>No mandatory ultrasound law";
         } else {
             labelAttribute = yearExpressed+"<br>"+feature[expressed][Number(yearExpressed)];
+        }
+    }
+
+    var infoLabel = d3.select(".map")
+        .append("div")
+        .attr("class", "infoLabel")
+        .attr("id",feature.postal+"label")
+        .attr("padding-left", 500+"px");
+
+    var labelTitle = d3.select(".infoLabel")
+        .html(labelName)
+        .attr("class", "labelTitle");
+
+    var labelAttribute = d3.select(".labelTitle")
+        .append("div")
+        .html(labelAttribute)
+        .attr("class", "labelAttribute")
+};
+
+function highlightChart(data) {
+    //holds the currently highlighted feature
+    var feature = data.properties ? data.properties : data.feature.properties;
+    // console.log(feature.name);
+    // console.log(feature.postal);
+    d3.selectAll("."+feature.postal)
+        // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
+        .style("fill", "#8856A7");
+
+    //set the state name as the label title
+    var labelName = feature.name;
+    var labelAttribute;
+
+    console.log(data.yearChanged);
+    console.log(feature);
+    console.log(timelineFeatureArray);
+
+    //set up the text for the dynamic labels
+    if (expressed == "gradeData") {
+        //console.log(yearExpressed);
+        //console.log(feature[expressed][Number(yearExpressed)]);
+        labelAttribute = "Report Card: "+feature[expressed][Number(yearExpressed)];
+    } else if (expressed == "prohibitedAfter") {
+        labelAttribute = data.yearChanged+"<br>Prohibited at "+feature[expressed][Number(yearExpressed)];
+    } else if (expressed == "counseling") {
+        if (feature[expressed][Number(yearExpressed)] == "Yes") {
+            labelAttribute = data.yearChanged+"<br>"+"Pre-abortion counseling mandated by law";
+        } else if (feature[expressed][Number(yearExpressed)] == "No") {
+            labelAttribute = yearExpressed+"<br>"+"No mandated counseling";
+        };
+    } else if (expressed == "waitingPeriod") {
+        if (feature[expressed][Number(yearExpressed)] == "None") {
+            labelAttribute = data.yearChanged+"<br>No mandated waiting period";
+        } else {
+            labelAttribute = data.yearChanged+"<br>Mandated waiting period: "+feature[expressed][Number(yearExpressed)];
+        };
+    } else if (expressed == "consentData") {
+        if (feature[expressed][Number(yearExpressed)] == "none") {
+            labelAttribute = data.yearChanged+"<br>No law requiring parental consent for minors";
+        } else if (feature[expressed][Number(yearExpressed)] == "notice") {
+            labelAttribute = data.yearChanged+"<br>Minor must notify parents about an abortion";
+        } else if (feature[expressed][Number(yearExpressed)] == "consent") {
+            labelAttribute = data.yearChanged+"<br>Minor's parents must give consent before abortion can be performed";
+        };
+    } else if (expressed == "ultrasound") {
+        if (feature[expressed][Number(yearExpressed)] == "none") {
+        labelAttribute = data.yearChanged+"<br>No mandatory ultrasound law";
+        } else {
+            labelAttribute = data.yearChanged+"<br>"+feature[expressed][Number(yearExpressed)];
         }
     }
 
