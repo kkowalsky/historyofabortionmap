@@ -662,7 +662,7 @@ function createInset() {
     var oldItems4 = d3.selectAll(".abortionCircles").remove();
     var cpcRadiusArray = [2, 11.85, 20];
     var cpcLabelArray = [1, 4, 8];
-    var abortionRadiusArray = [2, 16.23, 20];
+    var abortionRadiusArray = [2, 16.23, 23];
     var abortionLabelArray = [1, 6, 11];
     
     //creates menuBoxes
