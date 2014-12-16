@@ -344,6 +344,37 @@
     shape-rendering: crispEdges;
 }
 
+/* Jumps CSS  */
+/* ------------  */
+
+#overview{
+    padding-top:70px;
+}
+
+#prohibition{
+    padding-top: 36px;
+}
+
+#counseling{
+    padding-top: 36px;
+}
+
+#waiting{
+    padding-top: 36px;
+}
+
+#consent{
+    padding-top: 36px;
+}
+
+#ultrasound{
+    padding-top: 36px;
+}
+
+#CPC{
+    padding-top: 36px;
+}
+
 /* Analysis CSS  */
 /* ------------  */
 
