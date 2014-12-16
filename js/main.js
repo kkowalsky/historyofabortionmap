@@ -823,18 +823,19 @@ function choroplethChart(d, colorize) {
 
 // setChart function sets up the timeline chart and calls the updateChart function
 function setChart(yearExpressed) {
-    // var oldChart = d3.selectAll(".chart").remove();
-    // var moreOldStuff = d3.selectAll(".rectStyle").remove();
+    // reset the timelineFeatureArray each time setChart is called
     timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
+    // colorize is different for the chart since some states have more than one law
     colorizeChart = colorScaleChart(timelineFeatureArray);
-    // $(".menu-options").click(function() {     
 
+    //initial setup of chart
     var chart = d3.select(".graph")
         .append("svg")
         .attr("width", chartWidth+"px")
         .attr("height", chartHeight+"px")
         .attr("class", "chart");
         
+    //put all rects in a g element
     var squareContainer = chart.append("g")
         .attr("transform", "translate(" + margin.left + ', ' + margin.top + ')');
 
@@ -850,6 +851,7 @@ function setChart(yearExpressed) {
     };
     var yearObjectArray = []; //will hold a count for how many features should be drawn for each year, the following for-loop does that
 
+    //for-loop determines how many rects will be drawn for each year
     for (key in keyArray) {
         var yearCount = 1;
         for (i = 0; i < timelineFeatureArray.length; i++) {
@@ -862,6 +864,7 @@ function setChart(yearExpressed) {
         };   
     };
 
+    //attach data to the rects and start drawing them
     chartRect = squareContainer.selectAll(".chartRect")
         .data(timelineFeatureArray) //use data from the timelineFeatureArray, which holds all of the states that had some change in law 
         .enter()
@@ -872,6 +875,7 @@ function setChart(yearExpressed) {
         .attr("width", squareWidth+"px")
         .attr("height", squareHeight+"px");
     
+    //determine the x-scale for the rects, determing where along the x-axis they will be drawn according to which year the law changed
     var x = d3.scale.linear()
         .domain([keyArray[0], keyArray[keyArray.length-1]]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
@@ -881,9 +885,11 @@ function setChart(yearExpressed) {
         .domain([new Date(keyArray[1]), d3.time.year.offset(new Date(keyArray[keyArray.length-1]), 1)]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
+    //place the rects on the chart
     var rectStyle = chartRect.attr("transform", function(d) {
             return "translate(" + x(d.yearChanged) + ")"; //this moves the rect along the x axis according to the scale, depending on the corresponding year that the law changed
         })
+        //y-value determined by how many rects are being drawn for each year
         .attr("y", function(d,i) {
             var yValue = 0;
             for (i = 0; i < yearObjectArray.length; i++) {
@@ -900,6 +906,7 @@ function setChart(yearExpressed) {
         .on("mouseover", highlightChart)
         .on("mouseout", dehighlight);
 
+    //save text description of the color applied to each rect to be able to use this for dehighlight
     rectColor = rectStyle.append("desc")
             .text(function(d) {
                 return choroplethChart(d.newLaw, colorize);
@@ -919,17 +926,18 @@ function setChart(yearExpressed) {
     var timelineLine = axis.tickSize(1);
 
     //sets the margins for the timeline transform
-    var timelineMargin = {top: 50, right: 20, bottom: 30, left:38};
+    var timelineMargin = {top: 50, right: 20, bottom: 30, left:40};
 
     //draw the timeline as a g element on the chart
     var timeline = chart.append("g")
         .attr("height", chartHeight)
         .attr("width", chartWidth)
-        .attr('transform', 'translate(' + timelineMargin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')')
+        .attr('transform', 'translate(' + timelineMargin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')') //set the starting x,y coordinates for where the axis will be drawn
         .attr("class", "timeline")
         .call(axis); //calls the axis function on the timeline
+    
     //adds mouse events
-    timeline.selectAll('g')
+    timeline.selectAll('g') 
         .each(function(d){
             d3.select(this)
              .on("mouseover", function(){
@@ -966,19 +974,19 @@ function setChart(yearExpressed) {
 /*       START HIGHLIGHT & LABEL FUNCTIONS     */
 //---------------------------------------------//
 // Robin's section
-//Highlighting for the map & chart
+//Highlighting for the map
 function highlight(data) {
     //holds the currently highlighted feature
     var feature = data.properties ? data.properties : data.feature.properties;
     d3.selectAll("."+feature.postal)
-        // .style({"border-style": "solid", "border-color": "#00C6FF", "border-width": 4+"px"});
         .style("fill", "#8856A7");
 
     //set the state name as the label title
     var labelName = feature.name;
     var labelAttribute;
 
-    //set up the text for the dynamic labels
+    //set up the text for the dynamic labels for the map
+    //labels should match the yearExpressed and the state of the law during that year
     if (expressed == "gradeData") {
         labelAttribute = "Report Card: "+feature[expressed][Number(yearExpressed)];
     } else if (expressed == "prohibitedAfter") {
@@ -1027,6 +1035,7 @@ function highlight(data) {
         .attr("class", "labelAttribute")
 };
 
+//Function for highlighting the chart
 function highlightChart(data) {
     //holds the currently highlighted feature
     var feature = data.properties ? data.properties : data.feature.properties;
@@ -1038,6 +1047,7 @@ function highlightChart(data) {
     var labelAttribute;
 
     //set up the text for the dynamic labels
+    //when highlighting the chart, the labels reflect the year the law changed and the law that was changed that year, regardless of which year is being shown on the map
     if (expressed == "prohibitedAfter") {
         labelAttribute = data.yearChanged+"<br>Prohibited at "+data.newLaw;
     } else if (expressed == "counseling") {
@@ -1097,21 +1107,12 @@ function dehighlight(data) {
     selection.style("fill", fillColor);
 
     //dehighlighting the chart
+    //there is a small bug in here for states that have 2 laws passed during different years, will fix later
     var chartSelection = d3.selectAll("."+feature.postal)
         .filter(".chartRect");
     var chartFillColor = chartSelection.select("desc").text();
     chartSelection.style("fill", chartFillColor);
 
-};
-
-function dehighlightChart(data) {
-    var feature = data.properties ? data.properties : data.feature.properties;
-
-    var selection = d3.selectAll("."+feature.postal);
-    var fillColor = selection.select("desc").text();
-    selection.style("fill", fillColor);
-
-    var deselect = d3.select("#"+feature.postal+"label").remove();
 };
 
 // jQuery timer for play/pause
