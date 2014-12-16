@@ -1057,7 +1057,7 @@ function highlightChart(data) {
             labelAttribute = data.yearChanged+"<br>No law requiring parental consent for minors";
         } else if (data.newLaw == "notice") {
             labelAttribute = data.yearChanged+"<br>Minor must notify parents about an abortion";
-        } else if (fdata.newLaw == "consent") {
+        } else if (data.newLaw == "consent") {
             labelAttribute = data.yearChanged+"<br>Minor's parents must give consent before abortion can be performed";
         };
     } else if (expressed == "ultrasound") {
