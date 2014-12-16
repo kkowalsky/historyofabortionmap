@@ -133,7 +133,6 @@ function initialize(){
     $('.play').prop('disabled', true);
     $('.pause').prop('disabled', true);
     $('.stepForward').prop('disabled', true);
-
 }; //End initialize
 
 //creates map
@@ -269,10 +268,8 @@ function setMap(){
             .domain([abortionMin, abortionMax])
             .range([2, 23]);
 
-        //setChart(); //draw the chart
-        //calls overlay function
+        changeAttribute(yearExpressed, colorize);
         overlay(path, cpcRadius, abortionRadius, map, cpc, abortionprovider);
-        drawMenuInfo(colorize, yearExpressed);
     }; //END callback
 }; //END setmap
 
@@ -309,19 +306,12 @@ function drawMenu(){
          $('.pause').prop('disabled', false);
          $('.stepForward').prop('disabled', false);
         d3.selectAll(".menu-options div").style({'background-color': '#e1e1e1','color': '#969696'});
-        d3.selectAll(".states").style("fill", function(d){
-                return choropleth(d, colorize);
-            })
-            .select("desc")
-                .text(function(d) {
-                    return choropleth(d, colorize);
-            });
         createMenu(arrayProhibited, colorArrayProhibited, "Prohibited At: ", textArray[1], linkArray[1]);
-            $(".Prohibited").css({'background-color': '#CCCCCC','color': '#333333'});
+        $(".Prohibited").css({'background-color': '#CCCCCC','color': '#333333'});
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
-        setChart();
+        setChart(yearExpressed);
      });
     
     $(".Counseling").click(function(){  
@@ -343,7 +333,7 @@ function drawMenu(){
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
-        setChart();
+        setChart(yearExpressed);
         });
     
     $(".Waiting").click(function(){ 
@@ -365,12 +355,12 @@ function drawMenu(){
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
-        setChart();
+        setChart(yearExpressed);
         });
     
     $(".Parental").click(function(){  
         expressed = Category[4];
-        $('.stepBackward').prop('disabled', false);
+         $('.stepBackward').prop('disabled', false);
          $('.play').prop('disabled', false);
          $('.pause').prop('disabled', false);
          $('.stepForward').prop('disabled', false);
@@ -387,7 +377,7 @@ function drawMenu(){
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
-        setChart();
+        setChart(yearExpressed);
 });
     $(".Ultrasound").click(function(){
         expressed = Category[5];
@@ -408,7 +398,7 @@ function drawMenu(){
         //robin's code
         var oldChart = d3.select(".chart").remove();
         var oldRects = d3.selectAll(".chartRect").remove();
-        setChart();
+        setChart(yearExpressed);
 });
 }; //END drawMenu
 
@@ -482,8 +472,29 @@ function changeAttribute(year, colorize){
             .text(function(d) {
                 return choropleth(d, colorize);
         });
-    
-     drawMenuInfo(colorize, yearExpressed);
+        
+    var timelineYear = d3.select(".timeline")
+        .selectAll('g')
+        .attr("font-weight", function(d){
+            if (year == d.getFullYear()){
+                return "bold";
+            } else {
+                return "normal";
+            }
+        }).attr("font-size", function(d){
+            if (year == d.getFullYear()){
+                return "18px";
+            } else {
+                return "12px";
+            }
+        }).attr("stroke", function(d){
+            if (year == d.getFullYear()){
+                return "#986cb3";
+            } else {
+                return "gray";
+            }
+         });
+    drawMenuInfo(colorize, year);
 }; //END changeAttribute
 
 
@@ -793,7 +804,7 @@ function choroplethChart(d, colorize) {
 // Robin's section
 
 // setChart function sets up the timeline chart and calls the updateChart function
-function setChart() {
+function setChart(yearExpressed) {
     // var oldChart = d3.selectAll(".chart").remove();
     // var moreOldStuff = d3.selectAll(".rectStyle").remove();
     timelineFeatureArray = []; //this will hold the new feature objects that will include a value for which year a law changed
@@ -904,6 +915,33 @@ function setChart() {
         .attr('transform', 'translate(' + timelineMargin.left + ',' + (chartHeight - timelineMargin.top - timelineMargin.bottom) + ')')
         .attr("class", "timeline")
         .call(axis); //calls the axis function on the timeline
+    
+    timeline.selectAll('g')
+        .each(function(d){
+            d3.select(this)
+             .on("mouseover", function(){
+                 d3.select(this)
+                    .attr("font-weight", "bold")
+                    .attr("cursor", "pointer")
+                    .attr("font-size", "18px")
+                    .attr("stroke", "#986cb3");
+            })
+            .on("mouseout", function(){
+                var year = d.getFullYear();
+                if (year != yearExpressed){
+                    d3.select(this)
+                        .attr("font-weight", "normal")
+                        .attr("font-size", "12px")
+                        .attr("stroke", "gray")
+                        .attr("cursor", "pointer");
+                };
+            })
+            .on("click", function(){
+                var year = d.getFullYear();
+                changeAttribute(year, colorize);
+                animateMap(year, colorize, yearExpressedText);
+            });
+        });
 };
 
 /* ------------END CHART FUNCTIONS------------ */
@@ -990,10 +1028,6 @@ function highlightChart(data) {
     //set the state name as the label title
     var labelName = feature.name;
     var labelAttribute;
-
-    console.log(data.yearChanged);
-    console.log(feature);
-    console.log(timelineFeatureArray);
 
     //set up the text for the dynamic labels
     if (expressed == "gradeData") {
