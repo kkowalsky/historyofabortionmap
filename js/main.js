@@ -94,7 +94,7 @@ var currentArray = [];
 var timelineFeatureArray = [];
 var colorizeChart; // colorScale generator for the chart
 var chartHeight = 200;
-var chartWidth = 855;
+var chartWidth = 882;
 var squareWidth = 18;
 var squareHeight = 18;
 var chartRect;
@@ -855,7 +855,7 @@ function setChart() {
 
     //set a time scale for drawing the axis; use a separate time scale rather than a linear scale for formatting purposes.
     var timeScale = d3.time.scale()
-        .domain([new Date(keyArray[0]), d3.time.year.offset(new Date(keyArray[keyArray.length-1]), 1)]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
+        .domain([new Date(keyArray[1]), d3.time.year.offset(new Date(keyArray[keyArray.length-1]), 1)]) //domain is an array of 2 values: the first and last years in the keyArray (1973 and 2014)
         .rangeRound([0, chartWidth - margin.left - margin.right]); //range determines the x value of the square; it is an array of 2 values: the furthest left x value and the furthest right x value (on the screen)
 
     var rectStyle = chartRect.attr("transform", function(d) {
