@@ -1,3 +1,40 @@
+// IE < 10
+// Don't delete.
+.lt-ie10 {
+  #site-canvas {
+    display: none;
+  }
+  #nocando {
+    margin: 200px auto;
+    padding: 32px;
+    max-width: 440px;
+    background: #fff;
+    h1 {
+      font-size: 24px;
+      line-height: 1.1;
+      margin-bottom: 32px;
+    }
+  }
+}
+
+// Scss starts here!
+.header {
+  padding: 256px 32px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.5;
+
+  h1 {
+    margin-bottom: 32px;
+    > img {
+      width: auto;
+      height: 64px;
+      max-width: 100%;
+      vertical-align: top;
+    }
+  }
+}
+
 /*  navbar CSS */
 /*  ------ */
 #custom-bootstrap-menu.navbar-custom .navbar-brand {
@@ -268,13 +305,13 @@
 }
 
 .cpcLocations {
-	fill: #FA6E39;
-	fill-opacity:0.7;
+  fill: #FA6E39;
+  fill-opacity:0.7;
 }
 
 .abortionLocations {
     fill: #37C4AB;
-	fill-opacity:0.7;
+  fill-opacity:0.7;
 }
 
 /* Labels CSS  */

@@ -13,7 +13,7 @@
         remaining = 0, // number of tasks not yet finished
         popping, // inside a synchronous task callback?
         error = null,
-        await = noop,
+        frownieface = noop,
         all;
 
     if (!parallelism) parallelism = Infinity;
@@ -46,9 +46,9 @@
     }
 
     function notify() {
-      if (error != null) await(error);
-      else if (all) await(error, tasks);
-      else await.apply(null, [error].concat(tasks));
+      if (error != null) frownieface(error);
+      else if (all) frownieface(error, tasks);
+      else frownieface.apply(null, [error].concat(tasks));
     }
 
     return q = {
@@ -60,14 +60,14 @@
         }
         return q;
       },
-      await: function(f) {
-        await = f;
+      frownieface: function(f) {
+        frownieface = f;
         all = false;
         if (!remaining) notify();
         return q;
       },
-      awaitAll: function(f) {
-        await = f;
+      frowniefaceAll: function(f) {
+        frownieface = f;
         all = true;
         if (!remaining) notify();
         return q;
